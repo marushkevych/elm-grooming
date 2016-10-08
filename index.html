@@ -12,7 +12,16 @@
   <div id="app"></div>
   <script src="bundle.js"></script>
   <script>
-    var app = Elm.Main.embed(document.getElementById("app"));
+    var app = Elm.Main.embed(document.getElementById("app"))
+    app.ports.vote.subscribe(vote => {
+      console.log ('vote submitted', vote)
+      addVote(vote)
+    })
+
+    function addVote(vote) {
+      app.ports.voteAdded.send(vote)
+    }
+
   </script>
 </body>
 
