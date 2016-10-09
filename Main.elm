@@ -99,9 +99,6 @@ update msg model =
 
 
 
---
---  SelectVote  ->
---    ( model , Cmd.none )
 -- View
 
 
@@ -110,13 +107,12 @@ view model =
     let
         page =
             if model.storyName == "" then
-                storyForm
+                storyFormPage
             else
-                sizing
+                sizingPage
     in
         div [ class "scoreboard fieldset" ]
-            [ h1 [] [ text "Dust My Groom" ]
-            , page model
+            [ page model
               -- , p [] [ text (toString model) ]
             ]
 
@@ -125,8 +121,18 @@ view model =
 --  -, 0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 100, ∞
 
 
-sizing : Model -> Html Msg
-sizing model =
+sizingPage : Model -> Html Msg
+sizingPage model =
+    div []
+        [ h4 [] [ text ("Sizing: " ++ model.storyName) ]
+        , buttons model
+        , votesHeader model
+        , votes model
+        ]
+
+
+votesHeader : Model -> Html Msg
+votesHeader model =
     let
         revealVotesButton =
             if model.revealVotes then
@@ -134,26 +140,19 @@ sizing model =
             else
                 "Reveal Votes"
     in
-        div []
-            [ h2 [] [ text (model.storyName) ]
-            , buttons model
-            , votesHeader
-            , votes model
-            , footer [] [ button [ onClick RevealVotes ] [ text revealVotesButton ] ]
-            ]
-
-
-votesHeader : Html Msg
-votesHeader =
-    header []
-        [ div [] [ text "Name" ]
-        , div [] [ text "Points" ]
-        ]
+        if List.isEmpty model.votes then
+            header [] []
+        else
+            header []
+                [ div [] [ text "Name" ]
+                , div [] [ button [ onClick RevealVotes ] [ text revealVotesButton ] ]
+                ]
 
 
 votes : Model -> Html Msg
 votes model =
     model.votes
+        |> List.reverse
         |> List.map (voteEntry model)
         |> ul []
 
@@ -166,9 +165,7 @@ voteEntry model vote =
 votePoints : Model -> Vote -> List (Html Msg)
 votePoints model vote =
     if model.revealVotes then
-        [ div [] []
-        , div [] [ button [ onClick (SelectVote vote) ] [ text "Select this vote" ] ]
-        , div [] [ vote.points |> pointsString |> text ]
+        [ button [ onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ]
         ]
     else
         []
@@ -208,17 +205,20 @@ buttons model =
         ]
 
 
-storyForm : Model -> Html Msg
-storyForm model =
-    Html.form [ onSubmit Save ]
-        [ input
-            [ type' "text"
-            , placeholder "Story to size"
-            , onInput Input
-            , value model.storyInput
+storyFormPage : Model -> Html Msg
+storyFormPage model =
+    div []
+        [ h1 [] [ text "Dust My Groom" ]
+        , Html.form [ onSubmit Save ]
+            [ input
+                [ type' "text"
+                , placeholder "Story to size"
+                , onInput Input
+                , value model.storyInput
+                ]
+                []
+            , button [ type' "submit" ] [ text "Submit" ]
             ]
-            []
-        , button [ type' "submit" ] [ text "Submit" ]
         ]
 
 
