@@ -29,10 +29,16 @@ update msg model =
             ( { model | revealVotes = not model.revealVotes }, Cmd.none )
 
         SelectVote vote ->
-            ( { model | storyName = "" }, Cmd.none )
+            ( { model
+                | storyName = ""
+                , votes = []
+                , revealVotes = False
+              }
+            , saveSizedStory (SizedStory vote.storyName vote.points)
+            )
 
-        StorySaved story ->
-            ( model, Cmd.none )
+        SizedStorySaved story ->
+            ( { model | sizedStories = story :: model.sizedStories }, Cmd.none )
 
         KeyMsg keyCode ->
             let

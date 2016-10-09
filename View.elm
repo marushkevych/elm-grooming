@@ -112,18 +112,54 @@ buttons model =
         ]
 
 
+
+-- story fomr page
+
+
 storyFormPage : Model -> Html Msg
 storyFormPage model =
     div []
-        [ h1 [] [ text "Dust My Groom" ]
+        [ h1 [] [ text "Size new story" ]
         , Html.form [ onSubmit Save ]
             [ input
                 [ type' "text"
-                , placeholder "Story to size"
+                , placeholder "Story name"
                 , onInput Input
                 , value model.storyInput
                 ]
                 []
             , button [ type' "submit" ] [ text "Size story" ]
             ]
+        , historyHeader model
+        , history model
         ]
+
+
+history : Model -> Html Msg
+history model =
+    model.sizedStories
+        |> List.map sizedStoryRecord
+        |> ul []
+
+
+sizedStoryRecord : SizedStory -> Html Msg
+sizedStoryRecord story =
+    li []
+        [ div [] [ text story.name ]
+        , div [] [ text (pointsString story.points) ]
+        ]
+
+
+historyHeader : Model -> Html Msg
+historyHeader model =
+    if List.isEmpty model.sizedStories then
+        div [] []
+    else
+        div []
+            [ br [] []
+            , br [] []
+            , header []
+                [ div [] [ text "Previous Stories" ]
+                , div [] [ text "Points" ]
+                ]
+            ]

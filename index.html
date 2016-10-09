@@ -18,8 +18,17 @@
       addVote(vote)
     })
 
+    app.ports.saveSizedStory.subscribe(story => {
+      console.log ('story sized', story)
+      saveStory(story)
+    })
+
     function addVote(vote) {
       app.ports.voteAdded.send(vote)
+    }
+
+    function saveStory(story) {
+      app.ports.sizedStorySaved.send(story)
     }
 
   </script>

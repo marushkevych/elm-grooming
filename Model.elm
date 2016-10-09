@@ -12,10 +12,10 @@ port vote : Vote -> Cmd msg
 port voteAdded : (Vote -> msg) -> Sub msg
 
 
-port saveStoryPoints : Story -> Cmd msg
+port saveSizedStory : SizedStory -> Cmd msg
 
 
-port storySaved : (Story -> msg) -> Sub msg
+port sizedStorySaved : (SizedStory -> msg) -> Sub msg
 
 
 
@@ -27,7 +27,7 @@ subscriptions model =
     Sub.batch
         [ Keyboard.presses KeyMsg
         , voteAdded VoteAdded
-        , storySaved StorySaved
+        , sizedStorySaved SizedStorySaved
         ]
 
 
@@ -49,10 +49,11 @@ type alias Model =
     , error : Maybe String
     , votes : List Vote
     , revealVotes : Bool
+    , sizedStories : List SizedStory
     }
 
 
-type alias Story =
+type alias SizedStory =
     { name : String
     , points : Float
     }
@@ -66,6 +67,7 @@ initModel =
     , error = Nothing
     , votes = []
     , revealVotes = False
+    , sizedStories = []
     }
 
 
@@ -85,5 +87,5 @@ type Msg
     | VoteAdded Vote
     | RevealVotes
     | SelectVote Vote
-    | StorySaved Story
+    | SizedStorySaved SizedStory
     | KeyMsg Keyboard.KeyCode
