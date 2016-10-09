@@ -1,12 +1,38 @@
 port module Model exposing (..)
 
--- Model
+import Keyboard
+
+
+-- Ports
 
 
 port vote : Vote -> Cmd msg
 
 
 port voteAdded : (Vote -> msg) -> Sub msg
+
+
+port saveStoryPoints : Story -> Cmd msg
+
+
+port storySaved : (Story -> msg) -> Sub msg
+
+
+
+-- subscriptions
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ Keyboard.presses KeyMsg
+        , voteAdded VoteAdded
+        , storySaved StorySaved
+        ]
+
+
+
+-- Model
 
 
 type alias Vote =
@@ -23,6 +49,12 @@ type alias Model =
     , error : Maybe String
     , votes : List Vote
     , revealVotes : Bool
+    }
+
+
+type alias Story =
+    { name : String
+    , points : Float
     }
 
 
@@ -53,3 +85,5 @@ type Msg
     | VoteAdded Vote
     | RevealVotes
     | SelectVote Vote
+    | StorySaved Story
+    | KeyMsg Keyboard.KeyCode
