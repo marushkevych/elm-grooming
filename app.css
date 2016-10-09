@@ -50,3 +50,8 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 button.points {
   width: 48px;
 }
+
+form>input[type="text"] {
+    min-width: 85%;
+    max-width: 85%;
+}
