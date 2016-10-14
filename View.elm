@@ -13,10 +13,15 @@ view : Model -> Html Msg
 view model =
     let
         page =
-            if model.storyName == "" then
-                storyFormPage
-            else
-                sizingPage
+            case model.storyName of
+                Nothing ->
+                    loadingPage
+
+                Just "" ->
+                    storyFormPage
+
+                Just name ->
+                    sizingPage name
     in
         div [ class "scoreboard fieldset" ]
             [ page model
@@ -24,14 +29,19 @@ view model =
             ]
 
 
+loadingPage : Model -> Html msg
+loadingPage model =
+    h3 [] [ text "loading..." ]
+
+
 
 --  -, 0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 100, ∞
 
 
-sizingPage : Model -> Html Msg
-sizingPage model =
+sizingPage : String -> Model -> Html Msg
+sizingPage storyName model =
     div []
-        [ h4 [] [ text ("Sizing: " ++ model.storyName) ]
+        [ h4 [] [ text ("Sizing: " ++ storyName) ]
         , buttons model
         , votesHeader model
         , votes model

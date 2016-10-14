@@ -6,6 +6,9 @@ import Keyboard
 -- Ports
 
 
+port startStorySizing : String -> Cmd msg
+
+
 port vote : Vote -> Cmd msg
 
 
@@ -18,6 +21,9 @@ port saveSizedStory : SizedStory -> Cmd msg
 port sizedStorySaved : (SizedStory -> msg) -> Sub msg
 
 
+port storySizingStarted : (String -> msg) -> Sub msg
+
+
 
 -- subscriptions
 
@@ -28,6 +34,7 @@ subscriptions model =
         [ Keyboard.presses KeyMsg
         , voteAdded VoteAdded
         , sizedStorySaved SizedStorySaved
+        , storySizingStarted StorySizingStarted
         ]
 
 
@@ -44,7 +51,7 @@ type alias Vote =
 
 type alias Model =
     { userName : String
-    , storyName : String
+    , storyName : Maybe String
     , storyInput : String
     , error : Maybe String
     , votes : List Vote
@@ -62,7 +69,7 @@ type alias SizedStory =
 initModel : Model
 initModel =
     { userName = "Andrey Marushkevych"
-    , storyName = ""
+    , storyName = Nothing
     , storyInput = ""
     , error = Nothing
     , votes = []
@@ -89,3 +96,4 @@ type Msg
     | SelectVote Vote
     | SizedStorySaved SizedStory
     | KeyMsg Keyboard.KeyCode
+    | StorySizingStarted String

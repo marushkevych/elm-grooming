@@ -11,8 +11,33 @@
 <body>
   <div id="app"></div>
   <script src="bundle.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
   <script>
-    var app = Elm.Main.embed(document.getElementById("app"))
+  var app = Elm.Main.embed(document.getElementById("app"))
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBty8SUQvWPywPS4lwyZSs_9JsQMoMksHM",
+      authDomain: "dust-my-groom.firebaseapp.com",
+      databaseURL: "https://dust-my-groom.firebaseio.com",
+      storageBucket: "dust-my-groom.appspot.com",
+      messagingSenderId: "105795449472"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+
+    var currentStoryRef = database.ref().child('currentStory')
+    currentStoryRef.on('value', currentStory => {
+      console.log("currentStory", currentStory.val())
+      var storyName = currentStory.val() || ""
+      app.ports.storySizingStarted.send(storyName)
+    })
+
+
+    app.ports.startStorySizing.subscribe(storyName => {
+      console.log ('start sizing', storyName)
+      currentStoryRef.set(storyName);
+    })
+
     app.ports.vote.subscribe(vote => {
       console.log ('vote submitted', vote)
       addVote(vote)
@@ -21,6 +46,7 @@
     app.ports.saveSizedStory.subscribe(story => {
       console.log ('story sized', story)
       saveStory(story)
+      currentStoryRef.set(null);
     })
 
     function addVote(vote) {

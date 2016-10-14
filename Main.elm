@@ -9,18 +9,23 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Input value ->
+            -- TODO: send command to create currentStory
             ( { model | storyInput = value }, Cmd.none )
 
         Save ->
             ( { model
-                | storyName = model.storyInput
-                , storyInput = ""
+                | storyInput = ""
               }
-            , Cmd.none
+            , startStorySizing model.storyInput
             )
 
         Size points ->
-            ( model, vote (Vote points model.storyName model.userName) )
+            case model.storyName of
+                Just name ->
+                    ( model, vote (Vote points name model.userName) )
+
+                Nothing ->
+                    ( model, Cmd.none )
 
         VoteAdded vote ->
             ( { model | votes = vote :: model.votes }, Cmd.none )
@@ -30,7 +35,7 @@ update msg model =
 
         SelectVote vote ->
             ( { model
-                | storyName = ""
+                | storyName = Just ""
                 , votes = []
                 , revealVotes = False
               }
@@ -47,13 +52,26 @@ update msg model =
             in
                 case points of
                     Just points ->
-                        if model.storyName == "" then
-                            ( model, Cmd.none )
-                        else
-                            ( model, vote (Vote points model.storyName model.userName) )
+                        case model.storyName of
+                            Nothing ->
+                                ( model, Cmd.none )
+
+                            Just "" ->
+                                ( model, Cmd.none )
+
+                            Just storyName ->
+                                ( model, vote (Vote points storyName model.userName) )
 
                     Nothing ->
                         ( model, Cmd.none )
+
+        StorySizingStarted storyName ->
+            ( { model
+                | storyName = Just storyName
+                , storyInput = ""
+              }
+            , Cmd.none
+            )
 
 
 mapKeyCodeToPoints : Int -> Maybe Float
