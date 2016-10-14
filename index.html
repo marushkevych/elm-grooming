@@ -25,33 +25,48 @@
     firebase.initializeApp(config);
     var database = firebase.database();
 
+
+    // current story
     var currentStoryRef = database.ref().child('currentStory')
+    app.ports.startStorySizing.subscribe(storyName => {
+      console.log ('start sizing', storyName)
+      currentStoryRef.set(storyName);
+    })
+
     currentStoryRef.on('value', currentStory => {
       console.log("currentStory", currentStory.val())
       var storyName = currentStory.val() || ""
       app.ports.storySizingStarted.send(storyName)
     })
 
-
-    app.ports.startStorySizing.subscribe(storyName => {
-      console.log ('start sizing', storyName)
-      currentStoryRef.set(storyName);
-    })
-
+    // votes
+    var votesRef = database.ref().child('votes')
     app.ports.vote.subscribe(vote => {
       console.log ('vote submitted', vote)
-      addVote(vote)
+      votesRef.push(vote)
     })
+
+    votesRef.on('child_added', vote => {
+      console.log("vote added", vote.val())
+      app.ports.voteAdded.send(vote.val())
+    })
+
+    votesRef.on('value', votes => {
+      console.log("votes changed", votes.val())
+      if(votes.val() === null){
+        // TODO setr model.votes to []
+      }
+    })
+
+
+
 
     app.ports.saveSizedStory.subscribe(story => {
       console.log ('story sized', story)
+      votesRef.set(null)
       saveStory(story)
       currentStoryRef.set(null);
     })
-
-    function addVote(vote) {
-      app.ports.voteAdded.send(vote)
-    }
 
     function saveStory(story) {
       app.ports.sizedStorySaved.send(story)

@@ -9,7 +9,6 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Input value ->
-            -- TODO: send command to create currentStory
             ( { model | storyInput = value }, Cmd.none )
 
         Save ->
@@ -36,7 +35,6 @@ update msg model =
         SelectVote vote ->
             ( { model
                 | storyName = Just ""
-                , votes = []
                 , revealVotes = False
               }
             , saveSizedStory (SizedStory vote.storyName vote.points)
