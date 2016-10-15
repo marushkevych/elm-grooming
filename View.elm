@@ -50,20 +50,28 @@ sizingPage storyName model =
 
 votesHeader : Model -> Html Msg
 votesHeader model =
+    if List.isEmpty model.votes then
+        header [] []
+    else
+        header []
+            [ div [] [ text "Name" ]
+            , div [] [ revealVotesButton model ]
+            ]
+
+
+revealVotesButton : Model -> Html Msg
+revealVotesButton model =
     let
-        revealVotesButton =
+        buttonText =
             if model.revealVotes then
                 "Hide Votes"
             else
                 "Reveal Votes"
     in
-        if List.isEmpty model.votes then
-            header [] []
+        if model.storyOwner then
+            button [ onClick RevealVotes ] [ text buttonText ]
         else
-            header []
-                [ div [] [ text "Name" ]
-                , div [] [ button [ onClick RevealVotes ] [ text revealVotesButton ] ]
-                ]
+            text "Points"
 
 
 votes : Model -> Html Msg

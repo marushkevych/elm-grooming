@@ -61,6 +61,7 @@ type alias Model =
     , votes : List Vote
     , revealVotes : Bool
     , sizedStories : List SizedStory
+    , storyOwner : Bool
     }
 
 
@@ -79,6 +80,7 @@ initModel =
     , votes = []
     , revealVotes = False
     , sizedStories = []
+    , storyOwner = False
     }
 
 

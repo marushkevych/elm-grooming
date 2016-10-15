@@ -12,8 +12,10 @@ update msg model =
             ( { model | storyInput = value }, Cmd.none )
 
         Save ->
+            -- TODO do this in transaction
             ( { model
                 | storyInput = ""
+                , storyOwner = True
               }
             , startStorySizing model.storyInput
             )
@@ -73,6 +75,7 @@ update msg model =
                 | votes = []
                 , storyName = Just ""
                 , revealVotes = False
+                , storyOwner = False
               }
             , Cmd.none
             )
