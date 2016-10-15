@@ -15,10 +15,10 @@ port vote : Vote -> Cmd msg
 port voteAdded : (Vote -> msg) -> Sub msg
 
 
-port saveSizedStory : SizedStory -> Cmd msg
+port archiveStory : SizedStory -> Cmd msg
 
 
-port sizedStorySaved : (SizedStory -> msg) -> Sub msg
+port storyArchived : (SizedStory -> msg) -> Sub msg
 
 
 port storySizingStarted : (String -> msg) -> Sub msg
@@ -36,7 +36,7 @@ subscriptions model =
     Sub.batch
         [ Keyboard.presses KeyMsg
         , voteAdded VoteAdded
-        , sizedStorySaved SizedStorySaved
+        , storyArchived StoryArchived
         , storySizingStarted StorySizingStarted
         , storySizingEnded StorySizingEnded
         ]
@@ -98,7 +98,7 @@ type Msg
     | VoteAdded Vote
     | RevealVotes
     | SelectVote Vote
-    | SizedStorySaved SizedStory
+    | StoryArchived SizedStory
     | KeyMsg Keyboard.KeyCode
     | StorySizingStarted String
     | StorySizingEnded String

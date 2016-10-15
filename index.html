@@ -65,17 +65,19 @@
 
 
 
-
-    app.ports.saveSizedStory.subscribe(function(story) {
+    var historyRef = database.ref().child('history')
+    app.ports.archiveStory.subscribe(function(story) {
       console.log ('story sized', story)
+      historyRef.push(story)
       votesRef.set(null)
-      saveStory(story)
       currentStoryRef.set(null);
     })
 
-    function saveStory(story) {
-      app.ports.sizedStorySaved.send(story)
-    }
+    historyRef.on('child_added', function(story) {
+      console.log("story archived", story.val())
+      app.ports.storyArchived.send(story.val())
+    })
+
 
   </script>
 </body>

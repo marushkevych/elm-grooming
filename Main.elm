@@ -34,10 +34,10 @@ update msg model =
 
         SelectVote vote ->
             ( model
-            , saveSizedStory (SizedStory vote.storyName vote.points)
+            , archiveStory (SizedStory vote.storyName vote.points)
             )
 
-        SizedStorySaved story ->
+        StoryArchived story ->
             ( { model | sizedStories = story :: model.sizedStories }, Cmd.none )
 
         KeyMsg keyCode ->
