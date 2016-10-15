@@ -32,7 +32,14 @@ update msg model =
             ( { model | votes = vote :: model.votes }, Cmd.none )
 
         RevealVotes ->
-            ( { model | revealVotes = not model.revealVotes }, Cmd.none )
+            ( model, revealVotes (not model.revealVotes) )
+
+        VotesRevealed flag ->
+            ( { model
+                | revealVotes = flag
+              }
+            , Cmd.none
+            )
 
         SelectVote vote ->
             ( model

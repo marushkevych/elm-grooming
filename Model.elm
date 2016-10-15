@@ -15,6 +15,12 @@ port vote : Vote -> Cmd msg
 port voteAdded : (Vote -> msg) -> Sub msg
 
 
+port revealVotes : Bool -> Cmd msg
+
+
+port votesRevealed : (Bool -> msg) -> Sub msg
+
+
 port archiveStory : SizedStory -> Cmd msg
 
 
@@ -39,6 +45,7 @@ subscriptions model =
         , storyArchived StoryArchived
         , storySizingStarted StorySizingStarted
         , storySizingEnded StorySizingEnded
+        , votesRevealed VotesRevealed
         ]
 
 
@@ -99,6 +106,7 @@ type Msg
     | Size Float
     | VoteAdded Vote
     | RevealVotes
+    | VotesRevealed Bool
     | SelectVote Vote
     | StoryArchived SizedStory
     | KeyMsg Keyboard.KeyCode

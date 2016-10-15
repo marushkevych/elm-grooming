@@ -31,6 +31,7 @@
     app.ports.startStorySizing.subscribe(function(storyName) {
       console.log ('start sizing', storyName)
       currentStoryRef.set(storyName);
+      votesRevelaedRef.set(false);
     })
 
     currentStoryRef.on('value', function(currentStory) {
@@ -41,7 +42,6 @@
       } else {
         app.ports.storySizingEnded.send("")
       }
-
     })
 
     // votes
@@ -64,7 +64,23 @@
     // })
 
 
+    // reveal votes
+    var votesRevelaedRef = database.ref().child('votesRevelaed')
+    app.ports.revealVotes.subscribe(function(flag) {
+      console.log("revealVotes", flag)
+      votesRevelaedRef.set(flag);
+    })
 
+    votesRevelaedRef.on('value', function(votesRevelaed) {
+        var flag = votesRevelaed.val() || false
+        console.log("votesRevealed", flag)
+        app.ports.votesRevealed.send(flag)
+    })
+
+
+
+
+    // history
     var historyRef = database.ref().child('history')
     app.ports.archiveStory.subscribe(function(story) {
       console.log ('story sized', story)
