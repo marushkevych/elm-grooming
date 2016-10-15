@@ -24,6 +24,9 @@ port sizedStorySaved : (SizedStory -> msg) -> Sub msg
 port storySizingStarted : (String -> msg) -> Sub msg
 
 
+port storySizingEnded : (String -> msg) -> Sub msg
+
+
 
 -- subscriptions
 
@@ -35,6 +38,7 @@ subscriptions model =
         , voteAdded VoteAdded
         , sizedStorySaved SizedStorySaved
         , storySizingStarted StorySizingStarted
+        , storySizingEnded StorySizingEnded
         ]
 
 
@@ -97,3 +101,4 @@ type Msg
     | SizedStorySaved SizedStory
     | KeyMsg Keyboard.KeyCode
     | StorySizingStarted String
+    | StorySizingEnded String

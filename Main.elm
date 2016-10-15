@@ -33,10 +33,7 @@ update msg model =
             ( { model | revealVotes = not model.revealVotes }, Cmd.none )
 
         SelectVote vote ->
-            ( { model
-                | storyName = Just ""
-                , revealVotes = False
-              }
+            ( model
             , saveSizedStory (SizedStory vote.storyName vote.points)
             )
 
@@ -67,6 +64,15 @@ update msg model =
             ( { model
                 | storyName = Just storyName
                 , storyInput = ""
+              }
+            , Cmd.none
+            )
+
+        StorySizingEnded x ->
+            ( { model
+                | votes = []
+                , storyName = Just ""
+                , revealVotes = False
               }
             , Cmd.none
             )

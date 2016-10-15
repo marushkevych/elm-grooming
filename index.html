@@ -28,40 +28,45 @@
 
     // current story
     var currentStoryRef = database.ref().child('currentStory')
-    app.ports.startStorySizing.subscribe(storyName => {
+    app.ports.startStorySizing.subscribe(function(storyName) {
       console.log ('start sizing', storyName)
       currentStoryRef.set(storyName);
     })
 
-    currentStoryRef.on('value', currentStory => {
+    currentStoryRef.on('value', function(currentStory) {
       console.log("currentStory", currentStory.val())
-      var storyName = currentStory.val() || ""
-      app.ports.storySizingStarted.send(storyName)
+      var storyName = currentStory.val();
+      if(storyName) {
+        app.ports.storySizingStarted.send(storyName)
+      } else {
+        app.ports.storySizingEnded.send("")
+      }
+
     })
 
     // votes
     var votesRef = database.ref().child('votes')
-    app.ports.vote.subscribe(vote => {
+    app.ports.vote.subscribe(function(vote) {
       console.log ('vote submitted', vote)
       votesRef.push(vote)
     })
 
-    votesRef.on('child_added', vote => {
+    votesRef.on('child_added', function(vote) {
       console.log("vote added", vote.val())
       app.ports.voteAdded.send(vote.val())
     })
 
-    votesRef.on('value', votes => {
-      console.log("votes changed", votes.val())
-      if(votes.val() === null){
-        // TODO setr model.votes to []
-      }
-    })
+    // votesRef.on('value', function(votes) {
+    //   console.log("votes changed", votes.val())
+    //   if(votes.val() === null){
+    //     // TODO set model.votes to []
+    //   }
+    // })
 
 
 
 
-    app.ports.saveSizedStory.subscribe(story => {
+    app.ports.saveSizedStory.subscribe(function(story) {
       console.log ('story sized', story)
       votesRef.set(null)
       saveStory(story)
