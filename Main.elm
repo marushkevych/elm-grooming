@@ -17,7 +17,7 @@ update msg model =
         CreateUser ->
             let
                 user =
-                    User model.userInput "123"
+                    User model.userInput model.uuid
             in
                 ( { model
                     | userInput = ""

@@ -57,13 +57,15 @@ subscriptions model =
 
 
 type alias Flags =
-    { userName : String
+    { uuid : String
+    , userName : String
     , userId : String
     }
 
 
 type alias Model =
     { user : Maybe User
+    , uuid : String
     , storyName : Maybe String
     , storyInput : String
     , userInput : String
@@ -98,6 +100,7 @@ initModel : Model
 initModel =
     --{ user = Just (User "Andrey Marushkevych" "123")
     { user = Nothing
+    , uuid = ""
     , storyName = Nothing
     , storyInput = ""
     , userInput = ""
@@ -114,11 +117,12 @@ init flags =
     if not (flags.userName == "" || flags.userId == "") then
         ( { initModel
             | user = Just (User flags.userName flags.userId)
+            , uuid = flags.uuid
           }
         , Cmd.none
         )
     else
-        ( initModel, Cmd.none )
+        ( { initModel | uuid = flags.uuid }, Cmd.none )
 
 
 
