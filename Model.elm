@@ -12,7 +12,7 @@ port saveUser : User -> Cmd msg
 port startStorySizing : Story -> Cmd msg
 
 
-port vote : Vote -> Cmd msg
+port addVote : Vote -> Cmd msg
 
 
 port voteAdded : (Vote -> msg) -> Sub msg

@@ -74,7 +74,7 @@
 
     // votes
     var votesRef = database.ref().child('votes')
-    app.ports.vote.subscribe(function(vote) {
+    app.ports.addVote.subscribe(function(vote) {
       console.log ('vote submitted', vote)
       votesRef.push(vote)
     })

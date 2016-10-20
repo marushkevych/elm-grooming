@@ -35,14 +35,19 @@ update msg model =
             )
 
         Size points ->
-            case model.story of
-                Just story ->
-                    -- TODO handle User == Nothing better
-                    ( model, vote (Vote points (getUser model)) )
+            saveVote model points
 
-                Nothing ->
-                    -- TODO handle keyboard events when there is no sizing
-                    ( model, Cmd.none )
+        KeyMsg keyCode ->
+            let
+                points =
+                    mapKeyCodeToPoints keyCode
+            in
+                case points of
+                    Just points ->
+                        saveVote model points
+
+                    Nothing ->
+                        ( model, Cmd.none )
 
         VoteAdded vote ->
             ( { model | votes = vote :: model.votes }, Cmd.none )
@@ -74,23 +79,6 @@ update msg model =
         StoryArchived story ->
             ( { model | sizedStories = story :: model.sizedStories }, Cmd.none )
 
-        KeyMsg keyCode ->
-            let
-                points =
-                    mapKeyCodeToPoints keyCode
-            in
-                case points of
-                    Just points ->
-                        case model.story of
-                            Nothing ->
-                                ( model, Cmd.none )
-
-                            Just story ->
-                                ( model, vote (Vote points (getUser model)) )
-
-                    Nothing ->
-                        ( model, Cmd.none )
-
         StorySizingStarted story ->
             ( { model
                 | story = Just story
@@ -109,6 +97,33 @@ update msg model =
               }
             , Cmd.none
             )
+
+
+saveVote : Model -> Float -> ( Model, Cmd Msg )
+saveVote model points =
+    let
+        existingVotes =
+            List.filter (.user >> .id >> ((==) ((getUser model) |> .id))) model.votes
+
+        _ =
+            Debug.log "existingVotes" existingVotes
+    in
+        case existingVotes of
+            existingVote :: [] ->
+                if existingVote.points == points then
+                    ( model, Cmd.none )
+                else
+                    -- TODO updateExistingVote
+                    ( model, Cmd.none )
+
+            _ ->
+                case model.story of
+                    Just story ->
+                        ( model, addVote (Vote points (getUser model)) )
+
+                    Nothing ->
+                        -- TODO handle keyboard events when there is no sizing
+                        ( model, Cmd.none )
 
 
 getUser : Model -> User
