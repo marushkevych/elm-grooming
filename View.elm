@@ -124,8 +124,10 @@ voteEntry model vote =
 votePoints : Model -> Vote -> List (Html Msg)
 votePoints model vote =
     if model.revealVotes then
-        [ button [ onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ]
-        ]
+        if isStoryOwner model then
+            [ button [ onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ] ]
+        else
+            [ div [ class "points" ] [ vote.points |> pointsString |> text ] ]
     else
         []
 

@@ -55,3 +55,8 @@ form>input[type="text"] {
     min-width: 85%;
     max-width: 85%;
 }
+
+ul>li>div.points:last-child:not(:first-child) {
+    width: 48px;
+    text-align: center; !important
+}
