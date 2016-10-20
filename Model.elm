@@ -6,6 +6,9 @@ import Keyboard
 -- Ports
 
 
+port saveUser : User -> Cmd msg
+
+
 port startStorySizing : String -> Cmd msg
 
 
@@ -53,15 +56,8 @@ subscriptions model =
 -- Model
 
 
-type alias Vote =
-    { points : Float
-    , storyName : String
-    , userName : String
-    }
-
-
 type alias Model =
-    { userName : String
+    { user : Maybe User
     , storyName : Maybe String
     , storyInput : String
     , error : Maybe String
@@ -69,6 +65,19 @@ type alias Model =
     , revealVotes : Bool
     , sizedStories : List SizedStory
     , storyOwner : Bool
+    }
+
+
+type alias User =
+    { name : String
+    , id : String
+    }
+
+
+type alias Vote =
+    { points : Float
+    , storyName : String
+    , user : User
     }
 
 
@@ -80,7 +89,7 @@ type alias SizedStory =
 
 initModel : Model
 initModel =
-    { userName = "Andrey Marushkevych"
+    { user = Just (User "Andrey Marushkevych" "123")
     , storyName = Nothing
     , storyInput = ""
     , error = Nothing

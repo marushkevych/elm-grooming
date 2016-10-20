@@ -25,6 +25,9 @@
     firebase.initializeApp(config);
     var database = firebase.database();
 
+    // app.ports.createUser.subscribe(function(name) {
+    //     return "Hello " + name
+    // })
 
     // current story
     var currentStoryRef = database.ref().child('currentStory')

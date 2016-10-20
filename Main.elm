@@ -23,9 +23,11 @@ update msg model =
         Size points ->
             case model.storyName of
                 Just name ->
-                    ( model, vote (Vote points name model.userName) )
+                    -- TODO handle User == Nothing better
+                    ( model, vote (Vote points name (getUser model)) )
 
                 Nothing ->
+                    -- TODO handle keyboard events when there is no sizing
                     ( model, Cmd.none )
 
         VoteAdded vote ->
@@ -64,7 +66,7 @@ update msg model =
                                 ( model, Cmd.none )
 
                             Just storyName ->
-                                ( model, vote (Vote points storyName model.userName) )
+                                ( model, vote (Vote points storyName (getUser model)) )
 
                     Nothing ->
                         ( model, Cmd.none )
@@ -86,6 +88,12 @@ update msg model =
               }
             , Cmd.none
             )
+
+
+getUser : Model -> User
+getUser model =
+    model.user
+        |> Maybe.withDefault (User "" "")
 
 
 mapKeyCodeToPoints : Int -> Maybe Float

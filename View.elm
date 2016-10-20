@@ -13,20 +13,40 @@ view : Model -> Html Msg
 view model =
     let
         page =
-            case model.storyName of
-                Nothing ->
-                    loadingPage
+            if model.user == Nothing then
+                createUser
+            else
+                case model.storyName of
+                    Nothing ->
+                        loadingPage
 
-                Just "" ->
-                    storyFormPage
+                    Just "" ->
+                        storyFormPage
 
-                Just name ->
-                    sizingPage name
+                    Just name ->
+                        sizingPage name
     in
         div [ class "scoreboard fieldset" ]
             [ page model
               -- , p [] [ text (toString model) ]
             ]
+
+
+createUser : Model -> Html Msg
+createUser model =
+    div []
+        [ h1 [] [ text "What is your name?" ]
+        , Html.form []
+            [ input
+                [ type' "text"
+                , placeholder "User Name"
+                , onInput Input
+                , value model.storyInput
+                ]
+                []
+            , button [ type' "submit" ] [ text "Save" ]
+            ]
+        ]
 
 
 loadingPage : Model -> Html msg
@@ -84,7 +104,7 @@ votes model =
 
 voteEntry : Model -> Vote -> Html Msg
 voteEntry model vote =
-    li [] (div [] [ text vote.userName ] :: votePoints model vote)
+    li [] (div [] [ text vote.user.name ] :: votePoints model vote)
 
 
 votePoints : Model -> Vote -> List (Html Msg)
