@@ -64,7 +64,7 @@ sizingPage storyName model =
         [ h4 [] [ text storyName ]
         , buttons model
         , h5 [] [ text "Previous Estimates" ]
-        , div [ class "story-reference" ] [ history model ]
+        , div [ class "story-reference" ] [ reference model ]
         ]
 
 
@@ -200,6 +200,14 @@ storyFormPage model =
 history : Model -> Html Msg
 history model =
     model.sizedStories
+        |> List.map sizedStoryRecord
+        |> ul []
+
+
+reference : Model -> Html Msg
+reference model =
+    model.sizedStories
+        |> List.sortBy .points
         |> List.map sizedStoryRecord
         |> ul []
 
