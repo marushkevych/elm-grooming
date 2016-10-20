@@ -87,10 +87,25 @@ revealVotesButton model =
             else
                 "Reveal Votes"
     in
-        if model.storyOwner then
+        if model |> isStoryOwner then
             button [ onClick RevealVotes ] [ text buttonText ]
         else
             text "Points"
+
+
+isStoryOwner : Model -> Bool
+isStoryOwner model =
+    case model.user of
+        Just user ->
+            case model.story of
+                Just story ->
+                    user.id == story.owner.id
+
+                Nothing ->
+                    False
+
+        Nothing ->
+            False
 
 
 votes : Model -> Html Msg

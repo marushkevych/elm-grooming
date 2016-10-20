@@ -30,7 +30,6 @@ update msg model =
             -- TODO do this in transaction
             ( { model
                 | storyInput = ""
-                , storyOwner = True
               }
             , startStorySizing (Story model.storyInput 0 (getUser model))
             )
@@ -106,7 +105,6 @@ update msg model =
                 | votes = []
                 , story = Nothing
                 , revealVotes = False
-                , storyOwner = False
                 , isDataLoaded = True
               }
             , Cmd.none

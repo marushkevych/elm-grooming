@@ -73,7 +73,6 @@ type alias Model =
     , votes : List Vote
     , revealVotes : Bool
     , sizedStories : List Story
-    , storyOwner : Bool
     , isDataLoaded : Bool
     }
 
@@ -109,7 +108,6 @@ initModel =
     , votes = []
     , revealVotes = False
     , sizedStories = []
-    , storyOwner = False
     , isDataLoaded = False
     }
 
