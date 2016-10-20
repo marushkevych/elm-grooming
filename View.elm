@@ -15,6 +15,8 @@ view model =
         page =
             if model.user == Nothing then
                 createUser
+            else if not model.isDataLoaded then
+                loadingPage
             else
                 case model.story of
                     Nothing ->

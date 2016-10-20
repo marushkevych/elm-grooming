@@ -93,17 +93,13 @@ update msg model =
                         ( model, Cmd.none )
 
         StorySizingStarted story ->
-            case model.user of
-                Nothing ->
-                    Debug.crash "Need user to start sizing"
-
-                Just user ->
-                    ( { model
-                        | story = Just story
-                        , storyInput = ""
-                      }
-                    , Cmd.none
-                    )
+            ( { model
+                | story = Just story
+                , storyInput = ""
+                , isDataLoaded = True
+              }
+            , Cmd.none
+            )
 
         StorySizingEnded x ->
             ( { model
@@ -111,6 +107,7 @@ update msg model =
                 , story = Nothing
                 , revealVotes = False
                 , storyOwner = False
+                , isDataLoaded = True
               }
             , Cmd.none
             )
@@ -118,8 +115,12 @@ update msg model =
 
 getUser : Model -> User
 getUser model =
-    model.user
-        |> Maybe.withDefault (User "" "")
+    case model.user of
+        Nothing ->
+            Debug.crash "User should be initialized"
+
+        Just user ->
+            user
 
 
 mapKeyCodeToPoints : Int -> Maybe Float
