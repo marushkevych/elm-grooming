@@ -13,9 +13,16 @@
   <script src="bundle.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
   <script>
+  var userName = ''
+  var userId = ''
+  if(localStorage) {
+      userName = localStorage.getItem('userName') || ''
+      userId = localStorage.getItem('userId') || ''
+  }
+
   var app = Elm.Main.embed(document.getElementById("app"), {
-      userName: 'Vanya',
-      userId: '345'
+      userName: userName,
+      userId: userId
   })
     // Initialize Firebase
     var config = {
@@ -28,9 +35,13 @@
     firebase.initializeApp(config);
     var database = firebase.database();
 
-    // app.ports.createUser.subscribe(function(name) {
-    //     return "Hello " + name
-    // })
+    app.ports.saveUser.subscribe(function(user) {
+        console.log('saveUser', user)
+        if(localStorage) {
+            localStorage.setItem('userName', user.name)
+            localStorage.setItem('userId', user.id)
+        }
+    })
 
     // current story
     var currentStoryRef = database.ref().child('currentStory')
