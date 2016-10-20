@@ -154,9 +154,9 @@ mapKeyCodeToPoints key =
             Nothing
 
 
-main : Program Never
+main : Program Flags
 main =
-    App.program
+    App.programWithFlags
         { init = init
         , update = update
         , view = view

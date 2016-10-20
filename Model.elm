@@ -56,6 +56,12 @@ subscriptions model =
 -- Model
 
 
+type alias Flags =
+    { userName : String
+    , userId : String
+    }
+
+
 type alias Model =
     { user : Maybe User
     , storyName : Maybe String
@@ -103,9 +109,16 @@ initModel =
     }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( initModel, Cmd.none )
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    if not (flags.userName == "" || flags.userId == "") then
+        ( { initModel
+            | user = Just (User flags.userName flags.userId)
+          }
+        , Cmd.none
+        )
+    else
+        ( initModel, Cmd.none )
 
 
 
