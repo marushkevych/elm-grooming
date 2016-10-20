@@ -23,17 +23,18 @@ view model =
                         storyFormPage
 
                     Just story ->
-                        sizingPage story.name
+                        -- if hasVoted model || isStoryOwner model then
+                        if hasVoted model then
+                            voteResultsPage story.name
+                        else
+                            sizingPage story.name
     in
-        div [ class "scoreboard fieldset" ]
-            [ page model
-              -- , p [] [ text (toString model) ]
-            ]
+        page model
 
 
 createUser : Model -> Html Msg
 createUser model =
-    div []
+    div [ class "scoreboard fieldset" ]
         [ h1 [] [ text "What is your name?" ]
         , Html.form [ onSubmit CreateUser ]
             [ input
@@ -59,9 +60,17 @@ loadingPage model =
 
 sizingPage : String -> Model -> Html Msg
 sizingPage storyName model =
-    div []
-        [ h4 [] [ text ("Sizing: " ++ storyName) ]
+    div [ class "sizing fieldset" ]
+        [ h4 [] [ text storyName ]
         , buttons model
+        , history model
+        ]
+
+
+voteResultsPage : String -> Model -> Html Msg
+voteResultsPage storyName model =
+    div [ class "scoreboard fieldset" ]
+        [ h4 [] [ text storyName ]
         , votesHeader model
         , votes model
         ]
@@ -74,23 +83,24 @@ votesHeader model =
     else
         header []
             [ div [] [ text "Name" ]
-            , div [] [ revealVotesButton model ]
+            , div [] [ text "Points" ]
             ]
 
 
-revealVotesButton : Model -> Html Msg
-revealVotesButton model =
-    let
-        buttonText =
-            if model.revealVotes then
-                "Hide Votes"
-            else
-                "Reveal Votes"
-    in
-        if model |> isStoryOwner then
-            button [ onClick RevealVotes ] [ text buttonText ]
-        else
-            text "Points"
+
+-- revealVotesButton : Model -> Html Msg
+-- revealVotesButton model =
+--     let
+--         buttonText =
+--             if model.revealVotes then
+--                 "Hide Votes"
+--             else
+--                 "Reveal Votes"
+--     in
+--         if model |> isStoryOwner then
+--             button [ onClick RevealVotes ] [ text buttonText ]
+--         else
+--             text "Points"
 
 
 isStoryOwner : Model -> Bool
@@ -123,13 +133,10 @@ voteEntry model vote =
 
 votePoints : Model -> Vote -> List (Html Msg)
 votePoints model vote =
-    if model.revealVotes then
-        if isStoryOwner model then
-            [ button [ onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ] ]
-        else
-            [ div [ class "points" ] [ vote.points |> pointsString |> text ] ]
+    if isStoryOwner model then
+        [ button [ onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ] ]
     else
-        []
+        [ div [ class "points" ] [ vote.points |> pointsString |> text ] ]
 
 
 pointsString : Float -> String
@@ -172,7 +179,7 @@ buttons model =
 
 storyFormPage : Model -> Html Msg
 storyFormPage model =
-    div []
+    div [ class "scoreboard fieldset" ]
         [ h1 [] [ text "Size new story" ]
         , Html.form [ onSubmit StartStorySizing ]
             [ input
@@ -182,7 +189,7 @@ storyFormPage model =
                 , value model.storyInput
                 ]
                 []
-            , button [ type' "submit" ] [ text "Size story" ]
+            , button [ type' "submit" ] [ text "Size" ]
             ]
         , historyHeader model
         , history model

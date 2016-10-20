@@ -52,9 +52,9 @@ update msg model =
         VoteAdded vote ->
             ( { model | votes = vote :: model.votes }, Cmd.none )
 
-        RevealVotes ->
-            ( model, revealVotes (not model.revealVotes) )
-
+        --
+        -- RevealVotes ->
+        --     ( model, revealVotes (not model.revealVotes) )
         VotesRevealed flag ->
             ( { model
                 | revealVotes = flag
@@ -91,8 +91,9 @@ update msg model =
         StorySizingEnded x ->
             ( { model
                 | votes = []
-                , story = Nothing
-                , revealVotes = False
+                , story =
+                    Nothing
+                    -- , revealVotes = False
                 , isDataLoaded = True
               }
             , Cmd.none

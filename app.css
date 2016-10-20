@@ -60,3 +60,11 @@ ul>li>div.points:last-child:not(:first-child) {
     width: 48px;
     text-align: center; !important
 }
+
+.scoreboard {
+    width: 543px;
+}
+
+.sizing {
+    width: 830px;
+}

@@ -106,7 +106,7 @@ initModel =
     , userInput = ""
     , error = Nothing
     , votes = []
-    , revealVotes = False
+    , revealVotes = True
     , sizedStories = []
     , isDataLoaded = False
     }
@@ -125,6 +125,20 @@ init flags =
         ( { initModel | uuid = flags.uuid }, Cmd.none )
 
 
+hasVoted : Model -> Bool
+hasVoted model =
+    case model.user of
+        Nothing ->
+            Debug.crash "User should be initialized"
+
+        Just user ->
+            let
+                existingVotes =
+                    List.filter (.user >> .id >> ((==) (user |> .id))) model.votes
+            in
+                not (List.isEmpty existingVotes)
+
+
 
 -- Update
 
@@ -136,7 +150,7 @@ type Msg
     | StoryInput String
     | Size Float
     | VoteAdded Vote
-    | RevealVotes
+      -- | RevealVotes
     | VotesRevealed Bool
     | SelectVote Vote
     | StoryArchived Story
