@@ -36,12 +36,12 @@ createUser : Model -> Html Msg
 createUser model =
     div []
         [ h1 [] [ text "What is your name?" ]
-        , Html.form []
+        , Html.form [ onSubmit CreateUser ]
             [ input
                 [ type' "text"
                 , placeholder "User Name"
-                , onInput Input
-                , value model.storyInput
+                , onInput UserInput
+                , value model.userInput
                 ]
                 []
             , button [ type' "submit" ] [ text "Save" ]
@@ -158,11 +158,11 @@ storyFormPage : Model -> Html Msg
 storyFormPage model =
     div []
         [ h1 [] [ text "Size new story" ]
-        , Html.form [ onSubmit Save ]
+        , Html.form [ onSubmit StartStorySizing ]
             [ input
                 [ type' "text"
                 , placeholder "Story name"
-                , onInput Input
+                , onInput StoryInput
                 , value model.storyInput
                 ]
                 []

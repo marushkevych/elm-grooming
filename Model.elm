@@ -60,6 +60,7 @@ type alias Model =
     { user : Maybe User
     , storyName : Maybe String
     , storyInput : String
+    , userInput : String
     , error : Maybe String
     , votes : List Vote
     , revealVotes : Bool
@@ -89,9 +90,11 @@ type alias SizedStory =
 
 initModel : Model
 initModel =
-    { user = Just (User "Andrey Marushkevych" "123")
+    --{ user = Just (User "Andrey Marushkevych" "123")
+    { user = Nothing
     , storyName = Nothing
     , storyInput = ""
+    , userInput = ""
     , error = Nothing
     , votes = []
     , revealVotes = False
@@ -110,8 +113,10 @@ init =
 
 
 type Msg
-    = Save
-    | Input String
+    = StartStorySizing
+    | CreateUser
+    | UserInput String
+    | StoryInput String
     | Size Float
     | VoteAdded Vote
     | RevealVotes

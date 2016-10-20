@@ -8,10 +8,25 @@ import Html.App as App
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Input value ->
+        StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )
 
-        Save ->
+        UserInput value ->
+            ( { model | userInput = value }, Cmd.none )
+
+        CreateUser ->
+            let
+                user =
+                    User model.userInput "123"
+            in
+                ( { model
+                    | userInput = ""
+                    , user = Just user
+                  }
+                , saveUser user
+                )
+
+        StartStorySizing ->
             -- TODO do this in transaction
             ( { model
                 | storyInput = ""
