@@ -63,7 +63,8 @@ sizingPage storyName model =
     div [ class "sizing fieldset" ]
         [ h4 [] [ text storyName ]
         , buttons model
-        , history model
+        , h5 [] [ text "Previous Estimates" ]
+        , div [ class "story-reference" ] [ history model ]
         ]
 
 
@@ -206,8 +207,8 @@ history model =
 sizedStoryRecord : Story -> Html Msg
 sizedStoryRecord story =
     li []
-        [ div [] [ text story.name ]
-        , div [] [ text (pointsString story.points) ]
+        [ div [ class "hostory-record" ] [ text story.name ]
+        , div [ class "hostory-record" ] [ text (pointsString story.points) ]
         ]
 
 

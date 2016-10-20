@@ -68,3 +68,11 @@ ul>li>div.points:last-child:not(:first-child) {
 .sizing {
     width: 830px;
 }
+
+.story-reference {
+    /*display: inline-block;*/
+}
+
+.hostory-record {
+    font-size: 17px;
+}
