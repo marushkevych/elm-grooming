@@ -32,14 +32,14 @@ update msg model =
                 | storyInput = ""
                 , storyOwner = True
               }
-            , startStorySizing model.storyInput
+            , startStorySizing (Story model.storyInput 0 (getUser model))
             )
 
         Size points ->
-            case model.storyName of
-                Just name ->
+            case model.story of
+                Just story ->
                     -- TODO handle User == Nothing better
-                    ( model, vote (Vote points name (getUser model)) )
+                    ( model, vote (Vote points (getUser model)) )
 
                 Nothing ->
                     -- TODO handle keyboard events when there is no sizing
@@ -59,9 +59,18 @@ update msg model =
             )
 
         SelectVote vote ->
-            ( model
-            , archiveStory (SizedStory vote.storyName vote.points)
-            )
+            let
+                sizedStory =
+                    case model.story of
+                        Nothing ->
+                            Debug.crash "no story to size"
+
+                        Just story ->
+                            { story | points = vote.points }
+            in
+                ( { model | story = Just sizedStory }
+                , archiveStory sizedStory
+                )
 
         StoryArchived story ->
             ( { model | sizedStories = story :: model.sizedStories }, Cmd.none )
@@ -73,31 +82,33 @@ update msg model =
             in
                 case points of
                     Just points ->
-                        case model.storyName of
+                        case model.story of
                             Nothing ->
                                 ( model, Cmd.none )
 
-                            Just "" ->
-                                ( model, Cmd.none )
-
-                            Just storyName ->
-                                ( model, vote (Vote points storyName (getUser model)) )
+                            Just story ->
+                                ( model, vote (Vote points (getUser model)) )
 
                     Nothing ->
                         ( model, Cmd.none )
 
-        StorySizingStarted storyName ->
-            ( { model
-                | storyName = Just storyName
-                , storyInput = ""
-              }
-            , Cmd.none
-            )
+        StorySizingStarted story ->
+            case model.user of
+                Nothing ->
+                    Debug.crash "Need user to start sizing"
+
+                Just user ->
+                    ( { model
+                        | story = Just story
+                        , storyInput = ""
+                      }
+                    , Cmd.none
+                    )
 
         StorySizingEnded x ->
             ( { model
                 | votes = []
-                , storyName = Just ""
+                , story = Nothing
                 , revealVotes = False
                 , storyOwner = False
               }

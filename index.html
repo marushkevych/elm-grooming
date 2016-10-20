@@ -56,17 +56,17 @@
 
     // current story
     var currentStoryRef = database.ref().child('currentStory')
-    app.ports.startStorySizing.subscribe(function(storyName) {
-      console.log ('start sizing', storyName)
-      currentStoryRef.set(storyName);
+    app.ports.startStorySizing.subscribe(function(story) {
+      console.log ('start sizing', story)
+      currentStoryRef.set(story);
       votesRevelaedRef.set(false);
     })
 
     currentStoryRef.on('value', function(currentStory) {
-      console.log("currentStory", currentStory.val())
-      var storyName = currentStory.val();
-      if(storyName) {
-        app.ports.storySizingStarted.send(storyName)
+      var story = currentStory.val();
+      console.log("currentStory", story)
+      if(story) {
+        app.ports.storySizingStarted.send(story)
       } else {
         app.ports.storySizingEnded.send("")
       }
@@ -118,7 +118,6 @@
     })
 
     historyRef.on('child_added', function(story) {
-      console.log("story archived", story.val())
       app.ports.storyArchived.send(story.val())
     })
 

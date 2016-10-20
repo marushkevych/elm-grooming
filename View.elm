@@ -16,15 +16,12 @@ view model =
             if model.user == Nothing then
                 createUser
             else
-                case model.storyName of
+                case model.story of
                     Nothing ->
-                        loadingPage
-
-                    Just "" ->
                         storyFormPage
 
-                    Just name ->
-                        sizingPage name
+                    Just story ->
+                        sizingPage story.name
     in
         div [ class "scoreboard fieldset" ]
             [ page model
@@ -180,7 +177,7 @@ history model =
         |> ul []
 
 
-sizedStoryRecord : SizedStory -> Html Msg
+sizedStoryRecord : Story -> Html Msg
 sizedStoryRecord story =
     li []
         [ div [] [ text story.name ]

@@ -9,7 +9,7 @@ import Keyboard
 port saveUser : User -> Cmd msg
 
 
-port startStorySizing : String -> Cmd msg
+port startStorySizing : Story -> Cmd msg
 
 
 port vote : Vote -> Cmd msg
@@ -24,13 +24,13 @@ port revealVotes : Bool -> Cmd msg
 port votesRevealed : (Bool -> msg) -> Sub msg
 
 
-port archiveStory : SizedStory -> Cmd msg
+port archiveStory : Story -> Cmd msg
 
 
-port storyArchived : (SizedStory -> msg) -> Sub msg
+port storyArchived : (Story -> msg) -> Sub msg
 
 
-port storySizingStarted : (String -> msg) -> Sub msg
+port storySizingStarted : (Story -> msg) -> Sub msg
 
 
 port storySizingEnded : (String -> msg) -> Sub msg
@@ -66,13 +66,13 @@ type alias Flags =
 type alias Model =
     { user : Maybe User
     , uuid : String
-    , storyName : Maybe String
+    , story : Maybe Story
     , storyInput : String
     , userInput : String
     , error : Maybe String
     , votes : List Vote
     , revealVotes : Bool
-    , sizedStories : List SizedStory
+    , sizedStories : List Story
     , storyOwner : Bool
     }
 
@@ -85,14 +85,14 @@ type alias User =
 
 type alias Vote =
     { points : Float
-    , storyName : String
     , user : User
     }
 
 
-type alias SizedStory =
+type alias Story =
     { name : String
     , points : Float
+    , owner : User
     }
 
 
@@ -101,7 +101,7 @@ initModel =
     --{ user = Just (User "Andrey Marushkevych" "123")
     { user = Nothing
     , uuid = ""
-    , storyName = Nothing
+    , story = Nothing
     , storyInput = ""
     , userInput = ""
     , error = Nothing
@@ -139,7 +139,7 @@ type Msg
     | RevealVotes
     | VotesRevealed Bool
     | SelectVote Vote
-    | StoryArchived SizedStory
+    | StoryArchived Story
     | KeyMsg Keyboard.KeyCode
-    | StorySizingStarted String
+    | StorySizingStarted Story
     | StorySizingEnded String
