@@ -17,20 +17,35 @@ import Material.Grid exposing (grid, cell, size, Device(..))
 -- View
 
 
+userTab : Model -> Html Msg
+userTab model =
+    if userName model == "" then
+        text "User"
+    else
+        text ("User (" ++ (userName model) ++ ")")
+
+
+userName : Model -> String
+userName model =
+    (Maybe.withDefault (User "" "") model.user) |> .name
+
+
 view : Model -> Html Msg
 view model =
     Material.Scheme.topWithScheme Color.Teal Color.LightGreen <|
         Layout.render Mdl
             model.mdl
             [ Layout.fixedHeader
-              -- , Layout.selectedTab model.selectedTab
-              -- , Layout.onSelectTab SelectTab
+            , Layout.fixedTabs
+            , Layout.selectedTab model.selectedTab
+            , Layout.onSelectTab SelectTab
             ]
             { header = [ h4 [ style [ ( "padding-left", "1rem" ) ] ] [ text "Dust My Groom" ] ]
             , drawer =
                 []
-                -- , tabs = ( [ text "Milk", text "Oranges" ], [ Color.background (Color.color Color.Teal Color.S400) ] )
-            , tabs = ( [], [] )
+            , tabs =
+                ( [ text "Grooming", userTab model ], [ Color.background (Color.color Color.Teal Color.S400) ] )
+                -- , tabs = ( [], [] )
             , main = [ viewNav model ]
             }
 
@@ -42,7 +57,10 @@ viewNav model =
             viewBody model
 
         1 ->
-            text "something else"
+            grid [ Material.Grid.maxWidth "543px" ]
+                [ cell [ Material.Grid.size All 12, Material.Grid.align Material.Grid.Middle ]
+                    [ createUser model ]
+                ]
 
         _ ->
             text "404"
