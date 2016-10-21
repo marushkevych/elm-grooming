@@ -4,6 +4,14 @@ import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Material
+import Material.Scheme
+import Material.Button as Button
+import Material.Options as Options exposing (css)
+import Material.Layout as Layout
+import Material.Color as Color
+import Material.Typography as Typo
+import Material.Grid exposing (grid, cell, size, Device(..))
 
 
 -- View
@@ -11,6 +19,37 @@ import Html.Events exposing (..)
 
 view : Model -> Html Msg
 view model =
+    Material.Scheme.topWithScheme Color.Teal Color.LightGreen <|
+        Layout.render Mdl
+            model.mdl
+            [ Layout.fixedHeader
+              -- , Layout.selectedTab model.selectedTab
+              -- , Layout.onSelectTab SelectTab
+            ]
+            { header = [ h4 [ style [ ( "padding-left", "1rem" ) ] ] [ text "Dust My Groom" ] ]
+            , drawer =
+                []
+                -- , tabs = ( [ text "Milk", text "Oranges" ], [ Color.background (Color.color Color.Teal Color.S400) ] )
+            , tabs = ( [], [] )
+            , main = [ viewNav model ]
+            }
+
+
+viewNav : Model -> Html Msg
+viewNav model =
+    case model.selectedTab of
+        0 ->
+            viewBody model
+
+        1 ->
+            text "something else"
+
+        _ ->
+            text "404"
+
+
+viewBody : Model -> Html Msg
+viewBody model =
     let
         page =
             if model.user == Nothing then
@@ -29,13 +68,16 @@ view model =
                         else
                             sizingPage story.name
     in
-        page model
+        grid [ Material.Grid.maxWidth "543px" ]
+            [ cell [ Material.Grid.size All 12, Material.Grid.align Material.Grid.Middle ]
+                [ page model ]
+            ]
 
 
 createUser : Model -> Html Msg
 createUser model =
     div [ class "scoreboard fieldset" ]
-        [ h1 [] [ text "What is your name?" ]
+        [ Options.styled p [ Typo.display2 ] [ text "What is your name?" ]
         , Html.form [ onSubmit CreateUser ]
             [ input
                 [ type' "text"
@@ -61,7 +103,7 @@ loadingPage model =
 sizingPage : String -> Model -> Html Msg
 sizingPage storyName model =
     div [ class "sizing fieldset" ]
-        [ h4 [] [ text storyName ]
+        [ Options.styled p [ Typo.display1 ] [ text storyName ]
         , buttons model
         , h5 [] [ text "Previous Estimates" ]
         , div [ class "story-reference" ] [ reference model ]
@@ -71,7 +113,7 @@ sizingPage storyName model =
 voteResultsPage : String -> Model -> Html Msg
 voteResultsPage storyName model =
     div [ class "scoreboard fieldset" ]
-        [ h4 [] [ text storyName ]
+        [ Options.styled p [ Typo.display1 ] [ text storyName ]
         , votesHeader model
         , votes model
         ]
@@ -163,12 +205,13 @@ buttons model =
             , button [ class "points", onClick (Size 1) ] [ text "1" ]
             , button [ class "points", onClick (Size 2) ] [ text "2" ]
             , button [ class "points", onClick (Size 3) ] [ text "3" ]
-            , button [ class "points", onClick (Size 5) ] [ text "5" ]
+            ]
+        , li []
+            [ button [ class "points", onClick (Size 5) ] [ text "5" ]
             , button [ class "points", onClick (Size 8) ] [ text "8" ]
             , button [ class "points", onClick (Size 13) ] [ text "13" ]
             , button [ class "points", onClick (Size 20) ] [ text "20" ]
             , button [ class "points", onClick (Size 40) ] [ text "40" ]
-            , button [ class "points", onClick (Size 100) ] [ text "100" ]
             , button [ onClick (Size 1000) ] [ text "∞" ]
             ]
         ]
@@ -180,8 +223,8 @@ buttons model =
 
 storyFormPage : Model -> Html Msg
 storyFormPage model =
-    div [ class "scoreboard fieldset" ]
-        [ h1 [] [ text "Size new story" ]
+    div []
+        [ Options.styled p [ Typo.display2 ] [ text "Size new story" ]
         , Html.form [ onSubmit StartStorySizing ]
             [ input
                 [ type' "text"

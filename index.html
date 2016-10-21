@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div id="app"></div>
+  <div id="groom"></div>
   <script src="bundle.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
   <script>
@@ -30,7 +30,7 @@
       userId = localStorage.getItem('userId') || ''
   }
 
-  var app = Elm.Main.embed(document.getElementById("app"), {
+  var app = Elm.Main.embed(document.getElementById("groom"), {
       uuid: guid(),
       userName: userName,
       userId: userId

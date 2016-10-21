@@ -3,6 +3,7 @@ module Main exposing (..)
 import Model exposing (..)
 import View exposing (..)
 import Html.App as App
+import Material
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -98,6 +99,13 @@ update msg model =
               }
             , Cmd.none
             )
+
+        -- When the `Mdl` messages come through, update appropriately.
+        Mdl msg' ->
+            Material.update msg' model
+
+        SelectTab num ->
+            { model | selectedTab = num } ! []
 
 
 saveVote : Model -> Float -> ( Model, Cmd Msg )

@@ -48,7 +48,7 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 /*# sourceMappingURL=app.css.map */
 
 button.points {
-  width: 48px;
+  width: 60px;
 }
 
 form>input[type="text"] {
@@ -61,16 +61,20 @@ ul>li>div.points:last-child:not(:first-child) {
     text-align: center; !important
 }
 
+ul>li>button {
+    min-width: 82px;
+}
+
 .scoreboard {
     width: 543px;
 }
 
 .sizing {
-    width: 830px;
+    width: 543px;
 }
 
 .story-reference {
-    /*display: inline-block;*/
+    display: inline-block;
 }
 
 .hostory-record {
