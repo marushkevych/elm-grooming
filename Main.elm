@@ -4,6 +4,7 @@ import Model exposing (..)
 import View exposing (..)
 import Html.App as App
 import Material
+import String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -21,19 +22,21 @@ update msg model =
                     User model.userInput model.uuid
             in
                 ( { model
-                    | userInput = ""
-                    , user = Just user
+                    | user = Just user
                   }
                 , saveUser user
                 )
 
         StartStorySizing ->
             -- TODO do this in transaction
-            ( { model
-                | storyInput = ""
-              }
-            , startStorySizing (Story model.storyInput 0 (getUser model))
-            )
+            if model.storyInput |> String.trim |> String.isEmpty then
+                ( model, Cmd.none )
+            else
+                ( { model
+                    | storyInput = ""
+                  }
+                , startStorySizing (Story model.storyInput 0 (getUser model))
+                )
 
         Size points ->
             saveVote model points

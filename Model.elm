@@ -131,6 +131,7 @@ init flags =
         ( { initModel
             | user = Just (User flags.userName flags.userId)
             , uuid = flags.uuid
+            , userInput = flags.userName
           }
         , Cmd.none
         )
