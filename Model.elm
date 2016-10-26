@@ -37,7 +37,13 @@ port storySizingStarted : (Story -> msg) -> Sub msg
 port storySizingEnded : (String -> msg) -> Sub msg
 
 
+port votesCleared : (String -> msg) -> Sub msg
+
+
 port cancelStory : Story -> Cmd msg
+
+
+port resizeStory : Story -> Cmd msg
 
 
 
@@ -53,6 +59,7 @@ subscriptions model =
         , storySizingStarted StorySizingStarted
         , storySizingEnded StorySizingEnded
         , votesRevealed VotesRevealed
+        , votesCleared VotesCleared
         ]
 
 
@@ -178,3 +185,4 @@ type Msg
     | SelectTab Int
     | ResizeStory
     | CancelStory
+    | VotesCleared String

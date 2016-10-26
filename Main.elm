@@ -111,7 +111,15 @@ update msg model =
             { model | selectedTab = num } ! []
 
         ResizeStory ->
-            ( model, Cmd.none )
+            case model.story of
+                Nothing ->
+                    Debug.crash "no story to resize"
+
+                Just story ->
+                    ( model, resizeStory story )
+
+        VotesCleared s ->
+            { model | votes = [] } ! []
 
         CancelStory ->
             case model.story of

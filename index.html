@@ -84,6 +84,13 @@
       app.ports.voteAdded.send(vote.val())
     })
 
+    votesRef.on('value', function(votes) {
+      if( votes.val() === null){
+          console.log("votes cleared")
+          app.ports.votesCleared.send("")
+      }
+    })
+
     // votesRef.on('value', function(votes) {
     //   console.log("votes changed", votes.val())
     //   if(votes.val() === null){
@@ -105,9 +112,6 @@
         app.ports.votesRevealed.send(flag)
     })
 
-
-
-
     // history
     var historyRef = database.ref().child('history')
     app.ports.archiveStory.subscribe(function(story) {
@@ -126,6 +130,11 @@
         console.log ('cancelStory', story)
         votesRef.set(null)
         currentStoryRef.set(null);
+    })
+
+    app.ports.resizeStory.subscribe(function(story) {
+        console.log ('resizeStory', story)
+        votesRef.set(null)
     })
 
   </script>

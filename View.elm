@@ -221,7 +221,7 @@ ownerButtons : Model -> Html Msg
 ownerButtons model =
     if isStoryOwner model then
         div [ class "owner-buttons" ]
-            [ button [ class "owner-button" ] [ text "resize" ]
+            [ button [ class "owner-button", onClick ResizeStory ] [ text "resize" ]
             , button [ class "owner-button", onClick CancelStory ] [ text "cancel" ]
             ]
     else
