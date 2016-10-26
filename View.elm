@@ -122,7 +122,10 @@ sizingPage : String -> Model -> Html Msg
 sizingPage storyName model =
     div [ class "sizing fieldset" ]
         [ Options.styled p [ Typo.display1 ] [ text storyName ]
-        , buttons model
+          -- , div [ class "owner-buttons" ]
+          --     [ button [ class "owner-button" ] [ text "skip voting" ]
+          --     ]
+        , sizingButtons model
         , h5 [] [ text "Previous Estimates" ]
         , div [ class "story-reference" ] [ reference model ]
         ]
@@ -132,6 +135,7 @@ voteResultsPage : String -> Model -> Html Msg
 voteResultsPage storyName model =
     div [ class "scoreboard fieldset" ]
         [ Options.styled p [ Typo.display1 ] [ text storyName ]
+        , ownerButtons model
         , votesHeader model
         , votes model
         ]
@@ -213,8 +217,19 @@ pointsString points =
             toString points
 
 
-buttons : Model -> Html Msg
-buttons model =
+ownerButtons : Model -> Html Msg
+ownerButtons model =
+    if isStoryOwner model then
+        div [ class "owner-buttons" ]
+            [ button [ class "owner-button" ] [ text "resize" ]
+            , button [ class "owner-button", onClick CancelStory ] [ text "cancel" ]
+            ]
+    else
+        div [] []
+
+
+sizingButtons : Model -> Html Msg
+sizingButtons model =
     ul []
         [ li []
             [ button [ onClick (Size -1) ] [ text "-" ]

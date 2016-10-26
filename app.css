@@ -80,3 +80,10 @@ ul>li>button {
 .hostory-record {
     font-size: 17px;
 }
+
+.owner-buttons {
+    text-align: center;
+}
+.owner-button {
+    margin: 8px;
+}

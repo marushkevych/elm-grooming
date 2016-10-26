@@ -122,6 +122,12 @@
     })
 
 
+    app.ports.cancelStory.subscribe(function(story) {
+        console.log ('cancelStory', story)
+        votesRef.set(null)
+        currentStoryRef.set(null);
+    })
+
   </script>
 </body>
 

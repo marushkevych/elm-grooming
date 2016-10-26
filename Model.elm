@@ -37,6 +37,9 @@ port storySizingStarted : (Story -> msg) -> Sub msg
 port storySizingEnded : (String -> msg) -> Sub msg
 
 
+port cancelStory : Story -> Cmd msg
+
+
 
 -- subscriptions
 
@@ -173,3 +176,5 @@ type Msg
     | StorySizingEnded String
     | Mdl (Material.Msg Msg)
     | SelectTab Int
+    | ResizeStory
+    | CancelStory
