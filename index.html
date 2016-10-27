@@ -47,7 +47,6 @@
     var database = firebase.database();
 
     app.ports.saveUser.subscribe(function(user) {
-        console.log('saveUser', user)
         if(localStorage) {
             localStorage.setItem('userName', user.name)
             localStorage.setItem('userId', user.id)
@@ -57,14 +56,12 @@
     // current story
     var currentStoryRef = database.ref().child('currentStory')
     app.ports.startStorySizing.subscribe(function(story) {
-      console.log ('start sizing', story)
       currentStoryRef.set(story);
       votesRevelaedRef.set(false);
     })
 
     currentStoryRef.on('value', function(currentStory) {
       var story = currentStory.val();
-      console.log("currentStory", story)
       if(story) {
         app.ports.storySizingStarted.send(story)
       } else {
@@ -75,18 +72,15 @@
     // votes
     var votesRef = database.ref().child('votes')
     app.ports.addVote.subscribe(function(vote) {
-      console.log ('vote submitted', vote)
       votesRef.push(vote)
     })
 
     votesRef.on('child_added', function(vote) {
-      console.log("vote added", vote.val())
       app.ports.voteAdded.send(vote.val())
     })
 
     votesRef.on('value', function(votes) {
       if( votes.val() === null){
-          console.log("votes cleared")
           app.ports.votesCleared.send("")
       }
     })
@@ -102,20 +96,17 @@
     // reveal votes
     var votesRevelaedRef = database.ref().child('votesRevelaed')
     app.ports.revealVotes.subscribe(function(flag) {
-      console.log("revealVotes", flag)
       votesRevelaedRef.set(flag);
     })
 
     votesRevelaedRef.on('value', function(votesRevelaed) {
         var flag = votesRevelaed.val() || false
-        console.log("votesRevealed", flag)
         app.ports.votesRevealed.send(flag)
     })
 
     // history
     var historyRef = database.ref().child('history')
     app.ports.archiveStory.subscribe(function(story) {
-      console.log ('story sized', story)
       historyRef.push(story)
       votesRef.set(null)
       currentStoryRef.set(null);
@@ -127,13 +118,11 @@
 
 
     app.ports.cancelStory.subscribe(function(story) {
-        console.log ('cancelStory', story)
         votesRef.set(null)
         currentStoryRef.set(null);
     })
 
     app.ports.resizeStory.subscribe(function(story) {
-        console.log ('resizeStory', story)
         votesRef.set(null)
     })
 

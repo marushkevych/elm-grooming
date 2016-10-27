@@ -135,9 +135,6 @@ saveVote model points =
     let
         existingVotes =
             List.filter (.user >> .id >> ((==) ((getUser model) |> .id))) model.votes
-
-        _ =
-            Debug.log "existingVotes" existingVotes
     in
         case existingVotes of
             existingVote :: [] ->
