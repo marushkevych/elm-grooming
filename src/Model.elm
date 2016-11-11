@@ -1,7 +1,6 @@
 port module Model exposing (..)
 
 import Keyboard
-import Material
 
 
 -- Ports
@@ -67,10 +66,6 @@ subscriptions model =
 -- Model
 
 
-type alias Mdl =
-    Material.Model
-
-
 type alias Flags =
     { uuid : String
     , userName : String
@@ -89,10 +84,6 @@ type alias Model =
     , revealVotes : Bool
     , sizedStories : List Story
     , isDataLoaded : Bool
-    , mdl :
-        Material.Model
-        -- Boilerplate: model store for any and all Mdl components you use.
-    , selectedTab : Int
     }
 
 
@@ -128,10 +119,6 @@ initModel =
     , revealVotes = True
     , sizedStories = []
     , isDataLoaded = False
-    , mdl =
-        Material.model
-        -- Boilerplate: Always use this initial Mdl model store.
-    , selectedTab = 0
     }
 
 
@@ -181,8 +168,6 @@ type Msg
     | KeyMsg Keyboard.KeyCode
     | StorySizingStarted Story
     | StorySizingEnded String
-    | Mdl (Material.Msg Msg)
-    | SelectTab Int
     | ResizeStory
     | CancelStory
     | VotesCleared String

@@ -11,8 +11,8 @@ import Material.Typography as Typo
 -- View
 
 
-viewBody : Model -> Html Msg
-viewBody model =
+view : Model -> Html Msg
+view model =
     let
         page =
             if model.user == Nothing then

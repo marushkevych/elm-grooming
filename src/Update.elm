@@ -1,7 +1,6 @@
 module Update exposing (update)
 
 import Model exposing (..)
-import Material
 import String
 
 
@@ -100,13 +99,6 @@ update msg model =
               }
             , Cmd.none
             )
-
-        -- When the `Mdl` messages come through, update appropriately.
-        Mdl msg' ->
-            Material.update msg' model
-
-        SelectTab num ->
-            { model | selectedTab = num } ! []
 
         ResizeStory ->
             case model.story of

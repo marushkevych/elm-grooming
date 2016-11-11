@@ -30,7 +30,7 @@
       userId = localStorage.getItem('userId') || ''
   }
 
-  var app = Elm.Main.embed(document.getElementById("groom"), {
+  var app = Elm.MainWithLayout.embed(document.getElementById("groom"), {
       uuid: guid(),
       userName: userName,
       userId: userId
