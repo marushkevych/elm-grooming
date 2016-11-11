@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Model exposing (..)
 import Update exposing (..)
-import View exposing (..)
+import Layout.View exposing (..)
 import Html.App as App
 
 
