@@ -4,9 +4,7 @@ import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Material
 import Material.Scheme
-import Material.Button as Button
 import Material.Options as Options exposing (css)
 import Material.Layout as Layout
 import Material.Color as Color
@@ -52,18 +50,22 @@ view model =
 
 viewNav : Model -> Html Msg
 viewNav model =
-    case model.selectedTab of
-        0 ->
-            viewBody model
+    let
+        page =
+            case model.selectedTab of
+                0 ->
+                    viewBody model
 
-        1 ->
-            grid [ Material.Grid.maxWidth "543px" ]
-                [ cell [ Material.Grid.size All 12, Material.Grid.align Material.Grid.Middle ]
-                    [ createUser model ]
-                ]
+                1 ->
+                    createUser model
 
-        _ ->
-            text "404"
+                _ ->
+                    text "404"
+    in
+        grid [ Material.Grid.maxWidth "543px" ]
+            [ cell [ Material.Grid.size All 12, Material.Grid.align Material.Grid.Middle ]
+                [ page ]
+            ]
 
 
 viewBody : Model -> Html Msg
@@ -86,10 +88,7 @@ viewBody model =
                         else
                             sizingPage story.name
     in
-        grid [ Material.Grid.maxWidth "543px" ]
-            [ cell [ Material.Grid.size All 12, Material.Grid.align Material.Grid.Middle ]
-                [ page model ]
-            ]
+        page model
 
 
 createUser : Model -> Html Msg

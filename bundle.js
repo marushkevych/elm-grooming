@@ -14909,6 +14909,20 @@ var _user$project$View$viewBody = function (model) {
 			}
 		}
 	}();
+	return page(model);
+};
+var _user$project$View$viewNav = function (model) {
+	var page = function () {
+		var _p5 = model.selectedTab;
+		switch (_p5) {
+			case 0:
+				return _user$project$View$viewBody(model);
+			case 1:
+				return _user$project$View$createUser(model);
+			default:
+				return _elm_lang$html$Html$text('404');
+		}
+	}();
 	return A2(
 		_debois$elm_mdl$Material_Grid$grid,
 		_elm_lang$core$Native_List.fromArray(
@@ -14925,40 +14939,8 @@ var _user$project$View$viewBody = function (model) {
 						_debois$elm_mdl$Material_Grid$align(_debois$elm_mdl$Material_Grid$Middle)
 					]),
 				_elm_lang$core$Native_List.fromArray(
-					[
-						page(model)
-					]))
+					[page]))
 			]));
-};
-var _user$project$View$viewNav = function (model) {
-	var _p5 = model.selectedTab;
-	switch (_p5) {
-		case 0:
-			return _user$project$View$viewBody(model);
-		case 1:
-			return A2(
-				_debois$elm_mdl$Material_Grid$grid,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_debois$elm_mdl$Material_Grid$maxWidth('543px')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_debois$elm_mdl$Material_Grid$cell,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								A2(_debois$elm_mdl$Material_Grid$size, _debois$elm_mdl$Material_Grid$All, 12),
-								_debois$elm_mdl$Material_Grid$align(_debois$elm_mdl$Material_Grid$Middle)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_user$project$View$createUser(model)
-							]))
-					]));
-		default:
-			return _elm_lang$html$Html$text('404');
-	}
 };
 var _user$project$View$userName = function (model) {
 	return function (_) {
