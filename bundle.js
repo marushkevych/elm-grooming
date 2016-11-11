@@ -14301,6 +14301,285 @@ var _user$project$Model$UserInput = function (a) {
 var _user$project$Model$CreateUser = {ctor: 'CreateUser'};
 var _user$project$Model$StartStorySizing = {ctor: 'StartStorySizing'};
 
+var _user$project$Update$mapKeyCodeToPoints = function (key) {
+	var _p0 = key;
+	switch (_p0) {
+		case 96:
+			return _elm_lang$core$Maybe$Just(-1);
+		case 33:
+			return _elm_lang$core$Maybe$Just(0.5);
+		case 49:
+			return _elm_lang$core$Maybe$Just(1);
+		case 50:
+			return _elm_lang$core$Maybe$Just(2);
+		case 51:
+			return _elm_lang$core$Maybe$Just(3);
+		case 53:
+			return _elm_lang$core$Maybe$Just(5);
+		case 56:
+			return _elm_lang$core$Maybe$Just(8);
+		case 57:
+			return _elm_lang$core$Maybe$Just(13);
+		case 48:
+			return _elm_lang$core$Maybe$Just(20);
+		case 45:
+			return _elm_lang$core$Maybe$Just(40);
+		case 61:
+			return _elm_lang$core$Maybe$Just(100);
+		case 43:
+			return _elm_lang$core$Maybe$Just(1000);
+		default:
+			return _elm_lang$core$Maybe$Nothing;
+	}
+};
+var _user$project$Update$getUser = function (model) {
+	var _p1 = model.user;
+	if (_p1.ctor === 'Nothing') {
+		return _elm_lang$core$Native_Utils.crashCase(
+			'Update',
+			{
+				start: {line: 157, column: 5},
+				end: {line: 162, column: 17}
+			},
+			_p1)('User should be initialized');
+	} else {
+		return _p1._0;
+	}
+};
+var _user$project$Update$saveVote = F2(
+	function (model, points) {
+		var existingVotes = A2(
+			_elm_lang$core$List$filter,
+			function (_p3) {
+				return A2(
+					F2(
+						function (x, y) {
+							return _elm_lang$core$Native_Utils.eq(x, y);
+						}),
+					function (_) {
+						return _.id;
+					}(
+						_user$project$Update$getUser(model)),
+					function (_) {
+						return _.id;
+					}(
+						function (_) {
+							return _.user;
+						}(_p3)));
+			},
+			model.votes);
+		var _p4 = existingVotes;
+		if ((_p4.ctor === '::') && (_p4._1.ctor === '[]')) {
+			return _elm_lang$core$Native_Utils.eq(_p4._0.points, points) ? {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		} else {
+			var _p5 = model.story;
+			if (_p5.ctor === 'Just') {
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Model$addVote(
+						A2(
+							_user$project$Model$Vote,
+							points,
+							_user$project$Update$getUser(model)))
+				};
+			} else {
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			}
+		}
+	});
+var _user$project$Update$update = F2(
+	function (msg, model) {
+		var _p6 = msg;
+		switch (_p6.ctor) {
+			case 'StoryInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{storyInput: _p6._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UserInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{userInput: _p6._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'CreateUser':
+				var user = A2(_user$project$Model$User, model.userInput, model.uuid);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							user: _elm_lang$core$Maybe$Just(user)
+						}),
+					_1: _user$project$Model$saveUser(user)
+				};
+			case 'StartStorySizing':
+				return _elm_lang$core$String$isEmpty(
+					_elm_lang$core$String$trim(model.storyInput)) ? {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none} : {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{storyInput: ''}),
+					_1: _user$project$Model$startStorySizing(
+						A3(
+							_user$project$Model$Story,
+							model.storyInput,
+							0,
+							_user$project$Update$getUser(model)))
+				};
+			case 'Size':
+				return A2(_user$project$Update$saveVote, model, _p6._0);
+			case 'KeyMsg':
+				var points = _user$project$Update$mapKeyCodeToPoints(_p6._0);
+				var _p7 = points;
+				if (_p7.ctor === 'Just') {
+					return A2(_user$project$Update$saveVote, model, _p7._0);
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'VoteAdded':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							votes: A2(_elm_lang$core$List_ops['::'], _p6._0, model.votes)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'VotesRevealed':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{revealVotes: _p6._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SelectVote':
+				var sizedStory = function () {
+					var _p8 = model.story;
+					if (_p8.ctor === 'Nothing') {
+						return _elm_lang$core$Native_Utils.crashCase(
+							'Update',
+							{
+								start: {line: 70, column: 21},
+								end: {line: 75, column: 61}
+							},
+							_p8)('no story to size');
+					} else {
+						return _elm_lang$core$Native_Utils.update(
+							_p8._0,
+							{points: _p6._0.points});
+					}
+				}();
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							story: _elm_lang$core$Maybe$Just(sizedStory)
+						}),
+					_1: _user$project$Model$archiveStory(sizedStory)
+				};
+			case 'StoryArchived':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							sizedStories: A2(_elm_lang$core$List_ops['::'], _p6._0, model.sizedStories)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'StorySizingStarted':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							story: _elm_lang$core$Maybe$Just(_p6._0),
+							storyInput: '',
+							isDataLoaded: true
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'StorySizingEnded':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							votes: _elm_lang$core$Native_List.fromArray(
+								[]),
+							story: _elm_lang$core$Maybe$Nothing,
+							isDataLoaded: true
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Mdl':
+				return A2(_debois$elm_mdl$Material$update, _p6._0, model);
+			case 'SelectTab':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{selectedTab: _p6._0}),
+					_elm_lang$core$Native_List.fromArray(
+						[]));
+			case 'ResizeStory':
+				var _p10 = model.story;
+				if (_p10.ctor === 'Nothing') {
+					return _elm_lang$core$Native_Utils.crashCase(
+						'Update',
+						{
+							start: {line: 112, column: 13},
+							end: {line: 117, column: 49}
+						},
+						_p10)('no story to resize');
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: model,
+						_1: _user$project$Model$resizeStory(_p10._0)
+					};
+				}
+			case 'VotesCleared':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							votes: _elm_lang$core$Native_List.fromArray(
+								[])
+						}),
+					_elm_lang$core$Native_List.fromArray(
+						[]));
+			default:
+				var _p12 = model.story;
+				if (_p12.ctor === 'Nothing') {
+					return _elm_lang$core$Native_Utils.crashCase(
+						'Update',
+						{
+							start: {line: 123, column: 13},
+							end: {line: 128, column: 49}
+						},
+						_p12)('no story to cancel');
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: model,
+						_1: _user$project$Model$cancelStory(_p12._0)
+					};
+				}
+		}
+	});
+
 var _user$project$View$historyHeader = function (model) {
 	return _elm_lang$core$List$isEmpty(model.sizedStories) ? A2(
 		_elm_lang$html$Html$div,
@@ -15019,287 +15298,9 @@ var _user$project$View$view = function (model) {
 			}));
 };
 
-var _user$project$Main$mapKeyCodeToPoints = function (key) {
-	var _p0 = key;
-	switch (_p0) {
-		case 96:
-			return _elm_lang$core$Maybe$Just(-1);
-		case 33:
-			return _elm_lang$core$Maybe$Just(0.5);
-		case 49:
-			return _elm_lang$core$Maybe$Just(1);
-		case 50:
-			return _elm_lang$core$Maybe$Just(2);
-		case 51:
-			return _elm_lang$core$Maybe$Just(3);
-		case 53:
-			return _elm_lang$core$Maybe$Just(5);
-		case 56:
-			return _elm_lang$core$Maybe$Just(8);
-		case 57:
-			return _elm_lang$core$Maybe$Just(13);
-		case 48:
-			return _elm_lang$core$Maybe$Just(20);
-		case 45:
-			return _elm_lang$core$Maybe$Just(40);
-		case 61:
-			return _elm_lang$core$Maybe$Just(100);
-		case 43:
-			return _elm_lang$core$Maybe$Just(1000);
-		default:
-			return _elm_lang$core$Maybe$Nothing;
-	}
-};
-var _user$project$Main$getUser = function (model) {
-	var _p1 = model.user;
-	if (_p1.ctor === 'Nothing') {
-		return _elm_lang$core$Native_Utils.crashCase(
-			'Main',
-			{
-				start: {line: 159, column: 5},
-				end: {line: 164, column: 17}
-			},
-			_p1)('User should be initialized');
-	} else {
-		return _p1._0;
-	}
-};
-var _user$project$Main$saveVote = F2(
-	function (model, points) {
-		var existingVotes = A2(
-			_elm_lang$core$List$filter,
-			function (_p3) {
-				return A2(
-					F2(
-						function (x, y) {
-							return _elm_lang$core$Native_Utils.eq(x, y);
-						}),
-					function (_) {
-						return _.id;
-					}(
-						_user$project$Main$getUser(model)),
-					function (_) {
-						return _.id;
-					}(
-						function (_) {
-							return _.user;
-						}(_p3)));
-			},
-			model.votes);
-		var _p4 = existingVotes;
-		if ((_p4.ctor === '::') && (_p4._1.ctor === '[]')) {
-			return _elm_lang$core$Native_Utils.eq(_p4._0.points, points) ? {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-		} else {
-			var _p5 = model.story;
-			if (_p5.ctor === 'Just') {
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: _user$project$Model$addVote(
-						A2(
-							_user$project$Model$Vote,
-							points,
-							_user$project$Main$getUser(model)))
-				};
-			} else {
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			}
-		}
-	});
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var _p6 = msg;
-		switch (_p6.ctor) {
-			case 'StoryInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{storyInput: _p6._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'UserInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{userInput: _p6._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'CreateUser':
-				var user = A2(_user$project$Model$User, model.userInput, model.uuid);
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							user: _elm_lang$core$Maybe$Just(user)
-						}),
-					_1: _user$project$Model$saveUser(user)
-				};
-			case 'StartStorySizing':
-				return _elm_lang$core$String$isEmpty(
-					_elm_lang$core$String$trim(model.storyInput)) ? {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none} : {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{storyInput: ''}),
-					_1: _user$project$Model$startStorySizing(
-						A3(
-							_user$project$Model$Story,
-							model.storyInput,
-							0,
-							_user$project$Main$getUser(model)))
-				};
-			case 'Size':
-				return A2(_user$project$Main$saveVote, model, _p6._0);
-			case 'KeyMsg':
-				var points = _user$project$Main$mapKeyCodeToPoints(_p6._0);
-				var _p7 = points;
-				if (_p7.ctor === 'Just') {
-					return A2(_user$project$Main$saveVote, model, _p7._0);
-				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				}
-			case 'VoteAdded':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							votes: A2(_elm_lang$core$List_ops['::'], _p6._0, model.votes)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'VotesRevealed':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{revealVotes: _p6._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'SelectVote':
-				var sizedStory = function () {
-					var _p8 = model.story;
-					if (_p8.ctor === 'Nothing') {
-						return _elm_lang$core$Native_Utils.crashCase(
-							'Main',
-							{
-								start: {line: 72, column: 21},
-								end: {line: 77, column: 61}
-							},
-							_p8)('no story to size');
-					} else {
-						return _elm_lang$core$Native_Utils.update(
-							_p8._0,
-							{points: _p6._0.points});
-					}
-				}();
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							story: _elm_lang$core$Maybe$Just(sizedStory)
-						}),
-					_1: _user$project$Model$archiveStory(sizedStory)
-				};
-			case 'StoryArchived':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							sizedStories: A2(_elm_lang$core$List_ops['::'], _p6._0, model.sizedStories)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'StorySizingStarted':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							story: _elm_lang$core$Maybe$Just(_p6._0),
-							storyInput: '',
-							isDataLoaded: true
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'StorySizingEnded':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							votes: _elm_lang$core$Native_List.fromArray(
-								[]),
-							story: _elm_lang$core$Maybe$Nothing,
-							isDataLoaded: true
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Mdl':
-				return A2(_debois$elm_mdl$Material$update, _p6._0, model);
-			case 'SelectTab':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{selectedTab: _p6._0}),
-					_elm_lang$core$Native_List.fromArray(
-						[]));
-			case 'ResizeStory':
-				var _p10 = model.story;
-				if (_p10.ctor === 'Nothing') {
-					return _elm_lang$core$Native_Utils.crashCase(
-						'Main',
-						{
-							start: {line: 114, column: 13},
-							end: {line: 119, column: 49}
-						},
-						_p10)('no story to resize');
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: model,
-						_1: _user$project$Model$resizeStory(_p10._0)
-					};
-				}
-			case 'VotesCleared':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{
-							votes: _elm_lang$core$Native_List.fromArray(
-								[])
-						}),
-					_elm_lang$core$Native_List.fromArray(
-						[]));
-			default:
-				var _p12 = model.story;
-				if (_p12.ctor === 'Nothing') {
-					return _elm_lang$core$Native_Utils.crashCase(
-						'Main',
-						{
-							start: {line: 125, column: 13},
-							end: {line: 130, column: 49}
-						},
-						_p12)('no story to cancel');
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: model,
-						_1: _user$project$Model$cancelStory(_p12._0)
-					};
-				}
-		}
-	});
 var _user$project$Main$main = {
 	main: _elm_lang$html$Html_App$programWithFlags(
-		{init: _user$project$Model$init, update: _user$project$Main$update, view: _user$project$View$view, subscriptions: _user$project$Model$subscriptions}),
+		{init: _user$project$Model$init, update: _user$project$Update$update, view: _user$project$View$view, subscriptions: _user$project$Model$subscriptions}),
 	flags: A2(
 		_elm_lang$core$Json_Decode$andThen,
 		A2(_elm_lang$core$Json_Decode_ops[':='], 'userId', _elm_lang$core$Json_Decode$string),
