@@ -6,6 +6,9 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Material.Options as Options exposing (css)
 import Material.Typography as Typo
+import Common exposing (..)
+import History.View as HistoryView
+import Html.App as App
 
 
 -- View
@@ -68,8 +71,7 @@ sizingPage storyName model =
           --     [ button [ class "owner-button" ] [ text "skip voting" ]
           --     ]
         , sizingButtons model
-        , h5 [] [ text "Previous Estimates" ]
-        , div [ class "story-reference" ] [ reference model ]
+        , reference model
         ]
 
 
@@ -146,19 +148,6 @@ votePoints model vote =
         [ div [ class "points" ] [ vote.points |> pointsString |> text ] ]
 
 
-pointsString : Float -> String
-pointsString points =
-    case points of
-        -1 ->
-            "-"
-
-        1000 ->
-            "∞"
-
-        _ ->
-            toString points
-
-
 ownerButtons : Model -> Html Msg
 ownerButtons model =
     if isStoryOwner model then
@@ -210,44 +199,15 @@ storyFormPage model =
                 []
             , button [ type' "submit" ] [ text "Size" ]
             ]
-        , historyHeader model
         , history model
         ]
 
 
 history : Model -> Html Msg
 history model =
-    model.sizedStories
-        |> List.map sizedStoryRecord
-        |> ul []
+    App.map HistoryMsg (HistoryView.history model.hisotryModel)
 
 
 reference : Model -> Html Msg
 reference model =
-    model.sizedStories
-        |> List.sortBy .points
-        |> List.map sizedStoryRecord
-        |> ul []
-
-
-sizedStoryRecord : Story -> Html Msg
-sizedStoryRecord story =
-    li []
-        [ div [ class "hostory-record" ] [ text story.name ]
-        , div [ class "hostory-record" ] [ text (pointsString story.points) ]
-        ]
-
-
-historyHeader : Model -> Html Msg
-historyHeader model =
-    if List.isEmpty model.sizedStories then
-        div [] []
-    else
-        div []
-            [ br [] []
-            , br [] []
-            , header []
-                [ div [] [ text "Previous Stories" ]
-                , div [] [ text "Points" ]
-                ]
-            ]
+    App.map HistoryMsg (HistoryView.reference model.hisotryModel)

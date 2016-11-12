@@ -10,6 +10,7 @@ import Material.Layout as Layout
 import Material.Color as Color
 import Material.Grid exposing (grid, cell, size, Device(..))
 import Html.App as App
+import Common exposing (..)
 
 
 -- View
@@ -25,7 +26,7 @@ userTab model =
 
 userName : GroomingModel.Model -> String
 userName model =
-    (Maybe.withDefault (GroomingModel.User "" "") model.user) |> .name
+    (Maybe.withDefault (User "" "") model.user) |> .name
 
 
 view : Model -> Html Msg

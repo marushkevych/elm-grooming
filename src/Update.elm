@@ -2,6 +2,8 @@ module Update exposing (update)
 
 import Model exposing (..)
 import String
+import Common exposing (..)
+import History.State as HistoryState
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -77,8 +79,8 @@ update msg model =
                 , archiveStory sizedStory
                 )
 
-        StoryArchived story ->
-            ( { model | sizedStories = story :: model.sizedStories }, Cmd.none )
+        HistoryMsg msg ->
+            ( { model | hisotryModel = HistoryState.update msg model.hisotryModel }, Cmd.none )
 
         StorySizingStarted story ->
             ( { model

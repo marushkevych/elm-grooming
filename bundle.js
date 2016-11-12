@@ -13981,14 +13981,228 @@ var _elm_lang$keyboard$Keyboard$subMap = F2(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Keyboard'] = {pkg: 'elm-lang/keyboard', init: _elm_lang$keyboard$Keyboard$init, onEffects: _elm_lang$keyboard$Keyboard$onEffects, onSelfMsg: _elm_lang$keyboard$Keyboard$onSelfMsg, tag: 'sub', subMap: _elm_lang$keyboard$Keyboard$subMap};
 
+var _user$project$Common$pointsString = function (points) {
+	var _p0 = points;
+	switch (_p0) {
+		case -1:
+			return '-';
+		case 1000:
+			return '∞';
+		default:
+			return _elm_lang$core$Basics$toString(points);
+	}
+};
+var _user$project$Common$Story = F3(
+	function (a, b, c) {
+		return {name: a, points: b, owner: c};
+	});
+var _user$project$Common$User = F2(
+	function (a, b) {
+		return {name: a, id: b};
+	});
+
+var _user$project$History_Types$initModel = {
+	sizedStories: _elm_lang$core$Native_List.fromArray(
+		[])
+};
+var _user$project$History_Types$storyArchived = _elm_lang$core$Native_Platform.incomingPort(
+	'storyArchived',
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		A2(_elm_lang$core$Json_Decode_ops[':='], 'name', _elm_lang$core$Json_Decode$string),
+		function (name) {
+			return A2(
+				_elm_lang$core$Json_Decode$andThen,
+				A2(_elm_lang$core$Json_Decode_ops[':='], 'points', _elm_lang$core$Json_Decode$float),
+				function (points) {
+					return A2(
+						_elm_lang$core$Json_Decode$andThen,
+						A2(
+							_elm_lang$core$Json_Decode_ops[':='],
+							'owner',
+							A2(
+								_elm_lang$core$Json_Decode$andThen,
+								A2(_elm_lang$core$Json_Decode_ops[':='], 'name', _elm_lang$core$Json_Decode$string),
+								function (name) {
+									return A2(
+										_elm_lang$core$Json_Decode$andThen,
+										A2(_elm_lang$core$Json_Decode_ops[':='], 'id', _elm_lang$core$Json_Decode$string),
+										function (id) {
+											return _elm_lang$core$Json_Decode$succeed(
+												{name: name, id: id});
+										});
+								})),
+						function (owner) {
+							return _elm_lang$core$Json_Decode$succeed(
+								{name: name, points: points, owner: owner});
+						});
+				});
+		}));
+var _user$project$History_Types$Model = function (a) {
+	return {sizedStories: a};
+};
+var _user$project$History_Types$StoryArchived = function (a) {
+	return {ctor: 'StoryArchived', _0: a};
+};
+var _user$project$History_Types$subscriptions = function (model) {
+	return _user$project$History_Types$storyArchived(_user$project$History_Types$StoryArchived);
+};
+
+var _user$project$History_State$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				sizedStories: A2(_elm_lang$core$List_ops['::'], _p0._0, model.sizedStories)
+			});
+	});
+
+var _user$project$History_View$historyHeader = function (model) {
+	return _elm_lang$core$List$isEmpty(model.sizedStories) ? A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[])) : A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$br,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[])),
+				A2(
+				_elm_lang$html$Html$br,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[])),
+				A2(
+				_elm_lang$html$Html$header,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Previous Stories')
+							])),
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Points')
+							]))
+					]))
+			]));
+};
+var _user$project$History_View$sizedStoryRecord = function (story) {
+	return A2(
+		_elm_lang$html$Html$li,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('hostory-record')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(story.name)
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('hostory-record')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_user$project$Common$pointsString(story.points))
+					]))
+			]));
+};
+var _user$project$History_View$referenceRecords = function (model) {
+	return A2(
+		_elm_lang$html$Html$ul,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		A2(
+			_elm_lang$core$List$map,
+			_user$project$History_View$sizedStoryRecord,
+			A2(
+				_elm_lang$core$List$sortBy,
+				function (_) {
+					return _.points;
+				},
+				model.sizedStories)));
+};
+var _user$project$History_View$reference = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$h5,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Previous Estimates')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('story-reference')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_user$project$History_View$referenceRecords(model)
+					]))
+			]));
+};
+var _user$project$History_View$history = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_user$project$History_View$historyHeader(model),
+				A2(
+				_elm_lang$html$Html$ul,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				A2(_elm_lang$core$List$map, _user$project$History_View$sizedStoryRecord, model.sizedStories))
+			]));
+};
+
 var _user$project$Model$hasVoted = function (model) {
 	var _p0 = model.user;
 	if (_p0.ctor === 'Nothing') {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'Model',
 			{
-				start: {line: 141, column: 5},
-				end: {line: 150, column: 49}
+				start: {line: 127, column: 5},
+				end: {line: 136, column: 49}
 			},
 			_p0)('User should be initialized');
 	} else {
@@ -14025,9 +14239,29 @@ var _user$project$Model$initModel = {
 	votes: _elm_lang$core$Native_List.fromArray(
 		[]),
 	revealVotes: true,
-	sizedStories: _elm_lang$core$Native_List.fromArray(
-		[]),
-	isDataLoaded: false
+	isDataLoaded: false,
+	hisotryModel: _user$project$History_Types$initModel
+};
+var _user$project$Model$init = function (flags) {
+	return _elm_lang$core$Basics$not(
+		_elm_lang$core$Native_Utils.eq(flags.userName, '') || _elm_lang$core$Native_Utils.eq(flags.userId, '')) ? {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Native_Utils.update(
+			_user$project$Model$initModel,
+			{
+				user: _elm_lang$core$Maybe$Just(
+					A2(_user$project$Common$User, flags.userName, flags.userId)),
+				uuid: flags.uuid,
+				userInput: flags.userName
+			}),
+		_1: _elm_lang$core$Platform_Cmd$none
+	} : {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Native_Utils.update(
+			_user$project$Model$initModel,
+			{uuid: flags.uuid}),
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
 };
 var _user$project$Model$saveUser = _elm_lang$core$Native_Platform.outgoingPort(
 	'saveUser',
@@ -14094,39 +14328,6 @@ var _user$project$Model$archiveStory = _elm_lang$core$Native_Platform.outgoingPo
 			owner: {name: v.owner.name, id: v.owner.id}
 		};
 	});
-var _user$project$Model$storyArchived = _elm_lang$core$Native_Platform.incomingPort(
-	'storyArchived',
-	A2(
-		_elm_lang$core$Json_Decode$andThen,
-		A2(_elm_lang$core$Json_Decode_ops[':='], 'name', _elm_lang$core$Json_Decode$string),
-		function (name) {
-			return A2(
-				_elm_lang$core$Json_Decode$andThen,
-				A2(_elm_lang$core$Json_Decode_ops[':='], 'points', _elm_lang$core$Json_Decode$float),
-				function (points) {
-					return A2(
-						_elm_lang$core$Json_Decode$andThen,
-						A2(
-							_elm_lang$core$Json_Decode_ops[':='],
-							'owner',
-							A2(
-								_elm_lang$core$Json_Decode$andThen,
-								A2(_elm_lang$core$Json_Decode_ops[':='], 'name', _elm_lang$core$Json_Decode$string),
-								function (name) {
-									return A2(
-										_elm_lang$core$Json_Decode$andThen,
-										A2(_elm_lang$core$Json_Decode_ops[':='], 'id', _elm_lang$core$Json_Decode$string),
-										function (id) {
-											return _elm_lang$core$Json_Decode$succeed(
-												{name: name, id: id});
-										});
-								})),
-						function (owner) {
-							return _elm_lang$core$Json_Decode$succeed(
-								{name: name, points: points, owner: owner});
-						});
-				});
-		}));
 var _user$project$Model$storySizingStarted = _elm_lang$core$Native_Platform.incomingPort(
 	'storySizingStarted',
 	A2(
@@ -14194,7 +14395,7 @@ var _user$project$Model$Model = function (a) {
 							return function (h) {
 								return function (i) {
 									return function (j) {
-										return {user: a, uuid: b, story: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, sizedStories: i, isDataLoaded: j};
+										return {user: a, uuid: b, story: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, isDataLoaded: i, hisotryModel: j};
 									};
 								};
 							};
@@ -14205,39 +14406,13 @@ var _user$project$Model$Model = function (a) {
 		};
 	};
 };
-var _user$project$Model$User = F2(
-	function (a, b) {
-		return {name: a, id: b};
-	});
-var _user$project$Model$init = function (flags) {
-	return _elm_lang$core$Basics$not(
-		_elm_lang$core$Native_Utils.eq(flags.userName, '') || _elm_lang$core$Native_Utils.eq(flags.userId, '')) ? {
-		ctor: '_Tuple2',
-		_0: _elm_lang$core$Native_Utils.update(
-			_user$project$Model$initModel,
-			{
-				user: _elm_lang$core$Maybe$Just(
-					A2(_user$project$Model$User, flags.userName, flags.userId)),
-				uuid: flags.uuid,
-				userInput: flags.userName
-			}),
-		_1: _elm_lang$core$Platform_Cmd$none
-	} : {
-		ctor: '_Tuple2',
-		_0: _elm_lang$core$Native_Utils.update(
-			_user$project$Model$initModel,
-			{uuid: flags.uuid}),
-		_1: _elm_lang$core$Platform_Cmd$none
-	};
-};
 var _user$project$Model$Vote = F2(
 	function (a, b) {
 		return {points: a, user: b};
 	});
-var _user$project$Model$Story = F3(
-	function (a, b, c) {
-		return {name: a, points: b, owner: c};
-	});
+var _user$project$Model$HistoryMsg = function (a) {
+	return {ctor: 'HistoryMsg', _0: a};
+};
 var _user$project$Model$VotesCleared = function (a) {
 	return {ctor: 'VotesCleared', _0: a};
 };
@@ -14251,9 +14426,6 @@ var _user$project$Model$StorySizingStarted = function (a) {
 };
 var _user$project$Model$KeyMsg = function (a) {
 	return {ctor: 'KeyMsg', _0: a};
-};
-var _user$project$Model$StoryArchived = function (a) {
-	return {ctor: 'StoryArchived', _0: a};
 };
 var _user$project$Model$SelectVote = function (a) {
 	return {ctor: 'SelectVote', _0: a};
@@ -14270,11 +14442,14 @@ var _user$project$Model$subscriptions = function (model) {
 			[
 				_elm_lang$keyboard$Keyboard$presses(_user$project$Model$KeyMsg),
 				_user$project$Model$voteAdded(_user$project$Model$VoteAdded),
-				_user$project$Model$storyArchived(_user$project$Model$StoryArchived),
 				_user$project$Model$storySizingStarted(_user$project$Model$StorySizingStarted),
 				_user$project$Model$storySizingEnded(_user$project$Model$StorySizingEnded),
 				_user$project$Model$votesRevealed(_user$project$Model$VotesRevealed),
-				_user$project$Model$votesCleared(_user$project$Model$VotesCleared)
+				_user$project$Model$votesCleared(_user$project$Model$VotesCleared),
+				A2(
+				_elm_lang$core$Platform_Sub$map,
+				_user$project$Model$HistoryMsg,
+				_user$project$History_Types$subscriptions(model.hisotryModel))
 			]));
 };
 var _user$project$Model$Size = function (a) {
@@ -14363,8 +14538,8 @@ var _user$project$Update$getUser = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'Update',
 			{
-				start: {line: 149, column: 5},
-				end: {line: 154, column: 17}
+				start: {line: 151, column: 5},
+				end: {line: 156, column: 17}
 			},
 			_p1)('User should be initialized');
 	} else {
@@ -14434,7 +14609,7 @@ var _user$project$Update$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'CreateUser':
-				var user = A2(_user$project$Model$User, model.userInput, model.uuid);
+				var user = A2(_user$project$Common$User, model.userInput, model.uuid);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -14453,7 +14628,7 @@ var _user$project$Update$update = F2(
 						{storyInput: ''}),
 					_1: _user$project$Model$startStorySizing(
 						A3(
-							_user$project$Model$Story,
+							_user$project$Common$Story,
 							model.storyInput,
 							0,
 							_user$project$Update$getUser(model)))
@@ -14493,8 +14668,8 @@ var _user$project$Update$update = F2(
 						return _elm_lang$core$Native_Utils.crashCase(
 							'Update',
 							{
-								start: {line: 69, column: 21},
-								end: {line: 74, column: 61}
+								start: {line: 71, column: 21},
+								end: {line: 76, column: 61}
 							},
 							_p8)('no story to size');
 					} else {
@@ -14512,13 +14687,13 @@ var _user$project$Update$update = F2(
 						}),
 					_1: _user$project$Model$archiveStory(sizedStory)
 				};
-			case 'StoryArchived':
+			case 'HistoryMsg':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							sizedStories: A2(_elm_lang$core$List_ops['::'], _p6._0, model.sizedStories)
+							hisotryModel: A2(_user$project$History_State$update, _p6._0, model.hisotryModel)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -14553,8 +14728,8 @@ var _user$project$Update$update = F2(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'Update',
 						{
-							start: {line: 104, column: 13},
-							end: {line: 109, column: 49}
+							start: {line: 106, column: 13},
+							end: {line: 111, column: 49}
 						},
 						_p10)('no story to resize');
 				} else {
@@ -14581,8 +14756,8 @@ var _user$project$Update$update = F2(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'Update',
 						{
-							start: {line: 115, column: 13},
-							end: {line: 120, column: 49}
+							start: {line: 117, column: 13},
+							end: {line: 122, column: 49}
 						},
 						_p12)('no story to cancel');
 				} else {
@@ -14623,53 +14798,65 @@ var _user$project$Layout_Update$update = F2(
 		}
 	});
 
-var _user$project$View$historyHeader = function (model) {
-	return _elm_lang$core$List$isEmpty(model.sizedStories) ? A2(
-		_elm_lang$html$Html$div,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[])) : A2(
+var _user$project$View$reference = function (model) {
+	return A2(
+		_elm_lang$html$Html_App$map,
+		_user$project$Model$HistoryMsg,
+		_user$project$History_View$reference(model.hisotryModel));
+};
+var _user$project$View$history = function (model) {
+	return A2(
+		_elm_lang$html$Html_App$map,
+		_user$project$Model$HistoryMsg,
+		_user$project$History_View$history(model.hisotryModel));
+};
+var _user$project$View$storyFormPage = function (model) {
+	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
 		_elm_lang$core$Native_List.fromArray(
 			[
+				A3(
+				_debois$elm_mdl$Material_Options$styled,
+				_elm_lang$html$Html$p,
+				_elm_lang$core$Native_List.fromArray(
+					[_debois$elm_mdl$Material_Typography$display2]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Size new story')
+					])),
 				A2(
-				_elm_lang$html$Html$br,
+				_elm_lang$html$Html$form,
 				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
-				A2(
-				_elm_lang$html$Html$br,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
-				A2(
-				_elm_lang$html$Html$header,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
+					[
+						_elm_lang$html$Html_Events$onSubmit(_user$project$Model$StartStorySizing)
+					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
+						_elm_lang$html$Html$input,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html$text('Previous Stories')
-							])),
+								_elm_lang$html$Html_Attributes$type$('text'),
+								_elm_lang$html$Html_Attributes$placeholder('Story name'),
+								_elm_lang$html$Html_Events$onInput(_user$project$Model$StoryInput),
+								_elm_lang$html$Html_Attributes$value(model.storyInput)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[])),
 						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
+						_elm_lang$html$Html$button,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html$text('Points')
+								_elm_lang$html$Html_Attributes$type$('submit')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Size')
 							]))
-					]))
+					])),
+				_user$project$View$history(model)
 			]));
 };
 var _user$project$View$sizingButtons = function (model) {
@@ -14836,125 +15023,12 @@ var _user$project$View$sizingButtons = function (model) {
 					]))
 			]));
 };
-var _user$project$View$pointsString = function (points) {
-	var _p0 = points;
-	switch (_p0) {
-		case -1:
-			return '-';
-		case 1000:
-			return '∞';
-		default:
-			return _elm_lang$core$Basics$toString(points);
-	}
-};
-var _user$project$View$sizedStoryRecord = function (story) {
-	return A2(
-		_elm_lang$html$Html$li,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('hostory-record')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text(story.name)
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('hostory-record')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text(
-						_user$project$View$pointsString(story.points))
-					]))
-			]));
-};
-var _user$project$View$history = function (model) {
-	return A2(
-		_elm_lang$html$Html$ul,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		A2(_elm_lang$core$List$map, _user$project$View$sizedStoryRecord, model.sizedStories));
-};
-var _user$project$View$storyFormPage = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A3(
-				_debois$elm_mdl$Material_Options$styled,
-				_elm_lang$html$Html$p,
-				_elm_lang$core$Native_List.fromArray(
-					[_debois$elm_mdl$Material_Typography$display2]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('Size new story')
-					])),
-				A2(
-				_elm_lang$html$Html$form,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Events$onSubmit(_user$project$Model$StartStorySizing)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$type$('text'),
-								_elm_lang$html$Html_Attributes$placeholder('Story name'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Model$StoryInput),
-								_elm_lang$html$Html_Attributes$value(model.storyInput)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$type$('submit')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Size')
-							]))
-					])),
-				_user$project$View$historyHeader(model),
-				_user$project$View$history(model)
-			]));
-};
-var _user$project$View$reference = function (model) {
-	return A2(
-		_elm_lang$html$Html$ul,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		A2(
-			_elm_lang$core$List$map,
-			_user$project$View$sizedStoryRecord,
-			A2(
-				_elm_lang$core$List$sortBy,
-				function (_) {
-					return _.points;
-				},
-				model.sizedStories)));
-};
 var _user$project$View$isStoryOwner = function (model) {
-	var _p1 = model.user;
-	if (_p1.ctor === 'Just') {
-		var _p2 = model.story;
-		if (_p2.ctor === 'Just') {
-			return _elm_lang$core$Native_Utils.eq(_p1._0.id, _p2._0.owner.id);
+	var _p0 = model.user;
+	if (_p0.ctor === 'Just') {
+		var _p1 = model.story;
+		if (_p1.ctor === 'Just') {
+			return _elm_lang$core$Native_Utils.eq(_p0._0.id, _p1._0.owner.id);
 		} else {
 			return false;
 		}
@@ -14976,7 +15050,7 @@ var _user$project$View$votePoints = F2(
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html$text(
-						_user$project$View$pointsString(vote.points))
+						_user$project$Common$pointsString(vote.points))
 					]))
 			]) : _elm_lang$core$Native_List.fromArray(
 			[
@@ -14989,7 +15063,7 @@ var _user$project$View$votePoints = F2(
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html$text(
-						_user$project$View$pointsString(vote.points))
+						_user$project$Common$pointsString(vote.points))
 					]))
 			]);
 	});
@@ -15133,24 +15207,7 @@ var _user$project$View$sizingPage = F2(
 							_elm_lang$html$Html$text(storyName)
 						])),
 					_user$project$View$sizingButtons(model),
-					A2(
-					_elm_lang$html$Html$h5,
-					_elm_lang$core$Native_List.fromArray(
-						[]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html$text('Previous Estimates')
-						])),
-					A2(
-					_elm_lang$html$Html$div,
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html_Attributes$class('story-reference')
-						]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_user$project$View$reference(model)
-						]))
+					_user$project$View$reference(model)
 				]));
 	});
 var _user$project$View$loadingPage = function (model) {
@@ -15221,12 +15278,12 @@ var _user$project$View$view = function (model) {
 			if (_elm_lang$core$Basics$not(model.isDataLoaded)) {
 				return _user$project$View$loadingPage;
 			} else {
-				var _p3 = model.story;
-				if (_p3.ctor === 'Nothing') {
+				var _p2 = model.story;
+				if (_p2.ctor === 'Nothing') {
 					return _user$project$View$storyFormPage;
 				} else {
-					var _p4 = _p3._0;
-					return _user$project$Model$hasVoted(model) ? _user$project$View$voteResultsPage(_p4.name) : _user$project$View$sizingPage(_p4.name);
+					var _p3 = _p2._0;
+					return _user$project$Model$hasVoted(model) ? _user$project$View$voteResultsPage(_p3.name) : _user$project$View$sizingPage(_p3.name);
 				}
 			}
 		}
@@ -15277,7 +15334,7 @@ var _user$project$Layout_View$userName = function (model) {
 	}(
 		A2(
 			_elm_lang$core$Maybe$withDefault,
-			A2(_user$project$Model$User, '', ''),
+			A2(_user$project$Common$User, '', ''),
 			model.user));
 };
 var _user$project$Layout_View$userTab = function (model) {

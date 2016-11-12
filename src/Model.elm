@@ -1,6 +1,8 @@
 port module Model exposing (..)
 
 import Keyboard
+import Common exposing (..)
+import History.Types as HistoryTypes
 
 
 -- Ports
@@ -27,9 +29,6 @@ port votesRevealed : (Bool -> msg) -> Sub msg
 port archiveStory : Story -> Cmd msg
 
 
-port storyArchived : (Story -> msg) -> Sub msg
-
-
 port storySizingStarted : (Story -> msg) -> Sub msg
 
 
@@ -54,11 +53,11 @@ subscriptions model =
     Sub.batch
         [ Keyboard.presses KeyMsg
         , voteAdded VoteAdded
-        , storyArchived StoryArchived
         , storySizingStarted StorySizingStarted
         , storySizingEnded StorySizingEnded
         , votesRevealed VotesRevealed
         , votesCleared VotesCleared
+        , HistoryTypes.subscriptions model.hisotryModel |> Sub.map HistoryMsg
         ]
 
 
@@ -82,27 +81,14 @@ type alias Model =
     , error : Maybe String
     , votes : List Vote
     , revealVotes : Bool
-    , sizedStories : List Story
     , isDataLoaded : Bool
-    }
-
-
-type alias User =
-    { name : String
-    , id : String
+    , hisotryModel : HistoryTypes.Model
     }
 
 
 type alias Vote =
     { points : Float
     , user : User
-    }
-
-
-type alias Story =
-    { name : String
-    , points : Float
-    , owner : User
     }
 
 
@@ -117,8 +103,8 @@ initModel =
     , error = Nothing
     , votes = []
     , revealVotes = True
-    , sizedStories = []
     , isDataLoaded = False
+    , hisotryModel = HistoryTypes.initModel
     }
 
 
@@ -164,10 +150,10 @@ type Msg
       -- | RevealVotes
     | VotesRevealed Bool
     | SelectVote Vote
-    | StoryArchived Story
     | KeyMsg Keyboard.KeyCode
     | StorySizingStarted Story
     | StorySizingEnded String
     | ResizeStory
     | CancelStory
     | VotesCleared String
+    | HistoryMsg HistoryTypes.Msg
