@@ -14871,6 +14871,135 @@ var _user$project$ViewEnterStory$root = function (model) {
 			]));
 };
 
+var _user$project$ViewVotes$votePoints = F2(
+	function (model, vote) {
+		return _elm_lang$core$Basics$not(
+			_user$project$Types$hasVoted(model)) ? _elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('points')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('')
+					]))
+			]) : (_user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(
+						_user$project$Types$SelectVote(vote))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_user$project$Common$pointsString(vote.points))
+					]))
+			]) : _elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('points')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_user$project$Common$pointsString(vote.points))
+					]))
+			]));
+	});
+var _user$project$ViewVotes$voteEntry = F2(
+	function (model, vote) {
+		return A2(
+			_elm_lang$html$Html$li,
+			_elm_lang$core$Native_List.fromArray(
+				[]),
+			A2(
+				_elm_lang$core$List_ops['::'],
+				A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text(vote.user.name)
+						])),
+				A2(_user$project$ViewVotes$votePoints, model, vote)));
+	});
+var _user$project$ViewVotes$votes = function (model) {
+	return A2(
+		_elm_lang$html$Html$ul,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		A2(
+			_elm_lang$core$List$map,
+			_user$project$ViewVotes$voteEntry(model),
+			_elm_lang$core$List$reverse(model.votes)));
+};
+var _user$project$ViewVotes$votesHeader = function (model) {
+	return _elm_lang$core$List$isEmpty(model.votes) ? A2(
+		_elm_lang$html$Html$header,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[])) : (_elm_lang$core$Basics$not(
+		_user$project$Types$hasVoted(model)) ? A2(
+		_elm_lang$html$Html$header,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Voted')
+					]))
+			])) : A2(
+		_elm_lang$html$Html$header,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Name')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Points')
+					]))
+			])));
+};
+var _user$project$ViewVotes$root = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_user$project$ViewVotes$votesHeader(model),
+				_user$project$ViewVotes$votes(model)
+			]));
+};
+
 var _user$project$ViewSizing$reference = function (model) {
 	return A2(
 		_elm_lang$html$Html_App$map,
@@ -15053,99 +15182,10 @@ var _user$project$ViewSizing$root = F2(
 				[
 					_user$project$ViewTitle$root(storyName),
 					_user$project$ViewSizing$sizingButtons(model),
-					_user$project$ViewSizing$reference(model)
+					_user$project$ViewVotes$root(model)
 				]));
 	});
 
-var _user$project$ViewResults$votePoints = F2(
-	function (model, vote) {
-		return _user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$button,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Events$onClick(
-						_user$project$Types$SelectVote(vote))
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text(
-						_user$project$Common$pointsString(vote.points))
-					]))
-			]) : _elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('points')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text(
-						_user$project$Common$pointsString(vote.points))
-					]))
-			]);
-	});
-var _user$project$ViewResults$voteEntry = F2(
-	function (model, vote) {
-		return A2(
-			_elm_lang$html$Html$li,
-			_elm_lang$core$Native_List.fromArray(
-				[]),
-			A2(
-				_elm_lang$core$List_ops['::'],
-				A2(
-					_elm_lang$html$Html$div,
-					_elm_lang$core$Native_List.fromArray(
-						[]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html$text(vote.user.name)
-						])),
-				A2(_user$project$ViewResults$votePoints, model, vote)));
-	});
-var _user$project$ViewResults$votes = function (model) {
-	return A2(
-		_elm_lang$html$Html$ul,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		A2(
-			_elm_lang$core$List$map,
-			_user$project$ViewResults$voteEntry(model),
-			_elm_lang$core$List$reverse(model.votes)));
-};
-var _user$project$ViewResults$votesHeader = function (model) {
-	return _elm_lang$core$List$isEmpty(model.votes) ? A2(
-		_elm_lang$html$Html$header,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[])) : A2(
-		_elm_lang$html$Html$header,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('Name')
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('Points')
-					]))
-			]));
-};
 var _user$project$ViewResults$ownerButtons = function (model) {
 	return _user$project$Types$isStoryOwner(model) ? A2(
 		_elm_lang$html$Html$div,
@@ -15196,8 +15236,7 @@ var _user$project$ViewResults$root = F2(
 				[
 					_user$project$ViewTitle$root(storyName),
 					_user$project$ViewResults$ownerButtons(model),
-					_user$project$ViewResults$votesHeader(model),
-					_user$project$ViewResults$votes(model)
+					_user$project$ViewVotes$root(model)
 				]));
 	});
 

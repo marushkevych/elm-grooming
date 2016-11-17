@@ -7,6 +7,7 @@ import Html.Events exposing (..)
 import History.View as HistoryView
 import Types exposing (..)
 import ViewTitle as Title
+import ViewVotes
 
 
 root : String -> Model -> Html Msg
@@ -17,7 +18,8 @@ root storyName model =
           --     [ button [ class "owner-button" ] [ text "skip voting" ]
           --     ]
         , sizingButtons model
-        , reference model
+        , ViewVotes.root model
+          -- , reference model
         ]
 
 
