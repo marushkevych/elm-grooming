@@ -14195,20 +14195,33 @@ var _user$project$History_View$history = function (model) {
 			]));
 };
 
-var _user$project$Types$hasVoted = function (model) {
+var _user$project$Types$isStoryOwner = function (model) {
 	var _p0 = model.user;
-	if (_p0.ctor === 'Nothing') {
+	if (_p0.ctor === 'Just') {
+		var _p1 = model.story;
+		if (_p1.ctor === 'Just') {
+			return _elm_lang$core$Native_Utils.eq(_p0._0.id, _p1._0.owner.id);
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+};
+var _user$project$Types$hasVoted = function (model) {
+	var _p2 = model.user;
+	if (_p2.ctor === 'Nothing') {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'Types',
 			{
 				start: {line: 80, column: 5},
 				end: {line: 89, column: 49}
 			},
-			_p0)('User should be initialized');
+			_p2)('User should be initialized');
 	} else {
 		var existingVotes = A2(
 			_elm_lang$core$List$filter,
-			function (_p2) {
+			function (_p4) {
 				return A2(
 					F2(
 						function (x, y) {
@@ -14216,13 +14229,13 @@ var _user$project$Types$hasVoted = function (model) {
 						}),
 					function (_) {
 						return _.id;
-					}(_p0._0),
+					}(_p2._0),
 					function (_) {
 						return _.id;
 					}(
 						function (_) {
 							return _.user;
-						}(_p2)));
+						}(_p4)));
 			},
 			model.votes);
 		return _elm_lang$core$Basics$not(
@@ -14798,34 +14811,32 @@ var _user$project$Layout_State$update = F2(
 		}
 	});
 
-var _user$project$View$reference = function (model) {
-	return A2(
-		_elm_lang$html$Html_App$map,
-		_user$project$Types$HistoryMsg,
-		_user$project$History_View$reference(model.hisotryModel));
+var _user$project$ViewTitle$root = function (title) {
+	return A3(
+		_debois$elm_mdl$Material_Options$styled,
+		_elm_lang$html$Html$p,
+		_elm_lang$core$Native_List.fromArray(
+			[_debois$elm_mdl$Material_Typography$display1]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text(title)
+			]));
 };
-var _user$project$View$history = function (model) {
+
+var _user$project$ViewEnterStory$history = function (model) {
 	return A2(
 		_elm_lang$html$Html_App$map,
 		_user$project$Types$HistoryMsg,
 		_user$project$History_View$history(model.hisotryModel));
 };
-var _user$project$View$storyFormPage = function (model) {
+var _user$project$ViewEnterStory$root = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A3(
-				_debois$elm_mdl$Material_Options$styled,
-				_elm_lang$html$Html$p,
-				_elm_lang$core$Native_List.fromArray(
-					[_debois$elm_mdl$Material_Typography$display2]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('Size new story')
-					])),
+				_user$project$ViewTitle$root('Size new story'),
 				A2(
 				_elm_lang$html$Html$form,
 				_elm_lang$core$Native_List.fromArray(
@@ -14856,10 +14867,17 @@ var _user$project$View$storyFormPage = function (model) {
 								_elm_lang$html$Html$text('Size')
 							]))
 					])),
-				_user$project$View$history(model)
+				_user$project$ViewEnterStory$history(model)
 			]));
 };
-var _user$project$View$sizingButtons = function (model) {
+
+var _user$project$ViewSizing$reference = function (model) {
+	return A2(
+		_elm_lang$html$Html_App$map,
+		_user$project$Types$HistoryMsg,
+		_user$project$History_View$reference(model.hisotryModel));
+};
+var _user$project$ViewSizing$sizingButtons = function (model) {
 	return A2(
 		_elm_lang$html$Html$ul,
 		_elm_lang$core$Native_List.fromArray(
@@ -15023,22 +15041,25 @@ var _user$project$View$sizingButtons = function (model) {
 					]))
 			]));
 };
-var _user$project$View$isStoryOwner = function (model) {
-	var _p0 = model.user;
-	if (_p0.ctor === 'Just') {
-		var _p1 = model.story;
-		if (_p1.ctor === 'Just') {
-			return _elm_lang$core$Native_Utils.eq(_p0._0.id, _p1._0.owner.id);
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-};
-var _user$project$View$votePoints = F2(
+var _user$project$ViewSizing$root = F2(
+	function (storyName, model) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('sizing fieldset')
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_user$project$ViewTitle$root(storyName),
+					_user$project$ViewSizing$sizingButtons(model),
+					_user$project$ViewSizing$reference(model)
+				]));
+	});
+
+var _user$project$ViewResults$votePoints = F2(
 	function (model, vote) {
-		return _user$project$View$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
+		return _user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html$button,
@@ -15067,7 +15088,7 @@ var _user$project$View$votePoints = F2(
 					]))
 			]);
 	});
-var _user$project$View$voteEntry = F2(
+var _user$project$ViewResults$voteEntry = F2(
 	function (model, vote) {
 		return A2(
 			_elm_lang$html$Html$li,
@@ -15083,20 +15104,50 @@ var _user$project$View$voteEntry = F2(
 						[
 							_elm_lang$html$Html$text(vote.user.name)
 						])),
-				A2(_user$project$View$votePoints, model, vote)));
+				A2(_user$project$ViewResults$votePoints, model, vote)));
 	});
-var _user$project$View$votes = function (model) {
+var _user$project$ViewResults$votes = function (model) {
 	return A2(
 		_elm_lang$html$Html$ul,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
 		A2(
 			_elm_lang$core$List$map,
-			_user$project$View$voteEntry(model),
+			_user$project$ViewResults$voteEntry(model),
 			_elm_lang$core$List$reverse(model.votes)));
 };
-var _user$project$View$ownerButtons = function (model) {
-	return _user$project$View$isStoryOwner(model) ? A2(
+var _user$project$ViewResults$votesHeader = function (model) {
+	return _elm_lang$core$List$isEmpty(model.votes) ? A2(
+		_elm_lang$html$Html$header,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[])) : A2(
+		_elm_lang$html$Html$header,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Name')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Points')
+					]))
+			]));
+};
+var _user$project$ViewResults$ownerButtons = function (model) {
+	return _user$project$Types$isStoryOwner(model) ? A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -15133,37 +15184,7 @@ var _user$project$View$ownerButtons = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[]));
 };
-var _user$project$View$votesHeader = function (model) {
-	return _elm_lang$core$List$isEmpty(model.votes) ? A2(
-		_elm_lang$html$Html$header,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[])) : A2(
-		_elm_lang$html$Html$header,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('Name')
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('Points')
-					]))
-			]));
-};
-var _user$project$View$voteResultsPage = F2(
+var _user$project$ViewResults$root = F2(
 	function (storyName, model) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -15173,43 +15194,13 @@ var _user$project$View$voteResultsPage = F2(
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
-					A3(
-					_debois$elm_mdl$Material_Options$styled,
-					_elm_lang$html$Html$p,
-					_elm_lang$core$Native_List.fromArray(
-						[_debois$elm_mdl$Material_Typography$display1]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html$text(storyName)
-						])),
-					_user$project$View$ownerButtons(model),
-					_user$project$View$votesHeader(model),
-					_user$project$View$votes(model)
+					_user$project$ViewTitle$root(storyName),
+					_user$project$ViewResults$ownerButtons(model),
+					_user$project$ViewResults$votesHeader(model),
+					_user$project$ViewResults$votes(model)
 				]));
 	});
-var _user$project$View$sizingPage = F2(
-	function (storyName, model) {
-		return A2(
-			_elm_lang$html$Html$div,
-			_elm_lang$core$Native_List.fromArray(
-				[
-					_elm_lang$html$Html_Attributes$class('sizing fieldset')
-				]),
-			_elm_lang$core$Native_List.fromArray(
-				[
-					A3(
-					_debois$elm_mdl$Material_Options$styled,
-					_elm_lang$html$Html$p,
-					_elm_lang$core$Native_List.fromArray(
-						[_debois$elm_mdl$Material_Typography$display1]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html$text(storyName)
-						])),
-					_user$project$View$sizingButtons(model),
-					_user$project$View$reference(model)
-				]));
-	});
+
 var _user$project$View$loadingPage = function (model) {
 	return A2(
 		_elm_lang$html$Html$h3,
@@ -15229,15 +15220,7 @@ var _user$project$View$createUser = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A3(
-				_debois$elm_mdl$Material_Options$styled,
-				_elm_lang$html$Html$p,
-				_elm_lang$core$Native_List.fromArray(
-					[_debois$elm_mdl$Material_Typography$display2]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('What is your name?')
-					])),
+				_user$project$ViewTitle$root('What is your name?'),
 				A2(
 				_elm_lang$html$Html$form,
 				_elm_lang$core$Native_List.fromArray(
@@ -15278,12 +15261,12 @@ var _user$project$View$root = function (model) {
 			if (_elm_lang$core$Basics$not(model.isDataLoaded)) {
 				return _user$project$View$loadingPage;
 			} else {
-				var _p2 = model.story;
-				if (_p2.ctor === 'Nothing') {
-					return _user$project$View$storyFormPage;
+				var _p0 = model.story;
+				if (_p0.ctor === 'Nothing') {
+					return _user$project$ViewEnterStory$root;
 				} else {
-					var _p3 = _p2._0;
-					return _user$project$Types$hasVoted(model) ? _user$project$View$voteResultsPage(_p3.name) : _user$project$View$sizingPage(_p3.name);
+					var _p1 = _p0._0;
+					return _user$project$Types$hasVoted(model) ? _user$project$ViewResults$root(_p1.name) : _user$project$ViewSizing$root(_p1.name);
 				}
 			}
 		}

@@ -89,8 +89,19 @@ hasVoted model =
                 not (List.isEmpty existingVotes)
 
 
+isStoryOwner : Model -> Bool
+isStoryOwner model =
+    case model.user of
+        Just user ->
+            case model.story of
+                Just story ->
+                    user.id == story.owner.id
 
--- Update
+                Nothing ->
+                    False
+
+        Nothing ->
+            False
 
 
 type Msg
