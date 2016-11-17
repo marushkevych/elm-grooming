@@ -1,6 +1,6 @@
-module View exposing (..)
+module View exposing (root, createUser)
 
-import Model exposing (..)
+import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -14,8 +14,8 @@ import Html.App as App
 -- View
 
 
-view : Model -> Html Msg
-view model =
+root : Model -> Html Msg
+root model =
     let
         page =
             if model.user == Nothing then

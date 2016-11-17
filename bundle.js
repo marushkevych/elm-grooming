@@ -14001,10 +14001,6 @@ var _user$project$Common$User = F2(
 		return {name: a, id: b};
 	});
 
-var _user$project$History_Types$initModel = {
-	sizedStories: _elm_lang$core$Native_List.fromArray(
-		[])
-};
 var _user$project$History_Types$storyArchived = _elm_lang$core$Native_Platform.incomingPort(
 	'storyArchived',
 	A2(
@@ -14044,10 +14040,14 @@ var _user$project$History_Types$Model = function (a) {
 var _user$project$History_Types$StoryArchived = function (a) {
 	return {ctor: 'StoryArchived', _0: a};
 };
-var _user$project$History_Types$subscriptions = function (model) {
+
+var _user$project$History_State$subscriptions = function (model) {
 	return _user$project$History_Types$storyArchived(_user$project$History_Types$StoryArchived);
 };
-
+var _user$project$History_State$initModel = {
+	sizedStories: _elm_lang$core$Native_List.fromArray(
+		[])
+};
 var _user$project$History_State$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -14195,14 +14195,14 @@ var _user$project$History_View$history = function (model) {
 			]));
 };
 
-var _user$project$Model$hasVoted = function (model) {
+var _user$project$Types$hasVoted = function (model) {
 	var _p0 = model.user;
 	if (_p0.ctor === 'Nothing') {
 		return _elm_lang$core$Native_Utils.crashCase(
-			'Model',
+			'Types',
 			{
-				start: {line: 127, column: 5},
-				end: {line: 136, column: 49}
+				start: {line: 80, column: 5},
+				end: {line: 89, column: 49}
 			},
 			_p0)('User should be initialized');
 	} else {
@@ -14229,46 +14229,12 @@ var _user$project$Model$hasVoted = function (model) {
 			_elm_lang$core$List$isEmpty(existingVotes));
 	}
 };
-var _user$project$Model$initModel = {
-	user: _elm_lang$core$Maybe$Nothing,
-	uuid: '',
-	story: _elm_lang$core$Maybe$Nothing,
-	storyInput: '',
-	userInput: '',
-	error: _elm_lang$core$Maybe$Nothing,
-	votes: _elm_lang$core$Native_List.fromArray(
-		[]),
-	revealVotes: true,
-	isDataLoaded: false,
-	hisotryModel: _user$project$History_Types$initModel
-};
-var _user$project$Model$init = function (flags) {
-	return _elm_lang$core$Basics$not(
-		_elm_lang$core$Native_Utils.eq(flags.userName, '') || _elm_lang$core$Native_Utils.eq(flags.userId, '')) ? {
-		ctor: '_Tuple2',
-		_0: _elm_lang$core$Native_Utils.update(
-			_user$project$Model$initModel,
-			{
-				user: _elm_lang$core$Maybe$Just(
-					A2(_user$project$Common$User, flags.userName, flags.userId)),
-				uuid: flags.uuid,
-				userInput: flags.userName
-			}),
-		_1: _elm_lang$core$Platform_Cmd$none
-	} : {
-		ctor: '_Tuple2',
-		_0: _elm_lang$core$Native_Utils.update(
-			_user$project$Model$initModel,
-			{uuid: flags.uuid}),
-		_1: _elm_lang$core$Platform_Cmd$none
-	};
-};
-var _user$project$Model$saveUser = _elm_lang$core$Native_Platform.outgoingPort(
+var _user$project$Types$saveUser = _elm_lang$core$Native_Platform.outgoingPort(
 	'saveUser',
 	function (v) {
 		return {name: v.name, id: v.id};
 	});
-var _user$project$Model$startStorySizing = _elm_lang$core$Native_Platform.outgoingPort(
+var _user$project$Types$startStorySizing = _elm_lang$core$Native_Platform.outgoingPort(
 	'startStorySizing',
 	function (v) {
 		return {
@@ -14277,7 +14243,7 @@ var _user$project$Model$startStorySizing = _elm_lang$core$Native_Platform.outgoi
 			owner: {name: v.owner.name, id: v.owner.id}
 		};
 	});
-var _user$project$Model$addVote = _elm_lang$core$Native_Platform.outgoingPort(
+var _user$project$Types$addVote = _elm_lang$core$Native_Platform.outgoingPort(
 	'addVote',
 	function (v) {
 		return {
@@ -14285,7 +14251,7 @@ var _user$project$Model$addVote = _elm_lang$core$Native_Platform.outgoingPort(
 			user: {name: v.user.name, id: v.user.id}
 		};
 	});
-var _user$project$Model$voteAdded = _elm_lang$core$Native_Platform.incomingPort(
+var _user$project$Types$voteAdded = _elm_lang$core$Native_Platform.incomingPort(
 	'voteAdded',
 	A2(
 		_elm_lang$core$Json_Decode$andThen,
@@ -14313,13 +14279,13 @@ var _user$project$Model$voteAdded = _elm_lang$core$Native_Platform.incomingPort(
 						{points: points, user: user});
 				});
 		}));
-var _user$project$Model$revealVotes = _elm_lang$core$Native_Platform.outgoingPort(
+var _user$project$Types$revealVotes = _elm_lang$core$Native_Platform.outgoingPort(
 	'revealVotes',
 	function (v) {
 		return v;
 	});
-var _user$project$Model$votesRevealed = _elm_lang$core$Native_Platform.incomingPort('votesRevealed', _elm_lang$core$Json_Decode$bool);
-var _user$project$Model$archiveStory = _elm_lang$core$Native_Platform.outgoingPort(
+var _user$project$Types$votesRevealed = _elm_lang$core$Native_Platform.incomingPort('votesRevealed', _elm_lang$core$Json_Decode$bool);
+var _user$project$Types$archiveStory = _elm_lang$core$Native_Platform.outgoingPort(
 	'archiveStory',
 	function (v) {
 		return {
@@ -14328,7 +14294,7 @@ var _user$project$Model$archiveStory = _elm_lang$core$Native_Platform.outgoingPo
 			owner: {name: v.owner.name, id: v.owner.id}
 		};
 	});
-var _user$project$Model$storySizingStarted = _elm_lang$core$Native_Platform.incomingPort(
+var _user$project$Types$storySizingStarted = _elm_lang$core$Native_Platform.incomingPort(
 	'storySizingStarted',
 	A2(
 		_elm_lang$core$Json_Decode$andThen,
@@ -14361,9 +14327,9 @@ var _user$project$Model$storySizingStarted = _elm_lang$core$Native_Platform.inco
 						});
 				});
 		}));
-var _user$project$Model$storySizingEnded = _elm_lang$core$Native_Platform.incomingPort('storySizingEnded', _elm_lang$core$Json_Decode$string);
-var _user$project$Model$votesCleared = _elm_lang$core$Native_Platform.incomingPort('votesCleared', _elm_lang$core$Json_Decode$string);
-var _user$project$Model$cancelStory = _elm_lang$core$Native_Platform.outgoingPort(
+var _user$project$Types$storySizingEnded = _elm_lang$core$Native_Platform.incomingPort('storySizingEnded', _elm_lang$core$Json_Decode$string);
+var _user$project$Types$votesCleared = _elm_lang$core$Native_Platform.incomingPort('votesCleared', _elm_lang$core$Json_Decode$string);
+var _user$project$Types$cancelStory = _elm_lang$core$Native_Platform.outgoingPort(
 	'cancelStory',
 	function (v) {
 		return {
@@ -14372,7 +14338,7 @@ var _user$project$Model$cancelStory = _elm_lang$core$Native_Platform.outgoingPor
 			owner: {name: v.owner.name, id: v.owner.id}
 		};
 	});
-var _user$project$Model$resizeStory = _elm_lang$core$Native_Platform.outgoingPort(
+var _user$project$Types$resizeStory = _elm_lang$core$Native_Platform.outgoingPort(
 	'resizeStory',
 	function (v) {
 		return {
@@ -14381,11 +14347,11 @@ var _user$project$Model$resizeStory = _elm_lang$core$Native_Platform.outgoingPor
 			owner: {name: v.owner.name, id: v.owner.id}
 		};
 	});
-var _user$project$Model$Flags = F3(
+var _user$project$Types$Flags = F3(
 	function (a, b, c) {
 		return {uuid: a, userName: b, userId: c};
 	});
-var _user$project$Model$Model = function (a) {
+var _user$project$Types$Model = function (a) {
 	return function (b) {
 		return function (c) {
 			return function (d) {
@@ -14406,102 +14372,63 @@ var _user$project$Model$Model = function (a) {
 		};
 	};
 };
-var _user$project$Model$Vote = F2(
+var _user$project$Types$Vote = F2(
 	function (a, b) {
 		return {points: a, user: b};
 	});
-var _user$project$Model$HistoryMsg = function (a) {
+var _user$project$Types$HistoryMsg = function (a) {
 	return {ctor: 'HistoryMsg', _0: a};
 };
-var _user$project$Model$VotesCleared = function (a) {
+var _user$project$Types$VotesCleared = function (a) {
 	return {ctor: 'VotesCleared', _0: a};
 };
-var _user$project$Model$CancelStory = {ctor: 'CancelStory'};
-var _user$project$Model$ResizeStory = {ctor: 'ResizeStory'};
-var _user$project$Model$StorySizingEnded = function (a) {
+var _user$project$Types$CancelStory = {ctor: 'CancelStory'};
+var _user$project$Types$ResizeStory = {ctor: 'ResizeStory'};
+var _user$project$Types$StorySizingEnded = function (a) {
 	return {ctor: 'StorySizingEnded', _0: a};
 };
-var _user$project$Model$StorySizingStarted = function (a) {
+var _user$project$Types$StorySizingStarted = function (a) {
 	return {ctor: 'StorySizingStarted', _0: a};
 };
-var _user$project$Model$KeyMsg = function (a) {
+var _user$project$Types$KeyMsg = function (a) {
 	return {ctor: 'KeyMsg', _0: a};
 };
-var _user$project$Model$SelectVote = function (a) {
+var _user$project$Types$SelectVote = function (a) {
 	return {ctor: 'SelectVote', _0: a};
 };
-var _user$project$Model$VotesRevealed = function (a) {
+var _user$project$Types$VotesRevealed = function (a) {
 	return {ctor: 'VotesRevealed', _0: a};
 };
-var _user$project$Model$VoteAdded = function (a) {
+var _user$project$Types$VoteAdded = function (a) {
 	return {ctor: 'VoteAdded', _0: a};
 };
-var _user$project$Model$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$batch(
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$keyboard$Keyboard$presses(_user$project$Model$KeyMsg),
-				_user$project$Model$voteAdded(_user$project$Model$VoteAdded),
-				_user$project$Model$storySizingStarted(_user$project$Model$StorySizingStarted),
-				_user$project$Model$storySizingEnded(_user$project$Model$StorySizingEnded),
-				_user$project$Model$votesRevealed(_user$project$Model$VotesRevealed),
-				_user$project$Model$votesCleared(_user$project$Model$VotesCleared),
-				A2(
-				_elm_lang$core$Platform_Sub$map,
-				_user$project$Model$HistoryMsg,
-				_user$project$History_Types$subscriptions(model.hisotryModel))
-			]));
-};
-var _user$project$Model$Size = function (a) {
+var _user$project$Types$Size = function (a) {
 	return {ctor: 'Size', _0: a};
 };
-var _user$project$Model$StoryInput = function (a) {
+var _user$project$Types$StoryInput = function (a) {
 	return {ctor: 'StoryInput', _0: a};
 };
-var _user$project$Model$UserInput = function (a) {
+var _user$project$Types$UserInput = function (a) {
 	return {ctor: 'UserInput', _0: a};
 };
-var _user$project$Model$CreateUser = {ctor: 'CreateUser'};
-var _user$project$Model$StartStorySizing = {ctor: 'StartStorySizing'};
+var _user$project$Types$CreateUser = {ctor: 'CreateUser'};
+var _user$project$Types$StartStorySizing = {ctor: 'StartStorySizing'};
 
-var _user$project$Layout_Model$initModel = {mdl: _debois$elm_mdl$Material$model, groomingModel: _user$project$Model$initModel, selectedTab: 0};
-var _user$project$Layout_Model$init = function (flags) {
-	var _p0 = _user$project$Model$init(flags);
-	var groomingModel = _p0._0;
-	var cmd = _p0._1;
-	return {
-		ctor: '_Tuple2',
-		_0: _elm_lang$core$Native_Utils.update(
-			_user$project$Layout_Model$initModel,
-			{groomingModel: groomingModel}),
-		_1: _elm_lang$core$Platform_Cmd$none
-	};
-};
-var _user$project$Layout_Model$Model = F3(
+var _user$project$Layout_Types$Model = F3(
 	function (a, b, c) {
 		return {mdl: a, groomingModel: b, selectedTab: c};
 	});
-var _user$project$Layout_Model$SelectTab = function (a) {
+var _user$project$Layout_Types$SelectTab = function (a) {
 	return {ctor: 'SelectTab', _0: a};
 };
-var _user$project$Layout_Model$GroomingMsg = function (a) {
+var _user$project$Layout_Types$GroomingMsg = function (a) {
 	return {ctor: 'GroomingMsg', _0: a};
 };
-var _user$project$Layout_Model$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$batch(
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$core$Platform_Sub$map,
-				_user$project$Layout_Model$GroomingMsg,
-				_user$project$Model$subscriptions(model.groomingModel))
-			]));
-};
-var _user$project$Layout_Model$Mdl = function (a) {
+var _user$project$Layout_Types$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
 
-var _user$project$Update$mapKeyCodeToPoints = function (key) {
+var _user$project$State$mapKeyCodeToPoints = function (key) {
 	var _p0 = key;
 	switch (_p0) {
 		case 96:
@@ -14532,21 +14459,21 @@ var _user$project$Update$mapKeyCodeToPoints = function (key) {
 			return _elm_lang$core$Maybe$Nothing;
 	}
 };
-var _user$project$Update$getUser = function (model) {
+var _user$project$State$getUser = function (model) {
 	var _p1 = model.user;
 	if (_p1.ctor === 'Nothing') {
 		return _elm_lang$core$Native_Utils.crashCase(
-			'Update',
+			'State',
 			{
-				start: {line: 151, column: 5},
-				end: {line: 156, column: 17}
+				start: {line: 198, column: 5},
+				end: {line: 203, column: 17}
 			},
 			_p1)('User should be initialized');
 	} else {
 		return _p1._0;
 	}
 };
-var _user$project$Update$saveVote = F2(
+var _user$project$State$saveVote = F2(
 	function (model, points) {
 		var existingVotes = A2(
 			_elm_lang$core$List$filter,
@@ -14559,7 +14486,7 @@ var _user$project$Update$saveVote = F2(
 					function (_) {
 						return _.id;
 					}(
-						_user$project$Update$getUser(model)),
+						_user$project$State$getUser(model)),
 					function (_) {
 						return _.id;
 					}(
@@ -14577,18 +14504,18 @@ var _user$project$Update$saveVote = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: _user$project$Model$addVote(
+					_1: _user$project$Types$addVote(
 						A2(
-							_user$project$Model$Vote,
+							_user$project$Types$Vote,
 							points,
-							_user$project$Update$getUser(model)))
+							_user$project$State$getUser(model)))
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			}
 		}
 	});
-var _user$project$Update$update = F2(
+var _user$project$State$update = F2(
 	function (msg, model) {
 		var _p6 = msg;
 		switch (_p6.ctor) {
@@ -14617,7 +14544,7 @@ var _user$project$Update$update = F2(
 						{
 							user: _elm_lang$core$Maybe$Just(user)
 						}),
-					_1: _user$project$Model$saveUser(user)
+					_1: _user$project$Types$saveUser(user)
 				};
 			case 'StartStorySizing':
 				return _elm_lang$core$String$isEmpty(
@@ -14626,20 +14553,20 @@ var _user$project$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{storyInput: ''}),
-					_1: _user$project$Model$startStorySizing(
+					_1: _user$project$Types$startStorySizing(
 						A3(
 							_user$project$Common$Story,
 							model.storyInput,
 							0,
-							_user$project$Update$getUser(model)))
+							_user$project$State$getUser(model)))
 				};
 			case 'Size':
-				return A2(_user$project$Update$saveVote, model, _p6._0);
+				return A2(_user$project$State$saveVote, model, _p6._0);
 			case 'KeyMsg':
-				var points = _user$project$Update$mapKeyCodeToPoints(_p6._0);
+				var points = _user$project$State$mapKeyCodeToPoints(_p6._0);
 				var _p7 = points;
 				if (_p7.ctor === 'Just') {
-					return A2(_user$project$Update$saveVote, model, _p7._0);
+					return A2(_user$project$State$saveVote, model, _p7._0);
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
@@ -14666,10 +14593,10 @@ var _user$project$Update$update = F2(
 					var _p8 = model.story;
 					if (_p8.ctor === 'Nothing') {
 						return _elm_lang$core$Native_Utils.crashCase(
-							'Update',
+							'State',
 							{
-								start: {line: 71, column: 21},
-								end: {line: 76, column: 61}
+								start: {line: 118, column: 21},
+								end: {line: 123, column: 61}
 							},
 							_p8)('no story to size');
 					} else {
@@ -14685,7 +14612,7 @@ var _user$project$Update$update = F2(
 						{
 							story: _elm_lang$core$Maybe$Just(sizedStory)
 						}),
-					_1: _user$project$Model$archiveStory(sizedStory)
+					_1: _user$project$Types$archiveStory(sizedStory)
 				};
 			case 'HistoryMsg':
 				return {
@@ -14726,17 +14653,17 @@ var _user$project$Update$update = F2(
 				var _p10 = model.story;
 				if (_p10.ctor === 'Nothing') {
 					return _elm_lang$core$Native_Utils.crashCase(
-						'Update',
+						'State',
 						{
-							start: {line: 106, column: 13},
-							end: {line: 111, column: 49}
+							start: {line: 153, column: 13},
+							end: {line: 158, column: 49}
 						},
 						_p10)('no story to resize');
 				} else {
 					return {
 						ctor: '_Tuple2',
 						_0: model,
-						_1: _user$project$Model$resizeStory(_p10._0)
+						_1: _user$project$Types$resizeStory(_p10._0)
 					};
 				}
 			case 'VotesCleared':
@@ -14754,46 +14681,119 @@ var _user$project$Update$update = F2(
 				var _p12 = model.story;
 				if (_p12.ctor === 'Nothing') {
 					return _elm_lang$core$Native_Utils.crashCase(
-						'Update',
+						'State',
 						{
-							start: {line: 117, column: 13},
-							end: {line: 122, column: 49}
+							start: {line: 164, column: 13},
+							end: {line: 169, column: 49}
 						},
 						_p12)('no story to cancel');
 				} else {
 					return {
 						ctor: '_Tuple2',
 						_0: model,
-						_1: _user$project$Model$cancelStory(_p12._0)
+						_1: _user$project$Types$cancelStory(_p12._0)
 					};
 				}
 		}
 	});
+var _user$project$State$initModel = {
+	user: _elm_lang$core$Maybe$Nothing,
+	uuid: '',
+	story: _elm_lang$core$Maybe$Nothing,
+	storyInput: '',
+	userInput: '',
+	error: _elm_lang$core$Maybe$Nothing,
+	votes: _elm_lang$core$Native_List.fromArray(
+		[]),
+	revealVotes: true,
+	isDataLoaded: false,
+	hisotryModel: _user$project$History_State$initModel
+};
+var _user$project$State$init = function (flags) {
+	return _elm_lang$core$Basics$not(
+		_elm_lang$core$Native_Utils.eq(flags.userName, '') || _elm_lang$core$Native_Utils.eq(flags.userId, '')) ? {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Native_Utils.update(
+			_user$project$State$initModel,
+			{
+				user: _elm_lang$core$Maybe$Just(
+					A2(_user$project$Common$User, flags.userName, flags.userId)),
+				uuid: flags.uuid,
+				userInput: flags.userName
+			}),
+		_1: _elm_lang$core$Platform_Cmd$none
+	} : {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Native_Utils.update(
+			_user$project$State$initModel,
+			{uuid: flags.uuid}),
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
+var _user$project$State$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$keyboard$Keyboard$presses(_user$project$Types$KeyMsg),
+				_user$project$Types$voteAdded(_user$project$Types$VoteAdded),
+				_user$project$Types$storySizingStarted(_user$project$Types$StorySizingStarted),
+				_user$project$Types$storySizingEnded(_user$project$Types$StorySizingEnded),
+				_user$project$Types$votesRevealed(_user$project$Types$VotesRevealed),
+				_user$project$Types$votesCleared(_user$project$Types$VotesCleared),
+				A2(
+				_elm_lang$core$Platform_Sub$map,
+				_user$project$Types$HistoryMsg,
+				_user$project$History_State$subscriptions(model.hisotryModel))
+			]));
+};
 
-var _user$project$Layout_Update$update = F2(
+var _user$project$Layout_State$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$core$Platform_Sub$map,
+				_user$project$Layout_Types$GroomingMsg,
+				_user$project$State$subscriptions(model.groomingModel))
+			]));
+};
+var _user$project$Layout_State$initModel = {mdl: _debois$elm_mdl$Material$model, groomingModel: _user$project$State$initModel, selectedTab: 0};
+var _user$project$Layout_State$init = function (flags) {
+	var _p0 = _user$project$State$init(flags);
+	var groomingModel = _p0._0;
+	var cmd = _p0._1;
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Native_Utils.update(
+			_user$project$Layout_State$initModel,
+			{groomingModel: groomingModel}),
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
+var _user$project$Layout_State$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'Mdl':
-				return A2(_debois$elm_mdl$Material$update, _p0._0, model);
+				return A2(_debois$elm_mdl$Material$update, _p1._0, model);
 			case 'SelectTab':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{selectedTab: _p0._0}),
+						{selectedTab: _p1._0}),
 					_elm_lang$core$Native_List.fromArray(
 						[]));
 			default:
-				var _p1 = A2(_user$project$Update$update, _p0._0, model.groomingModel);
-				var groomingModel = _p1._0;
-				var cmd = _p1._1;
+				var _p2 = A2(_user$project$State$update, _p1._0, model.groomingModel);
+				var groomingModel = _p2._0;
+				var cmd = _p2._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{groomingModel: groomingModel}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Layout_Model$GroomingMsg, cmd)
+					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Layout_Types$GroomingMsg, cmd)
 				};
 		}
 	});
@@ -14801,13 +14801,13 @@ var _user$project$Layout_Update$update = F2(
 var _user$project$View$reference = function (model) {
 	return A2(
 		_elm_lang$html$Html_App$map,
-		_user$project$Model$HistoryMsg,
+		_user$project$Types$HistoryMsg,
 		_user$project$History_View$reference(model.hisotryModel));
 };
 var _user$project$View$history = function (model) {
 	return A2(
 		_elm_lang$html$Html_App$map,
-		_user$project$Model$HistoryMsg,
+		_user$project$Types$HistoryMsg,
 		_user$project$History_View$history(model.hisotryModel));
 };
 var _user$project$View$storyFormPage = function (model) {
@@ -14830,7 +14830,7 @@ var _user$project$View$storyFormPage = function (model) {
 				_elm_lang$html$Html$form,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Events$onSubmit(_user$project$Model$StartStorySizing)
+						_elm_lang$html$Html_Events$onSubmit(_user$project$Types$StartStorySizing)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -14840,7 +14840,7 @@ var _user$project$View$storyFormPage = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$type$('text'),
 								_elm_lang$html$Html_Attributes$placeholder('Story name'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Model$StoryInput),
+								_elm_lang$html$Html_Events$onInput(_user$project$Types$StoryInput),
 								_elm_lang$html$Html_Attributes$value(model.storyInput)
 							]),
 						_elm_lang$core$Native_List.fromArray(
@@ -14877,7 +14877,7 @@ var _user$project$View$sizingButtons = function (model) {
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(-1))
+								_user$project$Types$Size(-1))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14888,7 +14888,7 @@ var _user$project$View$sizingButtons = function (model) {
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(0))
+								_user$project$Types$Size(0))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14900,7 +14900,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(0.5))
+								_user$project$Types$Size(0.5))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14912,7 +14912,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(1))
+								_user$project$Types$Size(1))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14924,7 +14924,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(2))
+								_user$project$Types$Size(2))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14936,7 +14936,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(3))
+								_user$project$Types$Size(3))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14955,7 +14955,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(5))
+								_user$project$Types$Size(5))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14967,7 +14967,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(8))
+								_user$project$Types$Size(8))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14979,7 +14979,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(13))
+								_user$project$Types$Size(13))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -14991,7 +14991,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(20))
+								_user$project$Types$Size(20))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -15003,7 +15003,7 @@ var _user$project$View$sizingButtons = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$class('points'),
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(40))
+								_user$project$Types$Size(40))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -15014,7 +15014,7 @@ var _user$project$View$sizingButtons = function (model) {
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html_Events$onClick(
-								_user$project$Model$Size(1000))
+								_user$project$Types$Size(1000))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -15045,7 +15045,7 @@ var _user$project$View$votePoints = F2(
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html_Events$onClick(
-						_user$project$Model$SelectVote(vote))
+						_user$project$Types$SelectVote(vote))
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -15109,7 +15109,7 @@ var _user$project$View$ownerButtons = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html_Attributes$class('owner-button'),
-						_elm_lang$html$Html_Events$onClick(_user$project$Model$ResizeStory)
+						_elm_lang$html$Html_Events$onClick(_user$project$Types$ResizeStory)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -15120,7 +15120,7 @@ var _user$project$View$ownerButtons = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html_Attributes$class('owner-button'),
-						_elm_lang$html$Html_Events$onClick(_user$project$Model$CancelStory)
+						_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -15242,7 +15242,7 @@ var _user$project$View$createUser = function (model) {
 				_elm_lang$html$Html$form,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Events$onSubmit(_user$project$Model$CreateUser)
+						_elm_lang$html$Html_Events$onSubmit(_user$project$Types$CreateUser)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -15252,7 +15252,7 @@ var _user$project$View$createUser = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$type$('text'),
 								_elm_lang$html$Html_Attributes$placeholder('User Name'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Model$UserInput),
+								_elm_lang$html$Html_Events$onInput(_user$project$Types$UserInput),
 								_elm_lang$html$Html_Attributes$value(model.userInput)
 							]),
 						_elm_lang$core$Native_List.fromArray(
@@ -15270,7 +15270,7 @@ var _user$project$View$createUser = function (model) {
 					]))
 			]));
 };
-var _user$project$View$view = function (model) {
+var _user$project$View$root = function (model) {
 	var page = function () {
 		if (_elm_lang$core$Native_Utils.eq(model.user, _elm_lang$core$Maybe$Nothing)) {
 			return _user$project$View$createUser;
@@ -15283,7 +15283,7 @@ var _user$project$View$view = function (model) {
 					return _user$project$View$storyFormPage;
 				} else {
 					var _p3 = _p2._0;
-					return _user$project$Model$hasVoted(model) ? _user$project$View$voteResultsPage(_p3.name) : _user$project$View$sizingPage(_p3.name);
+					return _user$project$Types$hasVoted(model) ? _user$project$View$voteResultsPage(_p3.name) : _user$project$View$sizingPage(_p3.name);
 				}
 			}
 		}
@@ -15298,12 +15298,12 @@ var _user$project$Layout_View$viewNav = function (model) {
 			case 0:
 				return A2(
 					_elm_lang$html$Html_App$map,
-					_user$project$Layout_Model$GroomingMsg,
-					_user$project$View$view(model.groomingModel));
+					_user$project$Layout_Types$GroomingMsg,
+					_user$project$View$root(model.groomingModel));
 			case 1:
 				return A2(
 					_elm_lang$html$Html_App$map,
-					_user$project$Layout_Model$GroomingMsg,
+					_user$project$Layout_Types$GroomingMsg,
 					_user$project$View$createUser(model.groomingModel));
 			default:
 				return _elm_lang$html$Html$text('404');
@@ -15349,21 +15349,21 @@ var _user$project$Layout_View$userTab = function (model) {
 				_user$project$Layout_View$userName(model.groomingModel),
 				')')));
 };
-var _user$project$Layout_View$view = function (model) {
+var _user$project$Layout_View$root = function (model) {
 	return A3(
 		_debois$elm_mdl$Material_Scheme$topWithScheme,
 		_debois$elm_mdl$Material_Color$Teal,
 		_debois$elm_mdl$Material_Color$LightGreen,
 		A4(
 			_debois$elm_mdl$Material_Layout$render,
-			_user$project$Layout_Model$Mdl,
+			_user$project$Layout_Types$Mdl,
 			model.mdl,
 			_elm_lang$core$Native_List.fromArray(
 				[
 					_debois$elm_mdl$Material_Layout$fixedHeader,
 					_debois$elm_mdl$Material_Layout$fixedTabs,
 					_debois$elm_mdl$Material_Layout$selectedTab(model.selectedTab),
-					_debois$elm_mdl$Material_Layout$onSelectTab(_user$project$Layout_Model$SelectTab)
+					_debois$elm_mdl$Material_Layout$onSelectTab(_user$project$Layout_Types$SelectTab)
 				]),
 			{
 				header: _elm_lang$core$Native_List.fromArray(
@@ -15407,7 +15407,7 @@ var _user$project$Layout_View$view = function (model) {
 
 var _user$project$MainWithLayout$main = {
 	main: _elm_lang$html$Html_App$programWithFlags(
-		{init: _user$project$Layout_Model$init, update: _user$project$Layout_Update$update, view: _user$project$Layout_View$view, subscriptions: _user$project$Layout_Model$subscriptions}),
+		{init: _user$project$Layout_State$init, update: _user$project$Layout_State$update, view: _user$project$Layout_View$root, subscriptions: _user$project$Layout_State$subscriptions}),
 	flags: A2(
 		_elm_lang$core$Json_Decode$andThen,
 		A2(_elm_lang$core$Json_Decode_ops[':='], 'userId', _elm_lang$core$Json_Decode$string),

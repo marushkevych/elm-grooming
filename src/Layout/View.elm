@@ -1,7 +1,7 @@
 module Layout.View exposing (..)
 
-import Layout.Model exposing (..)
-import Model as GroomingModel
+import Layout.Types exposing (..)
+import Types as GroomingModel
 import View as GroomingView
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -29,8 +29,8 @@ userName model =
     (Maybe.withDefault (User "" "") model.user) |> .name
 
 
-view : Model -> Html Msg
-view model =
+root : Model -> Html Msg
+root model =
     Material.Scheme.topWithScheme Color.Teal Color.LightGreen <|
         Layout.render Mdl
             model.mdl
@@ -55,7 +55,7 @@ viewNav model =
         page =
             case model.selectedTab of
                 0 ->
-                    App.map GroomingMsg (GroomingView.view model.groomingModel)
+                    App.map GroomingMsg (GroomingView.root model.groomingModel)
 
                 1 ->
                     App.map GroomingMsg (GroomingView.createUser model.groomingModel)

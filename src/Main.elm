@@ -1,17 +1,16 @@
 module Main exposing (main)
 
-import Model as GroomingModel
-import Layout.Model exposing (..)
-import Update exposing (..)
-import View exposing (..)
+import State
+import Types
+import View
 import Html.App as App
 
 
-main : Program GroomingModel.Flags
+main : Program Types.Flags
 main =
     App.programWithFlags
-        { init = GroomingModel.init
-        , update = update
-        , view = viewBody
-        , subscriptions = GroomingModel.subscriptions
+        { init = State.init
+        , update = State.update
+        , view = View.root
+        , subscriptions = State.subscriptions
         }

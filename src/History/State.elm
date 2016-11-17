@@ -1,4 +1,4 @@
-module History.State exposing (update)
+module History.State exposing (update, subscriptions, initModel)
 
 import History.Types exposing (..)
 
@@ -8,3 +8,14 @@ update msg model =
     case msg of
         StoryArchived story ->
             { model | sizedStories = story :: model.sizedStories }
+
+
+initModel : Model
+initModel =
+    { sizedStories = []
+    }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    storyArchived StoryArchived

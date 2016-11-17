@@ -1,17 +1,16 @@
 module MainWithLayout exposing (main)
 
-import Layout.View exposing (..)
-import Layout.Model exposing (..)
-import Layout.Update exposing (..)
-import Model as GroomingModel
+import Layout.View as LayoutView
+import Layout.State as LayoutState
+import Types as GroomingTypes
 import Html.App as App
 
 
-main : Program GroomingModel.Flags
+main : Program GroomingTypes.Flags
 main =
     App.programWithFlags
-        { init = init
-        , update = update
-        , view = view
-        , subscriptions = subscriptions
+        { init = LayoutState.init
+        , update = LayoutState.update
+        , view = LayoutView.root
+        , subscriptions = LayoutState.subscriptions
         }

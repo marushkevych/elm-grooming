@@ -1,4 +1,4 @@
-port module Model exposing (..)
+port module Types exposing (..)
 
 import Keyboard
 import Common exposing (..)
@@ -45,23 +45,6 @@ port resizeStory : Story -> Cmd msg
 
 
 
--- subscriptions
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.batch
-        [ Keyboard.presses KeyMsg
-        , voteAdded VoteAdded
-        , storySizingStarted StorySizingStarted
-        , storySizingEnded StorySizingEnded
-        , votesRevealed VotesRevealed
-        , votesCleared VotesCleared
-        , HistoryTypes.subscriptions model.hisotryModel |> Sub.map HistoryMsg
-        ]
-
-
-
 -- Model
 
 
@@ -90,36 +73,6 @@ type alias Vote =
     { points : Float
     , user : User
     }
-
-
-initModel : Model
-initModel =
-    --{ user = Just (User "Andrey Marushkevych" "123")
-    { user = Nothing
-    , uuid = ""
-    , story = Nothing
-    , storyInput = ""
-    , userInput = ""
-    , error = Nothing
-    , votes = []
-    , revealVotes = True
-    , isDataLoaded = False
-    , hisotryModel = HistoryTypes.initModel
-    }
-
-
-init : Flags -> ( Model, Cmd Msg )
-init flags =
-    if not (flags.userName == "" || flags.userId == "") then
-        ( { initModel
-            | user = Just (User flags.userName flags.userId)
-            , uuid = flags.uuid
-            , userInput = flags.userName
-          }
-        , Cmd.none
-        )
-    else
-        ( { initModel | uuid = flags.uuid }, Cmd.none )
 
 
 hasVoted : Model -> Bool

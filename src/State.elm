@@ -1,9 +1,56 @@
-module Update exposing (update)
+module State exposing (init, initModel, update, subscriptions)
 
-import Model exposing (..)
+import Keyboard
+import Types exposing (..)
 import String
 import Common exposing (..)
 import History.State as HistoryState
+
+
+-- subscriptions
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ Keyboard.presses KeyMsg
+        , voteAdded VoteAdded
+        , storySizingStarted StorySizingStarted
+        , storySizingEnded StorySizingEnded
+        , votesRevealed VotesRevealed
+        , votesCleared VotesCleared
+        , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
+        ]
+
+
+initModel : Model
+initModel =
+    --{ user = Just (User "Andrey Marushkevych" "123")
+    { user = Nothing
+    , uuid = ""
+    , story = Nothing
+    , storyInput = ""
+    , userInput = ""
+    , error = Nothing
+    , votes = []
+    , revealVotes = True
+    , isDataLoaded = False
+    , hisotryModel = HistoryState.initModel
+    }
+
+
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    if not (flags.userName == "" || flags.userId == "") then
+        ( { initModel
+            | user = Just (User flags.userName flags.userId)
+            , uuid = flags.uuid
+            , userInput = flags.userName
+          }
+        , Cmd.none
+        )
+    else
+        ( { initModel | uuid = flags.uuid }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
