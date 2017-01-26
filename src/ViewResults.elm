@@ -6,24 +6,28 @@ import Html.Events exposing (..)
 import Types exposing (..)
 import ViewTitle as Title
 import ViewVotes
+import ViewSizeNewStoryForm as SizeNewStoryForm
 
 
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "scoreboard fieldset" ]
-        [ buttons model
+        [ header model
         , Title.root storyName
         , ViewVotes.root model
         ]
 
 
-buttons : Model -> Html Msg
-buttons model =
-    div [ class "owner-buttons" ]
-        (List.append
-            (ownerButtons model)
-            ([ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ])
-        )
+header : Model -> Html Msg
+header model =
+    if model.showSizeNewStoryDilog then
+        SizeNewStoryForm.root model
+    else
+        div [ class "owner-buttons" ]
+            (List.append
+                (ownerButtons model)
+                ([ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ])
+            )
 
 
 ownerButtons : Model -> List (Html Msg)

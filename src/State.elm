@@ -36,6 +36,7 @@ initModel =
     , revealVotes = True
     , isDataLoaded = False
     , hisotryModel = HistoryState.initModel
+    , showSizeNewStoryDilog = False
     }
 
 
@@ -80,6 +81,7 @@ update msg model =
             else
                 ( { model
                     | storyInput = ""
+                    , showSizeNewStoryDilog = False
                   }
                 , startStorySizing (Story model.storyInput 0 (getUser model))
                 )
@@ -134,6 +136,7 @@ update msg model =
                 | story = Just story
                 , storyInput = ""
                 , isDataLoaded = True
+                , showSizeNewStoryDilog = False
               }
             , Cmd.none
             )
@@ -169,12 +172,7 @@ update msg model =
                     ( model, cancelStory story )
 
         NewStoryDialog ->
-            case model.story of
-                Nothing ->
-                    Debug.crash "no story to cancel"
-
-                Just story ->
-                    ( model, cancelStory story )
+            { model | showSizeNewStoryDilog = True } ! []
 
 
 saveVote : Model -> Float -> ( Model, Cmd Msg )

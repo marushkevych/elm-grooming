@@ -66,6 +66,7 @@ type alias Model =
     , revealVotes : Bool
     , isDataLoaded : Bool
     , hisotryModel : HistoryTypes.Model
+    , showSizeNewStoryDilog : Bool
     }
 
 

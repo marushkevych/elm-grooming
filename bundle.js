@@ -14214,8 +14214,8 @@ var _user$project$Types$hasVoted = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'Types',
 			{
-				start: {line: 80, column: 5},
-				end: {line: 89, column: 49}
+				start: {line: 81, column: 5},
+				end: {line: 90, column: 49}
 			},
 			_p2)('User should be initialized');
 	} else {
@@ -14374,7 +14374,9 @@ var _user$project$Types$Model = function (a) {
 							return function (h) {
 								return function (i) {
 									return function (j) {
-										return {user: a, uuid: b, story: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, isDataLoaded: i, hisotryModel: j};
+										return function (k) {
+											return {user: a, uuid: b, story: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, isDataLoaded: i, hisotryModel: j, showSizeNewStoryDilog: k};
+										};
 									};
 								};
 							};
@@ -14395,6 +14397,7 @@ var _user$project$Types$HistoryMsg = function (a) {
 var _user$project$Types$VotesCleared = function (a) {
 	return {ctor: 'VotesCleared', _0: a};
 };
+var _user$project$Types$NewStoryDialog = {ctor: 'NewStoryDialog'};
 var _user$project$Types$CancelStory = {ctor: 'CancelStory'};
 var _user$project$Types$ResizeStory = {ctor: 'ResizeStory'};
 var _user$project$Types$StorySizingEnded = function (a) {
@@ -14478,8 +14481,8 @@ var _user$project$State$getUser = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'State',
 			{
-				start: {line: 198, column: 5},
-				end: {line: 203, column: 17}
+				start: {line: 204, column: 5},
+				end: {line: 209, column: 17}
 			},
 			_p1)('User should be initialized');
 	} else {
@@ -14565,7 +14568,7 @@ var _user$project$State$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{storyInput: ''}),
+						{storyInput: '', showSizeNewStoryDilog: false}),
 					_1: _user$project$Types$startStorySizing(
 						A3(
 							_user$project$Common$Story,
@@ -14608,8 +14611,8 @@ var _user$project$State$update = F2(
 						return _elm_lang$core$Native_Utils.crashCase(
 							'State',
 							{
-								start: {line: 118, column: 21},
-								end: {line: 123, column: 61}
+								start: {line: 120, column: 21},
+								end: {line: 125, column: 61}
 							},
 							_p8)('no story to size');
 					} else {
@@ -14645,7 +14648,8 @@ var _user$project$State$update = F2(
 						{
 							story: _elm_lang$core$Maybe$Just(_p6._0),
 							storyInput: '',
-							isDataLoaded: true
+							isDataLoaded: true,
+							showSizeNewStoryDilog: false
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -14668,8 +14672,8 @@ var _user$project$State$update = F2(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 153, column: 13},
-							end: {line: 158, column: 49}
+							start: {line: 156, column: 13},
+							end: {line: 161, column: 49}
 						},
 						_p10)('no story to resize');
 				} else {
@@ -14690,14 +14694,14 @@ var _user$project$State$update = F2(
 						}),
 					_elm_lang$core$Native_List.fromArray(
 						[]));
-			default:
+			case 'CancelStory':
 				var _p12 = model.story;
 				if (_p12.ctor === 'Nothing') {
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 164, column: 13},
-							end: {line: 169, column: 49}
+							start: {line: 167, column: 13},
+							end: {line: 172, column: 49}
 						},
 						_p12)('no story to cancel');
 				} else {
@@ -14707,6 +14711,14 @@ var _user$project$State$update = F2(
 						_1: _user$project$Types$cancelStory(_p12._0)
 					};
 				}
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{showSizeNewStoryDilog: true}),
+					_elm_lang$core$Native_List.fromArray(
+						[]));
 		}
 	});
 var _user$project$State$initModel = {
@@ -14720,7 +14732,8 @@ var _user$project$State$initModel = {
 		[]),
 	revealVotes: true,
 	isDataLoaded: false,
-	hisotryModel: _user$project$History_State$initModel
+	hisotryModel: _user$project$History_State$initModel,
+	showSizeNewStoryDilog: false
 };
 var _user$project$State$init = function (flags) {
 	return _elm_lang$core$Basics$not(
@@ -14823,6 +14836,39 @@ var _user$project$ViewTitle$root = function (title) {
 			]));
 };
 
+var _user$project$ViewSizeNewStoryForm$root = function (model) {
+	return A2(
+		_elm_lang$html$Html$form,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Events$onSubmit(_user$project$Types$StartStorySizing)
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$input,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$type$('text'),
+						_elm_lang$html$Html_Attributes$placeholder('Story name'),
+						_elm_lang$html$Html_Events$onInput(_user$project$Types$StoryInput),
+						_elm_lang$html$Html_Attributes$value(model.storyInput)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[])),
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$type$('submit')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Size')
+					]))
+			]));
+};
+
 var _user$project$ViewEnterStory$history = function (model) {
 	return A2(
 		_elm_lang$html$Html_App$map,
@@ -14837,36 +14883,7 @@ var _user$project$ViewEnterStory$root = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_user$project$ViewTitle$root('Size new story'),
-				A2(
-				_elm_lang$html$Html$form,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Events$onSubmit(_user$project$Types$StartStorySizing)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$type$('text'),
-								_elm_lang$html$Html_Attributes$placeholder('Story name'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Types$StoryInput),
-								_elm_lang$html$Html_Attributes$value(model.storyInput)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$type$('submit')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Size')
-							]))
-					])),
+				_user$project$ViewSizeNewStoryForm$root(model),
 				_user$project$ViewEnterStory$history(model)
 			]));
 };
@@ -15170,24 +15187,8 @@ var _user$project$ViewSizing$sizingButtons = function (model) {
 					]))
 			]));
 };
-var _user$project$ViewSizing$root = F2(
-	function (storyName, model) {
-		return A2(
-			_elm_lang$html$Html$div,
-			_elm_lang$core$Native_List.fromArray(
-				[
-					_elm_lang$html$Html_Attributes$class('sizing fieldset')
-				]),
-			_elm_lang$core$Native_List.fromArray(
-				[
-					_user$project$ViewTitle$root(storyName),
-					_user$project$ViewSizing$sizingButtons(model),
-					_user$project$ViewVotes$root(model)
-				]));
-	});
-
-var _user$project$ViewResults$ownerButtons = function (model) {
-	return _user$project$Types$isStoryOwner(model) ? A2(
+var _user$project$ViewSizing$header = function (model) {
+	return model.showSizeNewStoryDilog ? _user$project$ViewSizeNewStoryForm$root(model) : A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -15200,29 +15201,83 @@ var _user$project$ViewResults$ownerButtons = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html_Attributes$class('owner-button'),
-						_elm_lang$html$Html_Events$onClick(_user$project$Types$ResizeStory)
+						_elm_lang$html$Html_Events$onClick(_user$project$Types$NewStoryDialog)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text('resize')
-					])),
-				A2(
-				_elm_lang$html$Html$button,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('owner-button'),
-						_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('cancel')
+						_elm_lang$html$Html$text('size new story')
 					]))
-			])) : A2(
+			]));
+};
+var _user$project$ViewSizing$root = F2(
+	function (storyName, model) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('sizing fieldset')
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_user$project$ViewSizing$header(model),
+					_user$project$ViewTitle$root(storyName),
+					_user$project$ViewSizing$sizingButtons(model),
+					_user$project$ViewVotes$root(model)
+				]));
+	});
+
+var _user$project$ViewResults$ownerButtons = function (model) {
+	return _user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
+		[
+			A2(
+			_elm_lang$html$Html$button,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('owner-button'),
+					_elm_lang$html$Html_Events$onClick(_user$project$Types$ResizeStory)
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text('resize')
+				])),
+			A2(
+			_elm_lang$html$Html$button,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('owner-button'),
+					_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory)
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text('cancel')
+				]))
+		]) : _elm_lang$core$Native_List.fromArray(
+		[]);
+};
+var _user$project$ViewResults$header = function (model) {
+	return model.showSizeNewStoryDilog ? _user$project$ViewSizeNewStoryForm$root(model) : A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[]));
+			[
+				_elm_lang$html$Html_Attributes$class('owner-buttons')
+			]),
+		A2(
+			_elm_lang$core$List$append,
+			_user$project$ViewResults$ownerButtons(model),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$button,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('owner-button'),
+							_elm_lang$html$Html_Events$onClick(_user$project$Types$NewStoryDialog)
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('size new story')
+						]))
+				])));
 };
 var _user$project$ViewResults$root = F2(
 	function (storyName, model) {
@@ -15234,8 +15289,8 @@ var _user$project$ViewResults$root = F2(
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
+					_user$project$ViewResults$header(model),
 					_user$project$ViewTitle$root(storyName),
-					_user$project$ViewResults$ownerButtons(model),
 					_user$project$ViewVotes$root(model)
 				]));
 	});
