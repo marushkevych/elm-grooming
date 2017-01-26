@@ -168,6 +168,14 @@ update msg model =
                 Just story ->
                     ( model, cancelStory story )
 
+        NewStoryDialog ->
+            case model.story of
+                Nothing ->
+                    Debug.crash "no story to cancel"
+
+                Just story ->
+                    ( model, cancelStory story )
+
 
 saveVote : Model -> Float -> ( Model, Cmd Msg )
 saveVote model points =

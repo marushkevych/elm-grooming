@@ -13,7 +13,9 @@ import ViewVotes
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "sizing fieldset" ]
-        [ Title.root storyName
+        [ div [ class "owner-buttons" ]
+            [ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ]
+        , Title.root storyName
           -- , div [ class "owner-buttons" ]
           --     [ button [ class "owner-button" ] [ text "skip voting" ]
           --     ]

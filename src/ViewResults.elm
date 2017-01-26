@@ -11,18 +11,26 @@ import ViewVotes
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "scoreboard fieldset" ]
-        [ Title.root storyName
-        , ownerButtons model
+        [ buttons model
+        , Title.root storyName
         , ViewVotes.root model
         ]
 
 
-ownerButtons : Model -> Html Msg
+buttons : Model -> Html Msg
+buttons model =
+    div [ class "owner-buttons" ]
+        (List.append
+            (ownerButtons model)
+            ([ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ])
+        )
+
+
+ownerButtons : Model -> List (Html Msg)
 ownerButtons model =
     if isStoryOwner model then
-        div [ class "owner-buttons" ]
-            [ button [ class "owner-button", onClick ResizeStory ] [ text "resize" ]
-            , button [ class "owner-button", onClick CancelStory ] [ text "cancel" ]
-            ]
+        [ button [ class "owner-button", onClick ResizeStory ] [ text "resize" ]
+        , button [ class "owner-button", onClick CancelStory ] [ text "cancel" ]
+        ]
     else
-        div [] []
+        []

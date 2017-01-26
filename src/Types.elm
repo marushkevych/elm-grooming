@@ -119,5 +119,6 @@ type Msg
     | StorySizingEnded String
     | ResizeStory
     | CancelStory
+    | NewStoryDialog
     | VotesCleared String
     | HistoryMsg HistoryTypes.Msg
