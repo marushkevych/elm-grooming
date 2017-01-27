@@ -174,6 +174,9 @@ update msg model =
         NewStoryDialog ->
             { model | showSizeNewStoryDilog = True } ! []
 
+        NewStoryDialogClose ->
+            { model | showSizeNewStoryDilog = False } ! []
+
 
 saveVote : Model -> Float -> ( Model, Cmd Msg )
 saveVote model points =

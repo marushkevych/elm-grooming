@@ -14397,6 +14397,7 @@ var _user$project$Types$HistoryMsg = function (a) {
 var _user$project$Types$VotesCleared = function (a) {
 	return {ctor: 'VotesCleared', _0: a};
 };
+var _user$project$Types$NewStoryDialogClose = {ctor: 'NewStoryDialogClose'};
 var _user$project$Types$NewStoryDialog = {ctor: 'NewStoryDialog'};
 var _user$project$Types$CancelStory = {ctor: 'CancelStory'};
 var _user$project$Types$ResizeStory = {ctor: 'ResizeStory'};
@@ -14481,8 +14482,8 @@ var _user$project$State$getUser = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'State',
 			{
-				start: {line: 204, column: 5},
-				end: {line: 209, column: 17}
+				start: {line: 207, column: 5},
+				end: {line: 212, column: 17}
 			},
 			_p1)('User should be initialized');
 	} else {
@@ -14711,12 +14712,20 @@ var _user$project$State$update = F2(
 						_1: _user$project$Types$cancelStory(_p12._0)
 					};
 				}
-			default:
+			case 'NewStoryDialog':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
 						{showSizeNewStoryDilog: true}),
+					_elm_lang$core$Native_List.fromArray(
+						[]));
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{showSizeNewStoryDilog: false}),
 					_elm_lang$core$Native_List.fromArray(
 						[]));
 		}
@@ -14836,39 +14845,6 @@ var _user$project$ViewTitle$root = function (title) {
 			]));
 };
 
-var _user$project$ViewSizeNewStoryForm$root = function (model) {
-	return A2(
-		_elm_lang$html$Html$form,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$html$Html_Events$onSubmit(_user$project$Types$StartStorySizing)
-			]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$input,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$type$('text'),
-						_elm_lang$html$Html_Attributes$placeholder('Story name'),
-						_elm_lang$html$Html_Events$onInput(_user$project$Types$StoryInput),
-						_elm_lang$html$Html_Attributes$value(model.storyInput)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
-				A2(
-				_elm_lang$html$Html$button,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$type$('submit')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('Size')
-					]))
-			]));
-};
-
 var _user$project$ViewEnterStory$history = function (model) {
 	return A2(
 		_elm_lang$html$Html_App$map,
@@ -14883,7 +14859,36 @@ var _user$project$ViewEnterStory$root = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_user$project$ViewTitle$root('Size new story'),
-				_user$project$ViewSizeNewStoryForm$root(model),
+				A2(
+				_elm_lang$html$Html$form,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onSubmit(_user$project$Types$StartStorySizing)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$input,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$type$('text'),
+								_elm_lang$html$Html_Attributes$placeholder('Story name'),
+								_elm_lang$html$Html_Events$onInput(_user$project$Types$StoryInput),
+								_elm_lang$html$Html_Attributes$value(model.storyInput)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[])),
+						A2(
+						_elm_lang$html$Html$button,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$type$('submit')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Size')
+							]))
+					])),
 				_user$project$ViewEnterStory$history(model)
 			]));
 };
@@ -15015,6 +15020,79 @@ var _user$project$ViewVotes$root = function (model) {
 				_user$project$ViewVotes$votesHeader(model),
 				_user$project$ViewVotes$votes(model)
 			]));
+};
+
+var _user$project$ViewSizeNewStoryModal$root = function (model) {
+	return model.showSizeNewStoryDilog ? A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('modal-window')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$a,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('modal-close'),
+								_elm_lang$html$Html_Events$onClick(_user$project$Types$NewStoryDialogClose)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('close')
+							])),
+						A2(
+						_elm_lang$html$Html$h5,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Dismiss current story and start new session')
+							])),
+						A2(
+						_elm_lang$html$Html$form,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Events$onSubmit(_user$project$Types$StartStorySizing)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$html$Html$input,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$type$('text'),
+										_elm_lang$html$Html_Attributes$placeholder('Story name'),
+										_elm_lang$html$Html_Events$onInput(_user$project$Types$StoryInput),
+										_elm_lang$html$Html_Attributes$value(model.storyInput)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[])),
+								A2(
+								_elm_lang$html$Html$button,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$type$('submit')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text('Size')
+									]))
+							]))
+					]))
+			])) : A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[]));
 };
 
 var _user$project$ViewSizing$reference = function (model) {
@@ -15188,7 +15266,7 @@ var _user$project$ViewSizing$sizingButtons = function (model) {
 			]));
 };
 var _user$project$ViewSizing$header = function (model) {
-	return model.showSizeNewStoryDilog ? _user$project$ViewSizeNewStoryForm$root(model) : A2(
+	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -15219,6 +15297,7 @@ var _user$project$ViewSizing$root = F2(
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
+					_user$project$ViewSizeNewStoryModal$root(model),
 					_user$project$ViewSizing$header(model),
 					_user$project$ViewTitle$root(storyName),
 					_user$project$ViewSizing$sizingButtons(model),
@@ -15255,7 +15334,7 @@ var _user$project$ViewResults$ownerButtons = function (model) {
 		[]);
 };
 var _user$project$ViewResults$header = function (model) {
-	return model.showSizeNewStoryDilog ? _user$project$ViewSizeNewStoryForm$root(model) : A2(
+	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -15289,6 +15368,7 @@ var _user$project$ViewResults$root = F2(
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
+					_user$project$ViewSizeNewStoryModal$root(model),
 					_user$project$ViewResults$header(model),
 					_user$project$ViewTitle$root(storyName),
 					_user$project$ViewVotes$root(model)
@@ -15390,7 +15470,7 @@ var _user$project$Layout_View$viewNav = function (model) {
 		_debois$elm_mdl$Material_Grid$grid,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_debois$elm_mdl$Material_Grid$maxWidth('543px')
+				_debois$elm_mdl$Material_Grid$maxWidth('575px')
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -15439,6 +15519,7 @@ var _user$project$Layout_View$root = function (model) {
 				[
 					_debois$elm_mdl$Material_Layout$fixedHeader,
 					_debois$elm_mdl$Material_Layout$fixedTabs,
+					_debois$elm_mdl$Material_Layout$scrolling,
 					_debois$elm_mdl$Material_Layout$selectedTab(model.selectedTab),
 					_debois$elm_mdl$Material_Layout$onSelectTab(_user$project$Layout_Types$SelectTab)
 				]),
@@ -15446,9 +15527,10 @@ var _user$project$Layout_View$root = function (model) {
 				header: _elm_lang$core$Native_List.fromArray(
 					[
 						A2(
-						_elm_lang$html$Html$h4,
+						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[
+								_elm_lang$html$Html_Attributes$class('mdl-layout__title'),
 								_elm_lang$html$Html_Attributes$style(
 								_elm_lang$core$Native_List.fromArray(
 									[

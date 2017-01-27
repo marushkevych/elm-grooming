@@ -121,5 +121,6 @@ type Msg
     | ResizeStory
     | CancelStory
     | NewStoryDialog
+    | NewStoryDialogClose
     | VotesCleared String
     | HistoryMsg HistoryTypes.Msg

@@ -8,13 +8,14 @@ import History.View as HistoryView
 import Types exposing (..)
 import ViewTitle as Title
 import ViewVotes
-import ViewSizeNewStoryForm as SizeNewStoryForm
+import ViewSizeNewStoryModal
 
 
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "sizing fieldset" ]
-        [ header model
+        [ ViewSizeNewStoryModal.root model
+        , header model
         , Title.root storyName
           -- , div [ class "owner-buttons" ]
           --     [ button [ class "owner-button" ] [ text "skip voting" ]
@@ -27,11 +28,8 @@ root storyName model =
 
 header : Model -> Html Msg
 header model =
-    if model.showSizeNewStoryDilog then
-        SizeNewStoryForm.root model
-    else
-        div [ class "owner-buttons" ]
-            [ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ]
+    div [ class "owner-buttons" ]
+        [ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ]
 
 
 sizingButtons : Model -> Html Msg

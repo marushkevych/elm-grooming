@@ -36,10 +36,11 @@ root model =
             model.mdl
             [ Layout.fixedHeader
             , Layout.fixedTabs
+            , Layout.scrolling
             , Layout.selectedTab model.selectedTab
             , Layout.onSelectTab SelectTab
             ]
-            { header = [ h4 [ style [ ( "padding-left", "1rem" ) ] ] [ text "Dust My Groom" ] ]
+            { header = [ div [ class "mdl-layout__title", style [ ( "padding-left", "1rem" ) ] ] [ text "Dust My Groom" ] ]
             , drawer =
                 []
             , tabs =
@@ -63,7 +64,7 @@ viewNav model =
                 _ ->
                     text "404"
     in
-        grid [ Material.Grid.maxWidth "543px" ]
+        grid [ Material.Grid.maxWidth "575px" ]
             [ cell [ Material.Grid.size All 12, Material.Grid.align Material.Grid.Middle ]
                 [ page ]
             ]
