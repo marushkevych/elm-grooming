@@ -17,7 +17,6 @@ subscriptions model =
         , voteAdded VoteAdded
         , storySizingStarted StorySizingStarted
         , storySizingEnded StorySizingEnded
-        , votesRevealed VotesRevealed
         , votesCleared VotesCleared
         , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
         ]
@@ -102,16 +101,6 @@ update msg model =
 
         VoteAdded vote ->
             ( { model | votes = vote :: model.votes }, Cmd.none )
-
-        --
-        -- RevealVotes ->
-        --     ( model, revealVotes (not model.revealVotes) )
-        VotesRevealed flag ->
-            ( { model
-                | revealVotes = flag
-              }
-            , Cmd.none
-            )
 
         SelectVote vote ->
             let

@@ -23,9 +23,6 @@ port voteAdded : (Vote -> msg) -> Sub msg
 port revealVotes : Bool -> Cmd msg
 
 
-port votesRevealed : (Bool -> msg) -> Sub msg
-
-
 port archiveStory : Story -> Cmd msg
 
 
@@ -112,8 +109,6 @@ type Msg
     | StoryInput String
     | Size Float
     | VoteAdded Vote
-      -- | RevealVotes
-    | VotesRevealed Bool
     | SelectVote Vote
     | KeyMsg Keyboard.KeyCode
     | StorySizingStarted Story

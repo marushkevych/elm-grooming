@@ -14214,8 +14214,8 @@ var _user$project$Types$hasVoted = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'Types',
 			{
-				start: {line: 81, column: 5},
-				end: {line: 90, column: 49}
+				start: {line: 78, column: 5},
+				end: {line: 87, column: 49}
 			},
 			_p2)('User should be initialized');
 	} else {
@@ -14297,7 +14297,6 @@ var _user$project$Types$revealVotes = _elm_lang$core$Native_Platform.outgoingPor
 	function (v) {
 		return v;
 	});
-var _user$project$Types$votesRevealed = _elm_lang$core$Native_Platform.incomingPort('votesRevealed', _elm_lang$core$Json_Decode$bool);
 var _user$project$Types$archiveStory = _elm_lang$core$Native_Platform.outgoingPort(
 	'archiveStory',
 	function (v) {
@@ -14413,9 +14412,6 @@ var _user$project$Types$KeyMsg = function (a) {
 var _user$project$Types$SelectVote = function (a) {
 	return {ctor: 'SelectVote', _0: a};
 };
-var _user$project$Types$VotesRevealed = function (a) {
-	return {ctor: 'VotesRevealed', _0: a};
-};
 var _user$project$Types$VoteAdded = function (a) {
 	return {ctor: 'VoteAdded', _0: a};
 };
@@ -14482,8 +14478,8 @@ var _user$project$State$getUser = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'State',
 			{
-				start: {line: 204, column: 5},
-				end: {line: 209, column: 17}
+				start: {line: 193, column: 5},
+				end: {line: 198, column: 17}
 			},
 			_p1)('User should be initialized');
 	} else {
@@ -14597,14 +14593,6 @@ var _user$project$State$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'VotesRevealed':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{revealVotes: _p6._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
 			case 'SelectVote':
 				var sizedStory = function () {
 					var _p8 = model.story;
@@ -14612,8 +14600,8 @@ var _user$project$State$update = F2(
 						return _elm_lang$core$Native_Utils.crashCase(
 							'State',
 							{
-								start: {line: 119, column: 21},
-								end: {line: 124, column: 61}
+								start: {line: 108, column: 21},
+								end: {line: 113, column: 61}
 							},
 							_p8)('no story to size');
 					} else {
@@ -14673,8 +14661,8 @@ var _user$project$State$update = F2(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 153, column: 13},
-							end: {line: 158, column: 49}
+							start: {line: 142, column: 13},
+							end: {line: 147, column: 49}
 						},
 						_p10)('no story to resize');
 				} else {
@@ -14701,8 +14689,8 @@ var _user$project$State$update = F2(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 164, column: 13},
-							end: {line: 169, column: 85}
+							start: {line: 153, column: 13},
+							end: {line: 158, column: 85}
 						},
 						_p12)('no story to cancel');
 				} else {
@@ -14775,7 +14763,6 @@ var _user$project$State$subscriptions = function (model) {
 				_user$project$Types$voteAdded(_user$project$Types$VoteAdded),
 				_user$project$Types$storySizingStarted(_user$project$Types$StorySizingStarted),
 				_user$project$Types$storySizingEnded(_user$project$Types$StorySizingEnded),
-				_user$project$Types$votesRevealed(_user$project$Types$VotesRevealed),
 				_user$project$Types$votesCleared(_user$project$Types$VotesCleared),
 				A2(
 				_elm_lang$core$Platform_Sub$map,
