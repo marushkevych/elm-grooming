@@ -29,7 +29,19 @@ root storyName model =
 header : Model -> Html Msg
 header model =
     div [ class "owner-buttons" ]
-        [ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ]
+        (List.append
+            (ownerButtons model)
+            ([ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ])
+        )
+
+
+ownerButtons : Model -> List (Html Msg)
+ownerButtons model =
+    if isStoryOwner model then
+        [ button [ class "owner-button", onClick CancelStory ] [ text "cancel" ]
+        ]
+    else
+        []
 
 
 sizingButtons : Model -> Html Msg
