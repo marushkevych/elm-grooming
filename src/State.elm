@@ -36,7 +36,7 @@ initModel =
     , revealVotes = True
     , isDataLoaded = False
     , hisotryModel = HistoryState.initModel
-    , showSizeNewStoryDilog = False
+    , showCancelStoryDialog = False
     }
 
 
@@ -144,7 +144,7 @@ update msg model =
                 | votes = []
                 , story = Nothing
                 , isDataLoaded = True
-                , showSizeNewStoryDilog = False
+                , showCancelStoryDialog = False
               }
             , Cmd.none
             )
@@ -166,13 +166,13 @@ update msg model =
                     Debug.crash "no story to cancel"
 
                 Just story ->
-                    ( { model | showSizeNewStoryDilog = False }, cancelStory story )
+                    ( { model | showCancelStoryDialog = False }, cancelStory story )
 
-        NewStoryDialog ->
-            { model | showSizeNewStoryDilog = True } ! []
+        CancelStoryDialog ->
+            { model | showCancelStoryDialog = True } ! []
 
-        NewStoryDialogClose ->
-            { model | showSizeNewStoryDilog = False, storyInput = "" } ! []
+        CancelStoryDialogClose ->
+            { model | showCancelStoryDialog = False, storyInput = "" } ! []
 
 
 saveVote : Model -> Float -> ( Model, Cmd Msg )

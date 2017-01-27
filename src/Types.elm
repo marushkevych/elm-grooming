@@ -66,7 +66,7 @@ type alias Model =
     , revealVotes : Bool
     , isDataLoaded : Bool
     , hisotryModel : HistoryTypes.Model
-    , showSizeNewStoryDilog : Bool
+    , showCancelStoryDialog : Bool
     }
 
 
@@ -120,7 +120,7 @@ type Msg
     | StorySizingEnded String
     | ResizeStory
     | CancelStory
-    | NewStoryDialog
-    | NewStoryDialogClose
+    | CancelStoryDialog
+    | CancelStoryDialogClose
     | VotesCleared String
     | HistoryMsg HistoryTypes.Msg

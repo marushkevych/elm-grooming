@@ -6,13 +6,13 @@ import Html.Events exposing (..)
 import Types exposing (..)
 import ViewTitle as Title
 import ViewVotes
-import ViewSizeNewStoryModal
+import ViewCancelStoryDialog
 
 
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "scoreboard fieldset" ]
-        [ ViewSizeNewStoryModal.root model
+        [ ViewCancelStoryDialog.root model
         , header model
         , Title.root storyName
         , ViewVotes.root model
@@ -24,7 +24,7 @@ header model =
     div [ class "owner-buttons" ]
         (List.append
             (ownerButtons model)
-            ([ button [ class "owner-button", onClick NewStoryDialog ] [ text "size new story" ] ])
+            ([ button [ class "owner-button", onClick CancelStoryDialog ] [ text "size new story" ] ])
         )
 
 

@@ -14375,7 +14375,7 @@ var _user$project$Types$Model = function (a) {
 								return function (i) {
 									return function (j) {
 										return function (k) {
-											return {user: a, uuid: b, story: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, isDataLoaded: i, hisotryModel: j, showSizeNewStoryDilog: k};
+											return {user: a, uuid: b, story: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, isDataLoaded: i, hisotryModel: j, showCancelStoryDialog: k};
 										};
 									};
 								};
@@ -14397,8 +14397,8 @@ var _user$project$Types$HistoryMsg = function (a) {
 var _user$project$Types$VotesCleared = function (a) {
 	return {ctor: 'VotesCleared', _0: a};
 };
-var _user$project$Types$NewStoryDialogClose = {ctor: 'NewStoryDialogClose'};
-var _user$project$Types$NewStoryDialog = {ctor: 'NewStoryDialog'};
+var _user$project$Types$CancelStoryDialogClose = {ctor: 'CancelStoryDialogClose'};
+var _user$project$Types$CancelStoryDialog = {ctor: 'CancelStoryDialog'};
 var _user$project$Types$CancelStory = {ctor: 'CancelStory'};
 var _user$project$Types$ResizeStory = {ctor: 'ResizeStory'};
 var _user$project$Types$StorySizingEnded = function (a) {
@@ -14663,7 +14663,7 @@ var _user$project$State$update = F2(
 								[]),
 							story: _elm_lang$core$Maybe$Nothing,
 							isDataLoaded: true,
-							showSizeNewStoryDilog: false
+							showCancelStoryDialog: false
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -14710,16 +14710,16 @@ var _user$project$State$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{showSizeNewStoryDilog: false}),
+							{showCancelStoryDialog: false}),
 						_1: _user$project$Types$cancelStory(_p12._0)
 					};
 				}
-			case 'NewStoryDialog':
+			case 'CancelStoryDialog':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{showSizeNewStoryDilog: true}),
+						{showCancelStoryDialog: true}),
 					_elm_lang$core$Native_List.fromArray(
 						[]));
 			default:
@@ -14727,7 +14727,7 @@ var _user$project$State$update = F2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{showSizeNewStoryDilog: false, storyInput: ''}),
+						{showCancelStoryDialog: false, storyInput: ''}),
 					_elm_lang$core$Native_List.fromArray(
 						[]));
 		}
@@ -14744,7 +14744,7 @@ var _user$project$State$initModel = {
 	revealVotes: true,
 	isDataLoaded: false,
 	hisotryModel: _user$project$History_State$initModel,
-	showSizeNewStoryDilog: false
+	showCancelStoryDialog: false
 };
 var _user$project$State$init = function (flags) {
 	return _elm_lang$core$Basics$not(
@@ -15024,8 +15024,8 @@ var _user$project$ViewVotes$root = function (model) {
 			]));
 };
 
-var _user$project$ViewSizeNewStoryModal$root = function (model) {
-	return model.showSizeNewStoryDilog ? A2(
+var _user$project$ViewCancelStoryDialog$root = function (model) {
+	return model.showCancelStoryDialog ? A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -15044,7 +15044,7 @@ var _user$project$ViewSizeNewStoryModal$root = function (model) {
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html_Attributes$class('modal-close'),
-								_elm_lang$html$Html_Events$onClick(_user$project$Types$NewStoryDialogClose)
+								_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialogClose)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -15281,7 +15281,7 @@ var _user$project$ViewSizing$header = function (model) {
 					_elm_lang$core$Native_List.fromArray(
 						[
 							_elm_lang$html$Html_Attributes$class('owner-button'),
-							_elm_lang$html$Html_Events$onClick(_user$project$Types$NewStoryDialog)
+							_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[
@@ -15299,7 +15299,7 @@ var _user$project$ViewSizing$root = F2(
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_user$project$ViewSizeNewStoryModal$root(model),
+					_user$project$ViewCancelStoryDialog$root(model),
 					_user$project$ViewSizing$header(model),
 					_user$project$ViewTitle$root(storyName),
 					_user$project$ViewSizing$sizingButtons(model),
@@ -15352,7 +15352,7 @@ var _user$project$ViewResults$header = function (model) {
 					_elm_lang$core$Native_List.fromArray(
 						[
 							_elm_lang$html$Html_Attributes$class('owner-button'),
-							_elm_lang$html$Html_Events$onClick(_user$project$Types$NewStoryDialog)
+							_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[
@@ -15370,7 +15370,7 @@ var _user$project$ViewResults$root = F2(
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_user$project$ViewSizeNewStoryModal$root(model),
+					_user$project$ViewCancelStoryDialog$root(model),
 					_user$project$ViewResults$header(model),
 					_user$project$ViewTitle$root(storyName),
 					_user$project$ViewVotes$root(model)
