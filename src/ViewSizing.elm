@@ -17,8 +17,8 @@ root storyName model =
         [ ViewCancelStoryDialog.root model
         , header model
         , Title.root storyName
-          -- , div [ class "owner-buttons" ]
-          --     [ button [ class "owner-button" ] [ text "skip voting" ]
+          -- , div [ class "header-buttons" ]
+          --     [ button [ class "header-button" ] [ text "skip voting" ]
           --     ]
         , sizingButtons model
         , ViewVotes.root model
@@ -28,15 +28,20 @@ root storyName model =
 
 header : Model -> Html Msg
 header model =
-    div [ class "owner-buttons" ] (headerButtons model)
+    div [ class "header-buttons" ] (headerButtons model)
 
 
 headerButtons : Model -> List (Html Msg)
 headerButtons model =
+    [ a [ class "header-button", onClick <| cancelMsg model ] [ text "cancel" ] ]
+
+
+cancelMsg : Model -> Msg
+cancelMsg model =
     if isStoryOwner model then
-        [ button [ class "owner-button", onClick CancelStory ] [ text "cancel" ] ]
+        CancelStory
     else
-        [ button [ class "owner-button", onClick CancelStoryDialog ] [ text "cancel" ] ]
+        CancelStoryDialog
 
 
 sizingButtons : Model -> Html Msg

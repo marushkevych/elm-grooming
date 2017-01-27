@@ -1,0 +1,46 @@
+button.points {
+  width: 60px;
+}
+
+form>input[type="text"] {
+    min-width: 85%;
+    max-width: 85%;
+}
+
+ul>li>div.points:last-child:not(:first-child) {
+    width: 48px;
+    text-align: center; !important
+}
+
+ul>li>button {
+    min-width: 82px;
+}
+
+.scoreboard {
+    width: 543px;
+}
+
+.sizing {
+    width: 543px;
+}
+
+.story-reference {
+    display: inline-block;
+}
+
+.hostory-record {
+    font-size: 17px;
+}
+
+.header-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.header-button {
+    margin: 8px;
+    cursor: pointer;
+    color:#aaa;
+}
+.header-button:hover {
+	color:#000;
+}

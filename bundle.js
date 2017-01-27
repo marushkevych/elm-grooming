@@ -15247,28 +15247,19 @@ var _user$project$ViewSizing$sizingButtons = function (model) {
 					]))
 			]));
 };
+var _user$project$ViewSizing$cancelMsg = function (model) {
+	return _user$project$Types$isStoryOwner(model) ? _user$project$Types$CancelStory : _user$project$Types$CancelStoryDialog;
+};
 var _user$project$ViewSizing$headerButtons = function (model) {
-	return _user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
+	return _elm_lang$core$Native_List.fromArray(
 		[
 			A2(
-			_elm_lang$html$Html$button,
+			_elm_lang$html$Html$a,
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$html$Html_Attributes$class('owner-button'),
-					_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory)
-				]),
-			_elm_lang$core$Native_List.fromArray(
-				[
-					_elm_lang$html$Html$text('cancel')
-				]))
-		]) : _elm_lang$core$Native_List.fromArray(
-		[
-			A2(
-			_elm_lang$html$Html$button,
-			_elm_lang$core$Native_List.fromArray(
-				[
-					_elm_lang$html$Html_Attributes$class('owner-button'),
-					_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
+					_elm_lang$html$Html_Attributes$class('header-button'),
+					_elm_lang$html$Html_Events$onClick(
+					_user$project$ViewSizing$cancelMsg(model))
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
@@ -15281,7 +15272,7 @@ var _user$project$ViewSizing$header = function (model) {
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html_Attributes$class('owner-buttons')
+				_elm_lang$html$Html_Attributes$class('header-buttons')
 			]),
 		_user$project$ViewSizing$headerButtons(model));
 };
@@ -15307,10 +15298,10 @@ var _user$project$ViewResults$headerButtons = function (model) {
 	return _user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
 		[
 			A2(
-			_elm_lang$html$Html$button,
+			_elm_lang$html$Html$a,
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$html$Html_Attributes$class('owner-button'),
+					_elm_lang$html$Html_Attributes$class('header-button'),
 					_elm_lang$html$Html_Events$onClick(_user$project$Types$ResizeStory)
 				]),
 			_elm_lang$core$Native_List.fromArray(
@@ -15318,10 +15309,10 @@ var _user$project$ViewResults$headerButtons = function (model) {
 					_elm_lang$html$Html$text('resize')
 				])),
 			A2(
-			_elm_lang$html$Html$button,
+			_elm_lang$html$Html$a,
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$html$Html_Attributes$class('owner-button'),
+					_elm_lang$html$Html_Attributes$class('header-button'),
 					_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory)
 				]),
 			_elm_lang$core$Native_List.fromArray(
@@ -15331,10 +15322,10 @@ var _user$project$ViewResults$headerButtons = function (model) {
 		]) : _elm_lang$core$Native_List.fromArray(
 		[
 			A2(
-			_elm_lang$html$Html$button,
+			_elm_lang$html$Html$a,
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$html$Html_Attributes$class('owner-button'),
+					_elm_lang$html$Html_Attributes$class('header-button'),
 					_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
 				]),
 			_elm_lang$core$Native_List.fromArray(
@@ -15348,7 +15339,7 @@ var _user$project$ViewResults$header = function (model) {
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html_Attributes$class('owner-buttons')
+				_elm_lang$html$Html_Attributes$class('header-buttons')
 			]),
 		_user$project$ViewResults$headerButtons(model));
 };
