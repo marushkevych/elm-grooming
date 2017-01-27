@@ -14482,8 +14482,8 @@ var _user$project$State$getUser = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'State',
 			{
-				start: {line: 207, column: 5},
-				end: {line: 212, column: 17}
+				start: {line: 204, column: 5},
+				end: {line: 209, column: 17}
 			},
 			_p1)('User should be initialized');
 	} else {
@@ -14569,7 +14569,7 @@ var _user$project$State$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{storyInput: '', showSizeNewStoryDilog: false}),
+						{storyInput: ''}),
 					_1: _user$project$Types$startStorySizing(
 						A3(
 							_user$project$Common$Story,
@@ -14612,8 +14612,8 @@ var _user$project$State$update = F2(
 						return _elm_lang$core$Native_Utils.crashCase(
 							'State',
 							{
-								start: {line: 120, column: 21},
-								end: {line: 125, column: 61}
+								start: {line: 119, column: 21},
+								end: {line: 124, column: 61}
 							},
 							_p8)('no story to size');
 					} else {
@@ -14649,8 +14649,7 @@ var _user$project$State$update = F2(
 						{
 							story: _elm_lang$core$Maybe$Just(_p6._0),
 							storyInput: '',
-							isDataLoaded: true,
-							showSizeNewStoryDilog: false
+							isDataLoaded: true
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -14663,7 +14662,8 @@ var _user$project$State$update = F2(
 							votes: _elm_lang$core$Native_List.fromArray(
 								[]),
 							story: _elm_lang$core$Maybe$Nothing,
-							isDataLoaded: true
+							isDataLoaded: true,
+							showSizeNewStoryDilog: false
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -14673,8 +14673,8 @@ var _user$project$State$update = F2(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 156, column: 13},
-							end: {line: 161, column: 49}
+							start: {line: 153, column: 13},
+							end: {line: 158, column: 49}
 						},
 						_p10)('no story to resize');
 				} else {
@@ -14701,14 +14701,16 @@ var _user$project$State$update = F2(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 167, column: 13},
-							end: {line: 172, column: 49}
+							start: {line: 164, column: 13},
+							end: {line: 169, column: 85}
 						},
 						_p12)('no story to cancel');
 				} else {
 					return {
 						ctor: '_Tuple2',
-						_0: model,
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{showSizeNewStoryDilog: false}),
 						_1: _user$project$Types$cancelStory(_p12._0)
 					};
 				}
@@ -15057,34 +15059,14 @@ var _user$project$ViewSizeNewStoryModal$root = function (model) {
 								_elm_lang$html$Html$text('Dismiss current story and start new session')
 							])),
 						A2(
-						_elm_lang$html$Html$form,
+						_elm_lang$html$Html$button,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Events$onSubmit(_user$project$Types$StartStorySizing)
+								_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								A2(
-								_elm_lang$html$Html$input,
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html_Attributes$type$('text'),
-										_elm_lang$html$Html_Attributes$placeholder('Story name'),
-										_elm_lang$html$Html_Events$onInput(_user$project$Types$StoryInput),
-										_elm_lang$html$Html_Attributes$value(model.storyInput)
-									]),
-								_elm_lang$core$Native_List.fromArray(
-									[])),
-								A2(
-								_elm_lang$html$Html$button,
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html_Attributes$type$('submit')
-									]),
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html$text('Size')
-									]))
+								_elm_lang$html$Html$text('Ok')
 							]))
 					]))
 			])) : A2(

@@ -13,16 +13,7 @@ root model =
             [ div []
                 [ a [ class "modal-close", onClick NewStoryDialogClose ] [ text "close" ]
                 , h5 [] [ text "Dismiss current story and start new session" ]
-                , Html.form [ onSubmit StartStorySizing ]
-                    [ input
-                        [ type' "text"
-                        , placeholder "Story name"
-                        , onInput StoryInput
-                        , value model.storyInput
-                        ]
-                        []
-                    , button [ type' "submit" ] [ text "Size" ]
-                    ]
+                , button [ onClick CancelStory ] [ text "Ok" ]
                 ]
             ]
     else

@@ -81,7 +81,6 @@ update msg model =
             else
                 ( { model
                     | storyInput = ""
-                    , showSizeNewStoryDilog = False
                   }
                 , startStorySizing (Story model.storyInput 0 (getUser model))
                 )
@@ -136,7 +135,6 @@ update msg model =
                 | story = Just story
                 , storyInput = ""
                 , isDataLoaded = True
-                , showSizeNewStoryDilog = False
               }
             , Cmd.none
             )
@@ -144,10 +142,9 @@ update msg model =
         StorySizingEnded x ->
             ( { model
                 | votes = []
-                , story =
-                    Nothing
-                    -- , revealVotes = False
+                , story = Nothing
                 , isDataLoaded = True
+                , showSizeNewStoryDilog = False
               }
             , Cmd.none
             )
@@ -169,7 +166,7 @@ update msg model =
                     Debug.crash "no story to cancel"
 
                 Just story ->
-                    ( model, cancelStory story )
+                    ( { model | showSizeNewStoryDilog = False }, cancelStory story )
 
         NewStoryDialog ->
             { model | showSizeNewStoryDilog = True } ! []

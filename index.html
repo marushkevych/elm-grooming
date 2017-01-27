@@ -57,7 +57,6 @@
     // current story
     var currentStoryRef = database.ref().child('currentStory')
     app.ports.startStorySizing.subscribe(function(story) {
-      canselStory()
       currentStoryRef.set(story);
       votesRevelaedRef.set(false);
     })
@@ -120,17 +119,13 @@
 
 
     app.ports.cancelStory.subscribe(function(story) {
-        canselStory()
+      votesRef.set(null)
+      currentStoryRef.set(null)
     })
 
     app.ports.resizeStory.subscribe(function(story) {
         votesRef.set(null)
     })
-
-    function canselStory() {
-      votesRef.set(null)
-      currentStoryRef.set(null)
-    }
 
   </script>
 </body>
