@@ -14725,7 +14725,7 @@ var _user$project$State$update = F2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{showSizeNewStoryDilog: false}),
+						{showSizeNewStoryDilog: false, storyInput: ''}),
 					_elm_lang$core$Native_List.fromArray(
 						[]));
 		}

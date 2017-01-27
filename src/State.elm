@@ -175,7 +175,7 @@ update msg model =
             { model | showSizeNewStoryDilog = True } ! []
 
         NewStoryDialogClose ->
-            { model | showSizeNewStoryDilog = False } ! []
+            { model | showSizeNewStoryDilog = False, storyInput = "" } ! []
 
 
 saveVote : Model -> Float -> ( Model, Cmd Msg )
