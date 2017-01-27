@@ -15247,7 +15247,7 @@ var _user$project$ViewSizing$sizingButtons = function (model) {
 					]))
 			]));
 };
-var _user$project$ViewSizing$ownerButtons = function (model) {
+var _user$project$ViewSizing$headerButtons = function (model) {
 	return _user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
 		[
 			A2(
@@ -15262,7 +15262,19 @@ var _user$project$ViewSizing$ownerButtons = function (model) {
 					_elm_lang$html$Html$text('cancel')
 				]))
 		]) : _elm_lang$core$Native_List.fromArray(
-		[]);
+		[
+			A2(
+			_elm_lang$html$Html$button,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('owner-button'),
+					_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text('cancel')
+				]))
+		]);
 };
 var _user$project$ViewSizing$header = function (model) {
 	return A2(
@@ -15271,23 +15283,7 @@ var _user$project$ViewSizing$header = function (model) {
 			[
 				_elm_lang$html$Html_Attributes$class('owner-buttons')
 			]),
-		A2(
-			_elm_lang$core$List$append,
-			_user$project$ViewSizing$ownerButtons(model),
-			_elm_lang$core$Native_List.fromArray(
-				[
-					A2(
-					_elm_lang$html$Html$button,
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html_Attributes$class('owner-button'),
-							_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
-						]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html$text('size new story')
-						]))
-				])));
+		_user$project$ViewSizing$headerButtons(model));
 };
 var _user$project$ViewSizing$root = F2(
 	function (storyName, model) {
@@ -15307,7 +15303,7 @@ var _user$project$ViewSizing$root = F2(
 				]));
 	});
 
-var _user$project$ViewResults$ownerButtons = function (model) {
+var _user$project$ViewResults$headerButtons = function (model) {
 	return _user$project$Types$isStoryOwner(model) ? _elm_lang$core$Native_List.fromArray(
 		[
 			A2(
@@ -15333,7 +15329,19 @@ var _user$project$ViewResults$ownerButtons = function (model) {
 					_elm_lang$html$Html$text('cancel')
 				]))
 		]) : _elm_lang$core$Native_List.fromArray(
-		[]);
+		[
+			A2(
+			_elm_lang$html$Html$button,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('owner-button'),
+					_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text('cancel')
+				]))
+		]);
 };
 var _user$project$ViewResults$header = function (model) {
 	return A2(
@@ -15342,23 +15350,7 @@ var _user$project$ViewResults$header = function (model) {
 			[
 				_elm_lang$html$Html_Attributes$class('owner-buttons')
 			]),
-		A2(
-			_elm_lang$core$List$append,
-			_user$project$ViewResults$ownerButtons(model),
-			_elm_lang$core$Native_List.fromArray(
-				[
-					A2(
-					_elm_lang$html$Html$button,
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html_Attributes$class('owner-button'),
-							_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog)
-						]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html$text('size new story')
-						]))
-				])));
+		_user$project$ViewResults$headerButtons(model));
 };
 var _user$project$ViewResults$root = F2(
 	function (storyName, model) {
