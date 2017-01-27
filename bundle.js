@@ -15056,12 +15056,13 @@ var _user$project$ViewCancelStoryDialog$root = function (model) {
 							[]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html$text('Dismiss current story and start new session')
+								_elm_lang$html$Html$text('Dismiss current story and start new session?')
 							])),
 						A2(
 						_elm_lang$html$Html$button,
 						_elm_lang$core$Native_List.fromArray(
 							[
+								_elm_lang$html$Html_Attributes$class('pure-button'),
 								_elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory)
 							]),
 						_elm_lang$core$Native_List.fromArray(

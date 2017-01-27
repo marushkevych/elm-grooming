@@ -12,8 +12,8 @@ root model =
         div [ class "modal-window" ]
             [ div []
                 [ a [ class "modal-close", onClick CancelStoryDialogClose ] [ text "close" ]
-                , h5 [] [ text "Dismiss current story and start new session" ]
-                , button [ onClick CancelStory ] [ text "Ok" ]
+                , h5 [] [ text "Dismiss current story and start new session?" ]
+                , button [ class "pure-button", onClick CancelStory ] [ text "Ok" ]
                 ]
             ]
     else
