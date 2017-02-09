@@ -5,6 +5,7 @@ import Types exposing (..)
 import String
 import Common exposing (..)
 import History.State as HistoryState
+import Router exposing (..)
 
 
 -- subscriptions
@@ -44,7 +45,7 @@ init : Flags -> Page -> ( Model, Cmd Msg )
 init flags page =
     let
         teamId =
-            Just "insight"
+            pageToTeamId page
     in
         if not (flags.userName == "" || flags.userId == "") then
             ( { initModel
@@ -62,6 +63,9 @@ init flags page =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Navigate page ->
+            ( model, navigateCmd page )
+
         StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )
 

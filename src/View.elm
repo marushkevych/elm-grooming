@@ -15,6 +15,14 @@ import ViewTitle as Title
 
 root : Model -> Html Msg
 root model =
+    if (model.teamId == Nothing) then
+        h3 [] [ text "Plese select team..." ]
+    else
+        grooming model
+
+
+grooming : Model -> Html Msg
+grooming model =
     let
         page =
             if model.user == Nothing then

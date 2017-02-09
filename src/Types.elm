@@ -103,13 +103,24 @@ isStoryOwner model =
             False
 
 
+pageToTeamId : Page -> Maybe String
+pageToTeamId page =
+    case page of
+        Home ->
+            Nothing
+
+        Team teamId ->
+            Just teamId
+
+
 type Page
     = Home
     | Team String
 
 
 type Msg
-    = StartStorySizing
+    = Navigate Page
+    | StartStorySizing
     | CreateUser
     | UserInput String
     | StoryInput String
