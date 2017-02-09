@@ -12,7 +12,7 @@ main =
     Navigation.programWithFlags (makeParser locationParser)
         { init = State.init
         , update = State.update
-        , urlUpdate = urlUpdate
+        , urlUpdate = State.urlUpdate
         , view = View.root
         , subscriptions = State.subscriptions
         }

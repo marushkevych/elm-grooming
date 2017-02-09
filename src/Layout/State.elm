@@ -1,4 +1,4 @@
-module Layout.State exposing (init, update, subscriptions)
+module Layout.State exposing (init, update, subscriptions, urlUpdate)
 
 import Layout.Types exposing (..)
 import State as GroomingState
@@ -24,6 +24,19 @@ update msg model =
                 ( { model | groomingModel = groomingModel }, Cmd.map GroomingMsg cmd )
 
 
+urlUpdate : GroomingTypes.Page -> Model -> ( Model, Cmd Msg )
+urlUpdate page model =
+    let
+        ( groomingModel, cmd ) =
+            GroomingState.urlUpdate page model.groomingModel
+    in
+        ( { model | groomingModel = groomingModel }, Cmd.none )
+
+
+
+-- ( model, Cmd.none )
+
+
 initModel : Model
 initModel =
     --{ user = Just (User "Andrey Marushkevych" "123")
@@ -35,11 +48,11 @@ initModel =
     }
 
 
-init : GroomingTypes.Flags -> ( Model, Cmd Msg )
-init flags =
+init : GroomingTypes.Flags -> GroomingTypes.Page -> ( Model, Cmd Msg )
+init flags page =
     let
         ( groomingModel, cmd ) =
-            GroomingState.init flags GroomingTypes.Home
+            GroomingState.init flags page
     in
         ( { initModel | groomingModel = groomingModel }, Cmd.none )
 

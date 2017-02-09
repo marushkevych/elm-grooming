@@ -25,21 +25,6 @@ locationParser location =
                 Team hash
 
 
-{-|
-Called when URL changes, using Page produced by locationParser.
--}
-urlUpdate : Page -> Model -> ( Model, Cmd Msg )
-urlUpdate page model =
-    let
-        _ =
-            Debug.log "urlUpdate: " page
-
-        teamId =
-            pageToTeamId page
-    in
-        ( { model | teamId = teamId }, Cmd.none )
-
-
 toHash : Page -> String
 toHash page =
     case page of

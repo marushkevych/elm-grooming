@@ -1,4 +1,4 @@
-module State exposing (init, initModel, update, subscriptions)
+module State exposing (init, initModel, update, subscriptions, urlUpdate)
 
 import Keyboard
 import Types exposing (..)
@@ -58,6 +58,21 @@ init flags page =
             )
         else
             ( { initModel | uuid = flags.uuid, teamId = teamId }, Cmd.none )
+
+
+{-|
+Called when URL changes, using Page produced by locationParser.
+-}
+urlUpdate : Page -> Model -> ( Model, Cmd Msg )
+urlUpdate page model =
+    let
+        _ =
+            Debug.log "urlUpdate: " page
+
+        teamId =
+            pageToTeamId page
+    in
+        ( { model | teamId = teamId }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
