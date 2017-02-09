@@ -15,28 +15,24 @@
   <script src="bundle.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
   <script>
-  function guid() {
-      function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-          .toString(16)
-          .substring(1);
-      }
-      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-        s4() + '-' + s4() + s4() + s4();
-  }
+    function guid() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+    }
 
-  var userName = ''
-  var userId = ''
-  if(localStorage) {
-      userName = localStorage.getItem('userName') || ''
-      userId = localStorage.getItem('userId') || ''
-  }
+    var userName = ''
+    var userId = ''
+    if(localStorage) {
+        userName = localStorage.getItem('userName') || ''
+        userId = localStorage.getItem('userId') || ''
+    }
 
-  var app = Elm.MainWithLayout.embed(document.getElementById("groom"), {
-      uuid: guid(),
-      userName: userName,
-      userId: userId
-  })
+
     // Initialize Firebase
     var config = {
       apiKey: "AIzaSyBty8SUQvWPywPS4lwyZSs_9JsQMoMksHM",
@@ -48,66 +44,93 @@
     firebase.initializeApp(config);
     var database = firebase.database();
 
+    var app = Elm.MainWithLayout.embed(document.getElementById("groom"), {
+      uuid: guid(),
+      userName: userName,
+      userId: userId
+    })
+
     app.ports.saveUser.subscribe(function(user) {
-        if(localStorage) {
-            localStorage.setItem('userName', user.name)
-            localStorage.setItem('userId', user.id)
+      if(localStorage) {
+        localStorage.setItem('userName', user.name)
+        localStorage.setItem('userId', user.id)
+      }
+    })
+
+    connectToTeam('insight')
+
+
+
+    function connectToTeam(teamID) {
+
+      var currentStoryRef = database.ref().child(teamID).child('currentStory')
+      var votesRef = database.ref().child(teamID).child('votes')
+      var historyRef = database.ref().child(teamID).child('history')
+
+
+      // current story
+      currentStoryRef.on('value', function(currentStory) {
+        var story = currentStory.val();
+        if(story) {
+          app.ports.storySizingStarted.send(story)
+        } else {
+          app.ports.storySizingEnded.send("")
         }
-    })
+      })
 
-    // current story
-    var currentStoryRef = database.ref().child('currentStory')
-    app.ports.startStorySizing.subscribe(function(story) {
-      currentStoryRef.set(story);
-    })
+      app.ports.startStorySizing.subscribe(function(story) {
+        currentStoryRef.set(story);
+      })
 
-    currentStoryRef.on('value', function(currentStory) {
-      var story = currentStory.val();
-      if(story) {
-        app.ports.storySizingStarted.send(story)
-      } else {
-        app.ports.storySizingEnded.send("")
-      }
-    })
-
-    // votes
-    var votesRef = database.ref().child('votes')
-    app.ports.addVote.subscribe(function(vote) {
-      votesRef.push(vote)
-    })
-
-    votesRef.on('child_added', function(vote) {
-      app.ports.voteAdded.send(vote.val())
-    })
-
-    votesRef.on('value', function(votes) {
-      if( votes.val() === null){
-          app.ports.votesCleared.send("")
-      }
-    })
-
-
-    // history
-    var historyRef = database.ref().child('history')
-    app.ports.archiveStory.subscribe(function(story) {
-      historyRef.push(story)
-      votesRef.set(null)
-      currentStoryRef.set(null);
-    })
-
-    historyRef.on('child_added', function(story) {
-      app.ports.storyArchived.send(story.val())
-    })
-
-
-    app.ports.cancelStory.subscribe(function(story) {
-      votesRef.set(null)
-      currentStoryRef.set(null)
-    })
-
-    app.ports.resizeStory.subscribe(function(story) {
+      app.ports.cancelStory.subscribe(function(story) {
         votesRef.set(null)
-    })
+        currentStoryRef.set(null)
+      })
+
+
+      // votes
+      votesRef.on('child_added', function(vote) {
+        app.ports.voteAdded.send(vote.val())
+      })
+
+      votesRef.on('value', function(votes) {
+        if( votes.val() === null){
+          app.ports.votesCleared.send("")
+        }
+      })
+
+      app.ports.addVote.subscribe(function(vote) {
+        votesRef.push(vote)
+      })
+
+      app.ports.resizeStory.subscribe(function(story) {
+        votesRef.set(null)
+      })
+
+
+      // history
+      historyRef.on('child_added', function(story) {
+        app.ports.storyArchived.send(story.val())
+      })
+
+      app.ports.archiveStory.subscribe(function(story) {
+        historyRef.push(story)
+        votesRef.set(null)
+        currentStoryRef.set(null);
+      })
+
+    }
+
+    // migration
+    function copyFbRecord(oldRef, newRef) {
+      oldRef.once('value', function(snap)  {
+        newRef.set( snap.val(), function(error) {
+          if( error && typeof(console) !== 'undefined' && console.error ) {  console.error(error); }
+        });
+      });
+    }
+
+    // copyFbRecord(database.ref().child('history'), historyRef)
 
   </script>
 </body>
