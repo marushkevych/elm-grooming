@@ -36,21 +36,27 @@ initModel =
     , isDataLoaded = False
     , hisotryModel = HistoryState.initModel
     , showCancelStoryDialog = False
+    , teamId = Nothing
     }
 
 
-init : Flags -> ( Model, Cmd Msg )
-init flags =
-    if not (flags.userName == "" || flags.userId == "") then
-        ( { initModel
-            | user = Just (User flags.userName flags.userId)
-            , uuid = flags.uuid
-            , userInput = flags.userName
-          }
-        , Cmd.none
-        )
-    else
-        ( { initModel | uuid = flags.uuid }, Cmd.none )
+init : Flags -> Page -> ( Model, Cmd Msg )
+init flags page =
+    let
+        teamId =
+            Just "insight"
+    in
+        if not (flags.userName == "" || flags.userId == "") then
+            ( { initModel
+                | user = Just (User flags.userName flags.userId)
+                , uuid = flags.uuid
+                , userInput = flags.userName
+                , teamId = teamId
+              }
+            , Cmd.none
+            )
+        else
+            ( { initModel | uuid = flags.uuid, teamId = teamId }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

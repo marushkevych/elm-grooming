@@ -39,7 +39,7 @@ init : GroomingTypes.Flags -> ( Model, Cmd Msg )
 init flags =
     let
         ( groomingModel, cmd ) =
-            GroomingState.init flags
+            GroomingState.init flags GroomingTypes.Home
     in
         ( { initModel | groomingModel = groomingModel }, Cmd.none )
 

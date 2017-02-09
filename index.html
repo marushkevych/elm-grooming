@@ -44,7 +44,7 @@
     firebase.initializeApp(config);
     var database = firebase.database();
 
-    var app = Elm.MainWithLayout.embed(document.getElementById("groom"), {
+    var app = Elm.Main.embed(document.getElementById("groom"), {
       uuid: guid(),
       userName: userName,
       userId: userId

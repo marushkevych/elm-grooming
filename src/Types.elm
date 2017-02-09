@@ -64,6 +64,7 @@ type alias Model =
     , isDataLoaded : Bool
     , hisotryModel : HistoryTypes.Model
     , showCancelStoryDialog : Bool
+    , teamId : Maybe String
     }
 
 
@@ -100,6 +101,11 @@ isStoryOwner model =
 
         Nothing ->
             False
+
+
+type Page
+    = Home
+    | Team String
 
 
 type Msg
