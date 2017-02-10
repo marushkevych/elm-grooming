@@ -70,6 +70,12 @@
       var currentStoryRef = database.ref().child(teamID).child('currentStory')
       var votesRef = database.ref().child(teamID).child('votes')
       var historyRef = database.ref().child(teamID).child('history')
+      var teamNameRef = database.ref().child(teamID).child('name')
+
+      teamNameRef.once('value', function(teamName) {
+        // TODO send team object wiht name
+        app.ports.teamLoaded.send(teamID)
+      })
 
 
       // current story

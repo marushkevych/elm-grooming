@@ -44,6 +44,9 @@ port resizeStory : Story -> Cmd msg
 port loadTeam : String -> Cmd msg
 
 
+port teamLoaded : (String -> msg) -> Sub msg
+
+
 
 -- Model
 
@@ -138,3 +141,4 @@ type Msg
     | HistoryMsg HistoryTypes.Msg
     | Home
     | Team String
+    | TeamLoaded String

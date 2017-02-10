@@ -21,6 +21,7 @@ subscriptions model =
         , storySizingEnded StorySizingEnded
         , votesCleared VotesCleared
         , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
+        , teamLoaded TeamLoaded
         ]
 
 
@@ -48,25 +49,24 @@ init flags location =
         locationMsg =
             locationParser location
 
-        ( teamId, cmd ) =
+        cmd =
             case locationMsg of
                 Team id ->
-                    ( Just id, loadTeam id )
+                    loadTeam id
 
                 _ ->
-                    ( Nothing, Cmd.none )
+                    Cmd.none
     in
         if not (flags.userName == "" || flags.userId == "") then
             ( { initModel
                 | user = Just (User flags.userName flags.userId)
                 , uuid = flags.uuid
                 , userInput = flags.userName
-                , teamId = teamId
               }
             , cmd
             )
         else
-            ( { initModel | uuid = flags.uuid, teamId = teamId }, cmd )
+            ( { initModel | uuid = flags.uuid }, cmd )
 
 
 {-|
@@ -96,7 +96,10 @@ update msg model =
             ( { model | teamId = Nothing }, Cmd.none )
 
         Team id ->
-            ( { model | teamId = Just id }, loadTeam id )
+            ( model, loadTeam id )
+
+        TeamLoaded id ->
+            ( { model | teamId = Just id }, Cmd.none )
 
         StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )
