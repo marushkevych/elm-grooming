@@ -59,7 +59,19 @@
 
     app.ports.loadTeam.subscribe(function(teamId) {
       console.log('teamId', teamId)
-      connectToTeam(teamId)
+
+      var teamNameRef = database.ref().child(teamId).child('name')
+      teamNameRef.once('value', function(name) {
+        var teamName = name.val()
+        console.log('teamName', teamName)
+
+        if(teamName) {
+          // TODO send team object wiht name
+          app.ports.teamLoaded.send(teamId)
+          connectToTeam(teamId)
+        }
+
+      })
     })
 
 
@@ -70,12 +82,6 @@
       var currentStoryRef = database.ref().child(teamID).child('currentStory')
       var votesRef = database.ref().child(teamID).child('votes')
       var historyRef = database.ref().child(teamID).child('history')
-      var teamNameRef = database.ref().child(teamID).child('name')
-
-      teamNameRef.once('value', function(teamName) {
-        // TODO send team object wiht name
-        app.ports.teamLoaded.send(teamID)
-      })
 
 
       // current story
