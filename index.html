@@ -60,25 +60,25 @@
     var teamConnection = null
 
     app.ports.loadTeam.subscribe(function(teamId) {
-      console.log('attempt to loadTeam', teamId)
+      // console.log('attempt to loadTeam', teamId)
 
       if(teamConnection) {
         teamConnection.unsubscribe()
         teamConnection = null;
       }
       app.ports.teamUnloaded.send('')
-      console.log('prev team unloaded')
+      // console.log('prev team unloaded')
 
       var teamNameRef = database.ref().child(teamId).child('name')
 
       teamNameRef.once('value', function(name) {
         var teamName = name.val()
-        console.log('loadedTeam', teamName)
+        // console.log('loadedTeam', teamName)
 
         if(teamName) {
           // TODO send team object wiht name
-          app.ports.teamLoaded.send(teamId)
           teamConnection = connectToTeam(teamId)
+          app.ports.teamLoaded.send(teamId)
         }
 
       })
@@ -89,7 +89,7 @@
 
     function connectToTeam(teamID) {
 
-      console.log('subscribing to team', teamID)
+      console.log('SUBSCRIBE', teamID)
 
       var currentStoryRef = database.ref().child(teamID).child('currentStory')
       var votesRef = database.ref().child(teamID).child('votes')
@@ -106,14 +106,18 @@
         }
       })
 
-      app.ports.startStorySizing.subscribe(function(story) {
+      function startStorySizing(story) {
         currentStoryRef.set(story);
-      })
+      }
 
-      app.ports.cancelStory.subscribe(function(story) {
+      app.ports.startStorySizing.subscribe(startStorySizing)
+
+      function cancelStory(story) {
         votesRef.set(null)
         currentStoryRef.set(null)
-      })
+      }
+
+      app.ports.cancelStory.subscribe(cancelStory)
 
 
       // votes
@@ -127,13 +131,17 @@
         }
       })
 
-      app.ports.addVote.subscribe(function(vote) {
+      function addVote(vote) {
         votesRef.push(vote)
-      })
+      }
 
-      app.ports.resizeStory.subscribe(function(story) {
+      app.ports.addVote.subscribe(addVote)
+
+      function resizeStory(story) {
         votesRef.set(null)
-      })
+      }
+
+      app.ports.resizeStory.subscribe(resizeStory)
 
 
       // history
@@ -141,23 +149,28 @@
         app.ports.storyArchived.send(story.val())
       })
 
-      app.ports.archiveStory.subscribe(function(story) {
+      function archiveStory(story) {
         historyRef.push(story)
         votesRef.set(null)
         currentStoryRef.set(null);
-      })
+      }
+
+      app.ports.archiveStory.subscribe(archiveStory)
 
       return {
         id: teamID,
         unsubscribe: function unsubscribe() {
-          currentStoryRef.off()
-          votesRef.off()
-          historyRef.off()
-          app.ports.startStorySizing.unsubscribe()
-          app.ports.cancelStory.unsubscribe()
-          app.ports.addVote.unsubscribe()
-          app.ports.resizeStory.unsubscribe()
-          app.ports.archiveStory.unsubscribe()
+          console.log('UNSUBSCRIBE', teamID)
+
+          currentStoryRef.off('value')
+          votesRef.off('child_added')
+          votesRef.off('value')
+          historyRef.off('child_added')
+          app.ports.startStorySizing.unsubscribe(startStorySizing)
+          app.ports.cancelStory.unsubscribe(cancelStory)
+          app.ports.addVote.unsubscribe(addVote)
+          app.ports.resizeStory.unsubscribe(resizeStory)
+          app.ports.archiveStory.unsubscribe(archiveStory)
         }
       }
 
