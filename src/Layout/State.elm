@@ -1,17 +1,18 @@
-module Layout.State exposing (init, update, subscriptions, urlUpdate)
+module Layout.State exposing (init, update, subscriptions)
 
 import Layout.Types exposing (..)
 import State as GroomingState
 import Types as GroomingTypes
 import Material
+import Navigation exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         -- When the `Mdl` messages come through, update appropriately.
-        Mdl msg' ->
-            Material.update msg' model
+        Mdl msg_ ->
+            Material.update Mdl msg_ model
 
         SelectTab num ->
             { model | selectedTab = num } ! []
@@ -22,15 +23,6 @@ update msg model =
                     GroomingState.update groomingMsg model.groomingModel
             in
                 ( { model | groomingModel = groomingModel }, Cmd.map GroomingMsg cmd )
-
-
-urlUpdate : GroomingTypes.Page -> Model -> ( Model, Cmd Msg )
-urlUpdate page model =
-    let
-        ( groomingModel, cmd ) =
-            GroomingState.urlUpdate page model.groomingModel
-    in
-        ( { model | groomingModel = groomingModel }, Cmd.none )
 
 
 
@@ -48,13 +40,13 @@ initModel =
     }
 
 
-init : GroomingTypes.Flags -> GroomingTypes.Page -> ( Model, Cmd Msg )
-init flags page =
+init : GroomingTypes.Flags -> Location -> ( Model, Cmd Msg )
+init flags location =
     let
         ( groomingModel, cmd ) =
-            GroomingState.init flags page
+            GroomingState.init flags location
     in
-        ( { initModel | groomingModel = groomingModel }, Cmd.none )
+        ( { initModel | groomingModel = groomingModel }, Cmd.map GroomingMsg cmd )
 
 
 subscriptions : Model -> Sub Msg

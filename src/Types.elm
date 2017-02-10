@@ -41,6 +41,9 @@ port cancelStory : Story -> Cmd msg
 port resizeStory : Story -> Cmd msg
 
 
+port loadTeam : String -> Cmd msg
+
+
 
 -- Model
 
@@ -103,24 +106,21 @@ isStoryOwner model =
             False
 
 
-pageToTeamId : Page -> Maybe String
-pageToTeamId page =
-    case page of
+pageToTeamId : Msg -> Maybe String
+pageToTeamId msg =
+    case msg of
         Home ->
             Nothing
 
         Team teamId ->
             Just teamId
 
-
-type Page
-    = Home
-    | Team String
+        _ ->
+            Nothing
 
 
 type Msg
-    = Navigate Page
-    | StartStorySizing
+    = StartStorySizing
     | CreateUser
     | UserInput String
     | StoryInput String
@@ -136,3 +136,5 @@ type Msg
     | CancelStoryDialogClose
     | VotesCleared String
     | HistoryMsg HistoryTypes.Msg
+    | Home
+    | Team String

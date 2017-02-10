@@ -57,7 +57,11 @@
       }
     })
 
-    connectToTeam('insight')
+    app.ports.loadTeam.subscribe(function(teamId) {
+      console.log('teamId', teamId)
+      connectToTeam(teamId)
+    })
+
 
 
 

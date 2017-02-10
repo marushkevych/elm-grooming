@@ -9,7 +9,6 @@ import Material.Scheme
 import Material.Layout as Layout
 import Material.Color as Color
 import Material.Grid exposing (grid, cell, size, Device(..))
-import Html.App as App
 import Common exposing (..)
 
 
@@ -56,10 +55,10 @@ viewNav model =
         page =
             case model.selectedTab of
                 0 ->
-                    App.map GroomingMsg (GroomingView.root model.groomingModel)
+                    Html.map GroomingMsg (GroomingView.root model.groomingModel)
 
                 1 ->
-                    App.map GroomingMsg (GroomingView.createUser model.groomingModel)
+                    Html.map GroomingMsg (GroomingView.createUser model.groomingModel)
 
                 _ ->
                     text "404"

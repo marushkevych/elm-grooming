@@ -8,7 +8,7 @@ import Types exposing (..)
 {-|
 Translate URL to Page
 -}
-locationParser : Location -> Page
+locationParser : Location -> Msg
 locationParser location =
     let
         hash =
@@ -25,16 +25,17 @@ locationParser location =
                 Team hash
 
 
-toHash : Page -> String
-toHash page =
-    case page of
-        Home ->
-            "#"
 
-        Team teamId ->
-            String.append "#" teamId
-
-
-navigateCmd : Page -> Cmd Msg
-navigateCmd page =
-    newUrl (toHash page)
+-- toHash : Page -> String
+-- toHash page =
+--     case page of
+--         Home ->
+--             "#"
+--
+--         Team teamId ->
+--             String.append "#" teamId
+--
+--
+-- navigateCmd : Page -> Cmd Msg
+-- navigateCmd page =
+--     newUrl (toHash page)

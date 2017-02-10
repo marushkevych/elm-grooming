@@ -1,11 +1,12 @@
-module State exposing (init, initModel, update, subscriptions, urlUpdate)
+module State exposing (init, initModel, update, subscriptions)
 
 import Keyboard
 import Types exposing (..)
 import String
 import Common exposing (..)
 import History.State as HistoryState
-import Router exposing (..)
+import Navigation exposing (..)
+import Router exposing (locationParser)
 
 
 -- subscriptions
@@ -41,11 +42,19 @@ initModel =
     }
 
 
-init : Flags -> Page -> ( Model, Cmd Msg )
-init flags page =
+init : Flags -> Location -> ( Model, Cmd Msg )
+init flags location =
     let
-        teamId =
-            pageToTeamId page
+        locationMsg =
+            locationParser location
+
+        ( teamId, cmd ) =
+            case locationMsg of
+                Team id ->
+                    ( Just id, loadTeam id )
+
+                _ ->
+                    ( Nothing, Cmd.none )
     in
         if not (flags.userName == "" || flags.userId == "") then
             ( { initModel
@@ -54,32 +63,40 @@ init flags page =
                 , userInput = flags.userName
                 , teamId = teamId
               }
-            , Cmd.none
+            , cmd
             )
         else
-            ( { initModel | uuid = flags.uuid, teamId = teamId }, Cmd.none )
+            ( { initModel | uuid = flags.uuid, teamId = teamId }, cmd )
 
 
 {-|
 Called when URL changes, using Page produced by locationParser.
 -}
-urlUpdate : Page -> Model -> ( Model, Cmd Msg )
-urlUpdate page model =
-    let
-        _ =
-            Debug.log "urlUpdate: " page
 
-        teamId =
-            pageToTeamId page
-    in
-        ( { model | teamId = teamId }, Cmd.none )
+
+
+-- urlUpdate : Page -> Model -> ( Model, Cmd Msg )
+-- urlUpdate page model =
+--     let
+--         _ =
+--             Debug.log "urlUpdate: " page
+--
+--         teamId =
+--             pageToTeamId page
+--     in
+--         ( { model | teamId = teamId }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Navigate page ->
-            ( model, navigateCmd page )
+        -- Navigate page ->
+        --     ( model, navigateCmd page )
+        Home ->
+            ( { model | teamId = Nothing }, Cmd.none )
+
+        Team id ->
+            ( { model | teamId = Just id }, loadTeam id )
 
         StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )

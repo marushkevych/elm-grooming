@@ -50,13 +50,13 @@ createUser model =
         [ Title.root "What is your name?"
         , Html.form [ onSubmit CreateUser ]
             [ input
-                [ type' "text"
+                [ type_ "text"
                 , placeholder "User Name"
                 , onInput UserInput
                 , value model.userInput
                 ]
                 []
-            , button [ type' "submit" ] [ text "Save" ]
+            , button [ type_ "submit" ] [ text "Save" ]
             ]
         ]
 

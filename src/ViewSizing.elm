@@ -1,7 +1,6 @@
 module ViewSizing exposing (root)
 
 import Html exposing (..)
-import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import History.View as HistoryView
@@ -68,4 +67,4 @@ sizingButtons model =
 
 reference : Model -> Html Msg
 reference model =
-    App.map HistoryMsg (HistoryView.reference model.hisotryModel)
+    Html.map HistoryMsg (HistoryView.reference model.hisotryModel)
