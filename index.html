@@ -57,18 +57,28 @@
       }
     })
 
+    var teamConnection = null
+
     app.ports.loadTeam.subscribe(function(teamId) {
-      console.log('teamId', teamId)
+      console.log('attempt to loadTeam', teamId)
+
+      if(teamConnection) {
+        teamConnection.unsubscribe()
+        teamConnection = null;
+      }
+      app.ports.teamUnloaded.send('')
+      console.log('prev team unloaded')
 
       var teamNameRef = database.ref().child(teamId).child('name')
+
       teamNameRef.once('value', function(name) {
         var teamName = name.val()
-        console.log('teamName', teamName)
+        console.log('loadedTeam', teamName)
 
         if(teamName) {
           // TODO send team object wiht name
           app.ports.teamLoaded.send(teamId)
-          connectToTeam(teamId)
+          teamConnection = connectToTeam(teamId)
         }
 
       })
@@ -78,6 +88,8 @@
 
 
     function connectToTeam(teamID) {
+
+      console.log('subscribing to team', teamID)
 
       var currentStoryRef = database.ref().child(teamID).child('currentStory')
       var votesRef = database.ref().child(teamID).child('votes')
@@ -134,6 +146,20 @@
         votesRef.set(null)
         currentStoryRef.set(null);
       })
+
+      return {
+        id: teamID,
+        unsubscribe: function unsubscribe() {
+          currentStoryRef.off()
+          votesRef.off()
+          historyRef.off()
+          app.ports.startStorySizing.unsubscribe()
+          app.ports.cancelStory.unsubscribe()
+          app.ports.addVote.unsubscribe()
+          app.ports.resizeStory.unsubscribe()
+          app.ports.archiveStory.unsubscribe()
+        }
+      }
 
     }
 

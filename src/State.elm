@@ -5,6 +5,7 @@ import Types exposing (..)
 import String
 import Common exposing (..)
 import History.State as HistoryState
+import History.Types as HistoryTypes
 import Navigation exposing (..)
 import Router exposing (locationParser)
 
@@ -22,6 +23,7 @@ subscriptions model =
         , votesCleared VotesCleared
         , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
         , teamLoaded TeamLoaded
+        , teamUnloaded TeamUnloaded
         ]
 
 
@@ -30,7 +32,6 @@ initModel =
     --{ user = Just (User "Andrey Marushkevych" "123")
     { user = Nothing
     , uuid = ""
-    , story = Nothing
     , storyInput = ""
     , userInput = ""
     , error = Nothing
@@ -39,7 +40,14 @@ initModel =
     , isDataLoaded = False
     , hisotryModel = HistoryState.initModel
     , showCancelStoryDialog = False
-    , teamId = Nothing
+    , team = Nothing
+    }
+
+
+initTeam : String -> Team
+initTeam id =
+    { id = id
+    , story = Nothing
     }
 
 
@@ -51,7 +59,7 @@ init flags location =
 
         cmd =
             case locationMsg of
-                Team id ->
+                LocationTeam id ->
                     loadTeam id
 
                 _ ->
@@ -92,14 +100,32 @@ update msg model =
     case msg of
         -- Navigate page ->
         --     ( model, navigateCmd page )
-        Home ->
-            ( { model | teamId = Nothing }, Cmd.none )
+        LocationHome ->
+            ( { model | team = Nothing }, Cmd.none )
 
-        Team id ->
+        LocationTeam id ->
             ( model, loadTeam id )
 
         TeamLoaded id ->
-            ( { model | teamId = Just id }, Cmd.none )
+            let
+                _ =
+                    Debug.log "teamId" id
+
+                team =
+                    initTeam id
+            in
+                ( { model | team = Just team }, Cmd.none )
+
+        TeamUnloaded _ ->
+            ( { model
+                | team = Nothing
+                , votes = []
+                , showCancelStoryDialog = False
+                , isDataLoaded = False
+                , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
+              }
+            , Cmd.none
+            )
 
         StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )
@@ -149,15 +175,21 @@ update msg model =
 
         SelectVote vote ->
             let
+                team =
+                    getTeam model
+
                 sizedStory =
-                    case model.story of
+                    case team.story of
                         Nothing ->
                             Debug.crash "no story to size"
 
                         Just story ->
                             { story | points = vote.points }
+
+                updatedTeam =
+                    { team | story = Just sizedStory }
             in
-                ( { model | story = Just sizedStory }
+                ( { model | team = Just updatedTeam }
                 , archiveStory sizedStory
                 )
 
@@ -165,26 +197,44 @@ update msg model =
             ( { model | hisotryModel = HistoryState.update msg model.hisotryModel }, Cmd.none )
 
         StorySizingStarted story ->
-            ( { model
-                | story = Just story
-                , storyInput = ""
-                , isDataLoaded = True
-              }
-            , Cmd.none
-            )
+            let
+                team =
+                    getTeam model
+
+                udatedTeam =
+                    { team
+                        | story = Just story
+                    }
+            in
+                ( { model
+                    | team = Just udatedTeam
+                    , storyInput = ""
+                    , isDataLoaded = True
+                  }
+                , Cmd.none
+                )
 
         StorySizingEnded x ->
-            ( { model
-                | votes = []
-                , story = Nothing
-                , isDataLoaded = True
-                , showCancelStoryDialog = False
-              }
-            , Cmd.none
-            )
+            let
+                team =
+                    getTeam model
+
+                updatedTeam =
+                    { team
+                        | story = Nothing
+                    }
+            in
+                ( { model
+                    | votes = []
+                    , team = Just updatedTeam
+                    , isDataLoaded = True
+                    , showCancelStoryDialog = False
+                  }
+                , Cmd.none
+                )
 
         ResizeStory ->
-            case model.story of
+            case (getTeam model).story of
                 Nothing ->
                     Debug.crash "no story to resize"
 
@@ -195,7 +245,7 @@ update msg model =
             { model | votes = [] } ! []
 
         CancelStory ->
-            case model.story of
+            case (getTeam model).story of
                 Nothing ->
                     Debug.crash "no story to cancel"
 
@@ -224,7 +274,7 @@ saveVote model points =
                     ( model, Cmd.none )
 
             _ ->
-                case model.story of
+                case (getTeam model).story of
                     Just story ->
                         ( model, addVote (Vote points (getUser model)) )
 
@@ -241,6 +291,16 @@ getUser model =
 
         Just user ->
             user
+
+
+getTeam : Model -> Team
+getTeam model =
+    case model.team of
+        Nothing ->
+            Debug.crash "no team is selected"
+
+        Just team ->
+            team
 
 
 mapKeyCodeToPoints : Int -> Maybe Float

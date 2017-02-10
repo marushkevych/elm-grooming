@@ -47,6 +47,9 @@ port loadTeam : String -> Cmd msg
 port teamLoaded : (String -> msg) -> Sub msg
 
 
+port teamUnloaded : (String -> msg) -> Sub msg
+
+
 
 -- Model
 
@@ -61,7 +64,7 @@ type alias Flags =
 type alias Model =
     { user : Maybe User
     , uuid : String
-    , story : Maybe Story
+    , team : Maybe Team
     , storyInput : String
     , userInput : String
     , error : Maybe String
@@ -70,7 +73,12 @@ type alias Model =
     , isDataLoaded : Bool
     , hisotryModel : HistoryTypes.Model
     , showCancelStoryDialog : Bool
-    , teamId : Maybe String
+    }
+
+
+type alias Team =
+    { id : String
+    , story : Maybe Story
     }
 
 
@@ -98,9 +106,14 @@ isStoryOwner : Model -> Bool
 isStoryOwner model =
     case model.user of
         Just user ->
-            case model.story of
-                Just story ->
-                    user.id == story.owner.id
+            case model.team of
+                Just team ->
+                    case team.story of
+                        Just story ->
+                            user.id == story.owner.id
+
+                        Nothing ->
+                            False
 
                 Nothing ->
                     False
@@ -112,10 +125,10 @@ isStoryOwner model =
 pageToTeamId : Msg -> Maybe String
 pageToTeamId msg =
     case msg of
-        Home ->
+        LocationHome ->
             Nothing
 
-        Team teamId ->
+        LocationTeam teamId ->
             Just teamId
 
         _ ->
@@ -139,6 +152,7 @@ type Msg
     | CancelStoryDialogClose
     | VotesCleared String
     | HistoryMsg HistoryTypes.Msg
-    | Home
-    | Team String
+    | LocationHome
+    | LocationTeam String
     | TeamLoaded String
+    | TeamUnloaded String

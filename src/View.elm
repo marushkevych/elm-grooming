@@ -15,10 +15,19 @@ import ViewTitle as Title
 
 root : Model -> Html Msg
 root model =
-    if (model.teamId == Nothing) then
-        h3 [] [ text "Plese select team..." ]
+    if (model.team == Nothing) then
+        selectTeam model
     else
         grooming model
+
+
+selectTeam : Model -> Html Msg
+selectTeam model =
+    div []
+        [ h3 [] [ text "Please select team..." ]
+        , a [ class "header-button", href "#insight" ] [ text "Insight" ]
+        , a [ class "header-button", href "#rm" ] [ text "Nexus" ]
+        ]
 
 
 grooming : Model -> Html Msg
@@ -30,16 +39,21 @@ grooming model =
             else if not model.isDataLoaded then
                 loadingPage
             else
-                case model.story of
-                    Nothing ->
-                        ViewEnterStory.root
+                case model.team of
+                    Just team ->
+                        case team.story of
+                            Nothing ->
+                                ViewEnterStory.root
 
-                    Just story ->
-                        -- if hasVoted model || isStoryOwner model then
-                        if hasVoted model then
-                            ViewResults.root story.name
-                        else
-                            ViewSizing.root story.name
+                            Just story ->
+                                -- if hasVoted model || isStoryOwner model then
+                                if hasVoted model then
+                                    ViewResults.root story.name
+                                else
+                                    ViewSizing.root story.name
+
+                    Nothing ->
+                        selectTeam
     in
         page model
 

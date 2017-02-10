@@ -19,20 +19,20 @@ locationParser location =
     in
         case hash of
             "" ->
-                Home
+                LocationHome
 
             _ ->
-                Team hash
+                LocationTeam hash
 
 
 
 -- toHash : Page -> String
 -- toHash page =
 --     case page of
---         Home ->
+--         LocationHome ->
 --             "#"
 --
---         Team teamId ->
+--         LocationTeam teamId ->
 --             String.append "#" teamId
 --
 --
