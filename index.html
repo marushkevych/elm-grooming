@@ -50,6 +50,11 @@
       userId: userId
     })
 
+
+    var currentStoryRef = null
+    var votesRef = null
+    var historyRef = null
+
     app.ports.saveUser.subscribe(function(user) {
       if(localStorage) {
         localStorage.setItem('userName', user.name)
@@ -57,17 +62,9 @@
       }
     })
 
-    var teamConnection = null
 
     app.ports.loadTeam.subscribe(function(teamId) {
-      // console.log('attempt to loadTeam', teamId)
-
-      if(teamConnection) {
-        teamConnection.unsubscribe()
-        teamConnection = null;
-      }
-      app.ports.teamUnloaded.send('')
-      // console.log('prev team unloaded')
+      console.log('attempt to loadTeam', teamId)
 
       var teamNameRef = database.ref().child(teamId).child('name')
 
@@ -76,24 +73,51 @@
         // console.log('loadedTeam', teamName)
 
         if(teamName) {
+          app.ports.teamUnloaded.send('')
           // TODO send team object wiht name
-          teamConnection = connectToTeam(teamId)
+          connectToTeam(teamId)
           app.ports.teamLoaded.send(teamId)
         }
 
       })
     })
 
+    app.ports.startStorySizing.subscribe(function(story) {
+      currentStoryRef.set(story);
+    })
 
+
+    app.ports.cancelStory.subscribe(function(story) {
+      votesRef.set(null)
+      currentStoryRef.set(null)
+    })
+
+    app.ports.addVote.subscribe(function(vote) {
+      votesRef.push(vote)
+    })
+
+    app.ports.resizeStory.subscribe(function(story) {
+      votesRef.set(null)
+    })
+
+    app.ports.archiveStory.subscribe(function(story) {
+      historyRef.push(story)
+      votesRef.set(null)
+      currentStoryRef.set(null);
+    })
 
 
     function connectToTeam(teamID) {
 
-      console.log('SUBSCRIBE', teamID)
+      // unsubscribe from prev team
+      currentStoryRef && currentStoryRef.off('value')
+      votesRef && votesRef.off('child_added')
+      votesRef && votesRef.off('value')
+      historyRef && historyRef.off('child_added')
 
-      var currentStoryRef = database.ref().child(teamID).child('currentStory')
-      var votesRef = database.ref().child(teamID).child('votes')
-      var historyRef = database.ref().child(teamID).child('history')
+      currentStoryRef = database.ref().child(teamID).child('currentStory')
+      votesRef = database.ref().child(teamID).child('votes')
+      historyRef = database.ref().child(teamID).child('history')
 
 
       // current story
@@ -105,19 +129,6 @@
           app.ports.storySizingEnded.send("")
         }
       })
-
-      function startStorySizing(story) {
-        currentStoryRef.set(story);
-      }
-
-      app.ports.startStorySizing.subscribe(startStorySizing)
-
-      function cancelStory(story) {
-        votesRef.set(null)
-        currentStoryRef.set(null)
-      }
-
-      app.ports.cancelStory.subscribe(cancelStory)
 
 
       // votes
@@ -131,48 +142,11 @@
         }
       })
 
-      function addVote(vote) {
-        votesRef.push(vote)
-      }
-
-      app.ports.addVote.subscribe(addVote)
-
-      function resizeStory(story) {
-        votesRef.set(null)
-      }
-
-      app.ports.resizeStory.subscribe(resizeStory)
-
 
       // history
       historyRef.on('child_added', function(story) {
         app.ports.storyArchived.send(story.val())
       })
-
-      function archiveStory(story) {
-        historyRef.push(story)
-        votesRef.set(null)
-        currentStoryRef.set(null);
-      }
-
-      app.ports.archiveStory.subscribe(archiveStory)
-
-      return {
-        id: teamID,
-        unsubscribe: function unsubscribe() {
-          console.log('UNSUBSCRIBE', teamID)
-
-          currentStoryRef.off('value')
-          votesRef.off('child_added')
-          votesRef.off('value')
-          historyRef.off('child_added')
-          app.ports.startStorySizing.unsubscribe(startStorySizing)
-          app.ports.cancelStory.unsubscribe(cancelStory)
-          app.ports.addVote.unsubscribe(addVote)
-          app.ports.resizeStory.unsubscribe(resizeStory)
-          app.ports.archiveStory.unsubscribe(archiveStory)
-        }
-      }
 
     }
 
