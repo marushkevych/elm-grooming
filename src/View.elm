@@ -15,8 +15,10 @@ import ViewTitle as Title
 
 root : Model -> Html Msg
 root model =
-    if (model.team == Nothing) then
-        selectTeam model
+    if model.user == Nothing then
+        createUser model
+    else if not model.isDataLoaded then
+        loadingPage model
     else
         grooming model
 
@@ -34,26 +36,21 @@ grooming : Model -> Html Msg
 grooming model =
     let
         page =
-            if model.user == Nothing then
-                createUser
-            else if not model.isDataLoaded then
-                loadingPage
-            else
-                case model.team of
-                    Just team ->
-                        case team.story of
-                            Nothing ->
-                                ViewEnterStory.root
+            case model.team of
+                Just team ->
+                    case team.story of
+                        Nothing ->
+                            ViewEnterStory.root
 
-                            Just story ->
-                                -- if hasVoted model || isStoryOwner model then
-                                if hasVoted model then
-                                    ViewResults.root story.name
-                                else
-                                    ViewSizing.root story.name
+                        Just story ->
+                            -- if hasVoted model || isStoryOwner model then
+                            if hasVoted model then
+                                ViewResults.root story.name
+                            else
+                                ViewSizing.root story.name
 
-                    Nothing ->
-                        selectTeam
+                Nothing ->
+                    selectTeam
     in
         page model
 

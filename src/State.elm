@@ -58,24 +58,25 @@ init flags location =
         locationMsg =
             locationParser location
 
-        cmd =
+        ( isDataLoaded, cmd ) =
             case locationMsg of
                 LocationTeam id ->
-                    loadTeam id
+                    ( False, loadTeam id )
 
                 _ ->
-                    Cmd.none
+                    ( True, Cmd.none )
     in
         if not (flags.userName == "" || flags.userId == "") then
             ( { initModel
                 | user = Just (User flags.userName flags.userId)
                 , uuid = flags.uuid
                 , userInput = flags.userName
+                , isDataLoaded = isDataLoaded
               }
             , cmd
             )
         else
-            ( { initModel | uuid = flags.uuid }, cmd )
+            ( { initModel | uuid = flags.uuid, isDataLoaded = isDataLoaded }, cmd )
 
 
 {-|
@@ -102,27 +103,35 @@ update msg model =
         -- Navigate page ->
         --     ( model, navigateCmd page )
         LocationHome ->
-            ( { model | team = Nothing }, Cmd.none )
+            ( { model | team = Nothing, isDataLoaded = True }, Cmd.none )
 
         LocationTeam id ->
-            ( model, loadTeam id )
+            ( { model | isDataLoaded = False }, loadTeam id )
 
         TeamLoaded id ->
-            let
-                _ =
-                    Debug.log "teamId" id
+            case id of
+                Nothing ->
+                    let
+                        _ =
+                            Debug.log "teamId" "nothing"
+                    in
+                        ( { model | team = Nothing, isDataLoaded = True }, Cmd.none )
 
-                team =
-                    initTeam id
-            in
-                ( { model | team = Just team }, Cmd.none )
+                Just teamId ->
+                    let
+                        _ =
+                            Debug.log "teamId" teamId
+
+                        team =
+                            initTeam teamId
+                    in
+                        ( { model | team = Just team, isDataLoaded = True }, Cmd.none )
 
         TeamUnloaded _ ->
             ( { model
                 | team = Nothing
                 , votes = []
                 , showCancelStoryDialog = False
-                , isDataLoaded = False
                 , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
               }
             , Cmd.none

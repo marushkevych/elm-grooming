@@ -77,6 +77,8 @@
           // TODO send team object wiht name
           subscribeToTeam(teamId)
           app.ports.teamLoaded.send(teamId)
+        } else {
+          app.ports.teamLoaded.send(null)
         }
 
       })
