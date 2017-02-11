@@ -75,7 +75,7 @@
         if(teamName) {
           app.ports.teamUnloaded.send('')
           // TODO send team object wiht name
-          connectToTeam(teamId)
+          subscribeToTeam(teamId)
           app.ports.teamLoaded.send(teamId)
         }
 
@@ -107,7 +107,7 @@
     })
 
 
-    function connectToTeam(teamID) {
+    function subscribeToTeam(teamID) {
 
       // unsubscribe from prev team
       currentStoryRef && currentStoryRef.off('value')
