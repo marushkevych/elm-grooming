@@ -1,6 +1,7 @@
 module State exposing (init, initModel, update, subscriptions)
 
-import Keyboard
+-- import Keyboard
+
 import Types exposing (..)
 import String
 import Common exposing (..)
@@ -16,8 +17,8 @@ import Router exposing (locationParser)
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
-        [ Keyboard.presses KeyMsg
-        , voteAdded VoteAdded
+        [ voteAdded VoteAdded
+          -- , Keyboard.presses KeyMsg
         , storySizingStarted StorySizingStarted
         , storySizingEnded StorySizingEnded
         , votesCleared VotesCleared
@@ -158,18 +159,17 @@ update msg model =
         Size points ->
             saveVote model points
 
-        KeyMsg keyCode ->
-            let
-                points =
-                    mapKeyCodeToPoints keyCode
-            in
-                case points of
-                    Just points ->
-                        saveVote model points
-
-                    Nothing ->
-                        ( model, Cmd.none )
-
+        -- KeyMsg keyCode ->
+        --     let
+        --         points =
+        --             mapKeyCodeToPoints keyCode
+        --     in
+        --         case points of
+        --             Just points ->
+        --                 saveVote model points
+        --
+        --             Nothing ->
+        --                 ( model, Cmd.none )
         VoteAdded vote ->
             ( { model | votes = vote :: model.votes }, Cmd.none )
 

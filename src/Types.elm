@@ -1,6 +1,7 @@
 port module Types exposing (..)
 
-import Keyboard
+-- import Keyboard
+
 import Common exposing (..)
 import History.Types as HistoryTypes
 
@@ -143,7 +144,7 @@ type Msg
     | Size Float
     | VoteAdded Vote
     | SelectVote Vote
-    | KeyMsg Keyboard.KeyCode
+      -- | KeyMsg Keyboard.KeyCode
     | StorySizingStarted Story
     | StorySizingEnded String
     | ResizeStory
