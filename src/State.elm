@@ -24,7 +24,6 @@ subscriptions model =
         , votesCleared VotesCleared
         , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
         , teamLoaded TeamLoaded
-        , teamUnloaded TeamUnloaded
         ]
 
 
@@ -125,17 +124,15 @@ update msg model =
                         team =
                             initTeam teamId
                     in
-                        ( { model | team = Just team, isDataLoaded = True }, Cmd.none )
-
-        TeamUnloaded _ ->
-            ( { model
-                | team = Nothing
-                , votes = []
-                , showCancelStoryDialog = False
-                , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
-              }
-            , Cmd.none
-            )
+                        ( { model
+                            | team = Just team
+                            , votes = []
+                            , showCancelStoryDialog = False
+                            , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
+                            , isDataLoaded = True
+                          }
+                        , Cmd.none
+                        )
 
         StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )

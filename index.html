@@ -64,23 +64,15 @@
 
 
     app.ports.loadTeam.subscribe(function(teamId) {
-      console.log('attempt to loadTeam', teamId)
+      unsibscribeFromCurrentTeam()
 
       var teamNameRef = database.ref().child(teamId).child('name')
-
       teamNameRef.once('value', function(name) {
-        var teamName = name.val()
-        // console.log('loadedTeam', teamName)
-
-        if(teamName) {
-          app.ports.teamUnloaded.send('')
-          // TODO send team object wiht name
+        // TODO send team object with teamName
+        app.ports.teamLoaded.send(name.val())
+        if(name.val()) {
           subscribeToTeam(teamId)
-          app.ports.teamLoaded.send(teamId)
-        } else {
-          app.ports.teamLoaded.send(null)
         }
-
       })
     })
 
@@ -108,19 +100,16 @@
       currentStoryRef.set(null);
     })
 
+    function unsibscribeFromCurrentTeam() {
+      currentStoryRef && currentStoryRef.off()
+      votesRef && votesRef.off()
+      historyRef && historyRef.off()
+    }
 
     function subscribeToTeam(teamID) {
-
-      // unsubscribe from prev team
-      currentStoryRef && currentStoryRef.off('value')
-      votesRef && votesRef.off('child_added')
-      votesRef && votesRef.off('value')
-      historyRef && historyRef.off('child_added')
-
       currentStoryRef = database.ref().child(teamID).child('currentStory')
       votesRef = database.ref().child(teamID).child('votes')
       historyRef = database.ref().child(teamID).child('history')
-
 
       // current story
       currentStoryRef.on('value', function(currentStory) {
