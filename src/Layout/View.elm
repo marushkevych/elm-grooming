@@ -28,6 +28,16 @@ userName model =
     (Maybe.withDefault (User "" "") model.user) |> .name
 
 
+teamName : GroomingModel.Model -> String
+teamName model =
+    case model.team of
+        Nothing ->
+            ""
+
+        Just team ->
+            team.name
+
+
 root : Model -> Html Msg
 root model =
     Material.Scheme.topWithScheme Color.Teal Color.LightGreen <|
@@ -39,7 +49,13 @@ root model =
             , Layout.selectedTab model.selectedTab
             , Layout.onSelectTab SelectTab
             ]
-            { header = [ div [ class "mdl-layout__title", style [ ( "padding-left", "1rem" ) ] ] [ text "Dust My Groom" ] ]
+            { header =
+                [ div
+                    [ class "mdl-layout__title" ]
+                    [ text "Dust My Groom"
+                    , span [ style [ ( "float", "right" ) ] ] [ text (teamName model.groomingModel) ]
+                    ]
+                ]
             , drawer =
                 []
             , tabs =
