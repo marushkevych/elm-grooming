@@ -129,7 +129,6 @@ update msg model =
                             , votes = []
                             , showCancelStoryDialog = False
                             , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
-                            , isDataLoaded = True
                           }
                         , Cmd.none
                         )
