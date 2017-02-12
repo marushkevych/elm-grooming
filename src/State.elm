@@ -23,7 +23,7 @@ subscriptions model =
         , storySizingEnded StorySizingEnded
         , votesCleared VotesCleared
         , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
-        , teamLoaded TeamLoaded
+        , teamChanged TeamChanged
         ]
 
 
@@ -107,31 +107,20 @@ update msg model =
         LocationTeam id ->
             ( { model | isDataLoaded = False }, loadTeam id )
 
-        TeamLoaded id ->
+        TeamChanged id ->
             case id of
                 Nothing ->
-                    let
-                        _ =
-                            Debug.log "teamId" "nothing"
-                    in
-                        ( { model | team = Nothing, isDataLoaded = True }, Cmd.none )
+                    ( { model | team = Nothing, isDataLoaded = True }, Cmd.none )
 
                 Just teamId ->
-                    let
-                        _ =
-                            Debug.log "teamId" teamId
-
-                        team =
-                            initTeam teamId
-                    in
-                        ( { model
-                            | team = Just team
-                            , votes = []
-                            , showCancelStoryDialog = False
-                            , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
-                          }
-                        , Cmd.none
-                        )
+                    ( { model
+                        | team = Just (initTeam teamId)
+                        , votes = []
+                        , showCancelStoryDialog = False
+                        , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
+                      }
+                    , subscribeToTeam teamId
+                    )
 
         StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )

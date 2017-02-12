@@ -69,11 +69,13 @@
       var teamNameRef = database.ref().child(teamId).child('name')
       teamNameRef.once('value', function(name) {
         // TODO send team object with teamName
-        app.ports.teamLoaded.send(name.val())
-        if(name.val()) {
-          subscribeToTeam(teamId)
-        }
+        var validTeamId = name.val() ? teamId : null
+        app.ports.teamChanged.send(validTeamId)
       })
+    })
+
+    app.ports.subscribeToTeam.subscribe(function(teamId) {
+      subscribeToTeam(teamId)
     })
 
     app.ports.startStorySizing.subscribe(function(story) {
