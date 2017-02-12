@@ -69,8 +69,8 @@
       var teamNameRef = database.ref().child(teamId).child('name')
       teamNameRef.once('value', function(name) {
         // TODO send team object with teamName
-        var validTeamId = name.val() ? teamId : null
-        app.ports.teamChanged.send(validTeamId)
+        var teamInfo = name.val() ? {id: teamId, name: name.val()} : null
+        app.ports.teamChanged.send(teamInfo)
       })
     })
 

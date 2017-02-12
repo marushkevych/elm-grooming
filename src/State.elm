@@ -44,9 +44,10 @@ initModel =
     }
 
 
-initTeam : String -> Team
-initTeam id =
-    { id = id
+initTeam : TeamInfo -> Team
+initTeam teamInfo =
+    { id = teamInfo.id
+    , name = teamInfo.name
     , story = Nothing
     }
 
@@ -107,19 +108,19 @@ update msg model =
         LocationTeam id ->
             ( { model | isDataLoaded = False }, loadTeam id )
 
-        TeamChanged id ->
-            case id of
+        TeamChanged data ->
+            case data of
                 Nothing ->
                     ( { model | team = Nothing, isDataLoaded = True }, Cmd.none )
 
-                Just teamId ->
+                Just teamInfo ->
                     ( { model
-                        | team = Just (initTeam teamId)
+                        | team = Just (initTeam teamInfo)
                         , votes = []
                         , showCancelStoryDialog = False
                         , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
                       }
-                    , subscribeToTeam teamId
+                    , subscribeToTeam teamInfo.id
                     )
 
         StoryInput value ->

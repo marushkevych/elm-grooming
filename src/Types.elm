@@ -45,7 +45,7 @@ port resizeStory : Story -> Cmd msg
 port loadTeam : String -> Cmd msg
 
 
-port teamChanged : (Maybe String -> msg) -> Sub msg
+port teamChanged : (Maybe TeamInfo -> msg) -> Sub msg
 
 
 port subscribeToTeam : String -> Cmd msg
@@ -77,8 +77,15 @@ type alias Model =
     }
 
 
+type alias TeamInfo =
+    { id : String
+    , name : String
+    }
+
+
 type alias Team =
     { id : String
+    , name : String
     , story : Maybe Story
     }
 
@@ -155,4 +162,4 @@ type Msg
     | HistoryMsg HistoryTypes.Msg
     | LocationHome
     | LocationTeam String
-    | TeamChanged (Maybe String)
+    | TeamChanged (Maybe TeamInfo)
