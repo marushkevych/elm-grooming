@@ -144,15 +144,18 @@ update msg model =
             ( { model | userInput = value }, Cmd.none )
 
         CreateUser ->
-            let
-                user =
-                    User model.userInput model.uuid
-            in
-                ( { model
-                    | user = Just user
-                  }
-                , saveUser user
-                )
+            if model.userInput |> String.trim |> String.isEmpty then
+                ( model, Cmd.none )
+            else
+                let
+                    user =
+                        User model.userInput model.uuid
+                in
+                    ( { model
+                        | user = Just user
+                      }
+                    , saveUser user
+                    )
 
         StartStorySizing ->
             -- TODO do this in transaction
