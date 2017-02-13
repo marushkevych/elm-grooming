@@ -1,10 +1,14 @@
 module State exposing (init, initModel, update, subscriptions)
 
-import Keyboard
+-- import Keyboard
+
 import Types exposing (..)
 import String
 import Common exposing (..)
 import History.State as HistoryState
+import History.Types as HistoryTypes
+import Navigation exposing (..)
+import Router exposing (locationParser)
 
 
 -- subscriptions
@@ -13,13 +17,13 @@ import History.State as HistoryState
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
-        [ Keyboard.presses KeyMsg
-        , voteAdded VoteAdded
+        [ voteAdded VoteAdded
+          -- , Keyboard.presses KeyMsg
         , storySizingStarted StorySizingStarted
         , storySizingEnded StorySizingEnded
-        , votesRevealed VotesRevealed
         , votesCleared VotesCleared
         , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
+        , teamChanged TeamChanged
         ]
 
 
@@ -28,7 +32,6 @@ initModel =
     --{ user = Just (User "Andrey Marushkevych" "123")
     { user = Nothing
     , uuid = ""
-    , story = Nothing
     , storyInput = ""
     , userInput = ""
     , error = Nothing
@@ -37,26 +40,89 @@ initModel =
     , isDataLoaded = False
     , hisotryModel = HistoryState.initModel
     , showCancelStoryDialog = False
+    , team = Nothing
     }
 
 
-init : Flags -> ( Model, Cmd Msg )
-init flags =
-    if not (flags.userName == "" || flags.userId == "") then
-        ( { initModel
-            | user = Just (User flags.userName flags.userId)
-            , uuid = flags.uuid
-            , userInput = flags.userName
-          }
-        , Cmd.none
-        )
-    else
-        ( { initModel | uuid = flags.uuid }, Cmd.none )
+initTeam : TeamInfo -> Team
+initTeam teamInfo =
+    { id = teamInfo.id
+    , name = teamInfo.name
+    , story = Nothing
+    }
+
+
+init : Flags -> Location -> ( Model, Cmd Msg )
+init flags location =
+    let
+        locationMsg =
+            locationParser location
+
+        ( isDataLoaded, cmd ) =
+            case locationMsg of
+                LocationTeam id ->
+                    ( False, loadTeam id )
+
+                _ ->
+                    ( True, Cmd.none )
+    in
+        if not (flags.userName == "" || flags.userId == "") then
+            ( { initModel
+                | user = Just (User flags.userName flags.userId)
+                , uuid = flags.uuid
+                , userInput = flags.userName
+                , isDataLoaded = isDataLoaded
+              }
+            , cmd
+            )
+        else
+            ( { initModel | uuid = flags.uuid, isDataLoaded = isDataLoaded }, cmd )
+
+
+{-|
+Called when URL changes, using Page produced by locationParser.
+-}
+
+
+
+-- urlUpdate : Page -> Model -> ( Model, Cmd Msg )
+-- urlUpdate page model =
+--     let
+--         _ =
+--             Debug.log "urlUpdate: " page
+--
+--         teamId =
+--             pageToTeamId page
+--     in
+--         ( { model | teamId = teamId }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        -- Navigate page ->
+        --     ( model, navigateCmd page )
+        LocationHome ->
+            ( { model | team = Nothing, isDataLoaded = True }, Cmd.none )
+
+        LocationTeam id ->
+            ( { model | isDataLoaded = False }, loadTeam id )
+
+        TeamChanged data ->
+            case data of
+                Nothing ->
+                    ( { model | team = Nothing, isDataLoaded = True }, Cmd.none )
+
+                Just teamInfo ->
+                    ( { model
+                        | team = Just (initTeam teamInfo)
+                        , votes = []
+                        , showCancelStoryDialog = False
+                        , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
+                      }
+                    , subscribeToTeam teamInfo.id
+                    )
+
         StoryInput value ->
             ( { model | storyInput = value }, Cmd.none )
 
@@ -64,15 +130,18 @@ update msg model =
             ( { model | userInput = value }, Cmd.none )
 
         CreateUser ->
-            let
-                user =
-                    User model.userInput model.uuid
-            in
-                ( { model
-                    | user = Just user
-                  }
-                , saveUser user
-                )
+            if model.userInput |> String.trim |> String.isEmpty then
+                ( model, Cmd.none )
+            else
+                let
+                    user =
+                        User model.userInput model.uuid
+                in
+                    ( { model
+                        | user = Just user
+                      }
+                    , saveUser user
+                    )
 
         StartStorySizing ->
             -- TODO do this in transaction
@@ -88,42 +157,37 @@ update msg model =
         Size points ->
             saveVote model points
 
-        KeyMsg keyCode ->
-            let
-                points =
-                    mapKeyCodeToPoints keyCode
-            in
-                case points of
-                    Just points ->
-                        saveVote model points
-
-                    Nothing ->
-                        ( model, Cmd.none )
-
+        -- KeyMsg keyCode ->
+        --     let
+        --         points =
+        --             mapKeyCodeToPoints keyCode
+        --     in
+        --         case points of
+        --             Just points ->
+        --                 saveVote model points
+        --
+        --             Nothing ->
+        --                 ( model, Cmd.none )
         VoteAdded vote ->
             ( { model | votes = vote :: model.votes }, Cmd.none )
 
-        --
-        -- RevealVotes ->
-        --     ( model, revealVotes (not model.revealVotes) )
-        VotesRevealed flag ->
-            ( { model
-                | revealVotes = flag
-              }
-            , Cmd.none
-            )
-
         SelectVote vote ->
             let
+                team =
+                    getTeam model
+
                 sizedStory =
-                    case model.story of
+                    case team.story of
                         Nothing ->
                             Debug.crash "no story to size"
 
                         Just story ->
                             { story | points = vote.points }
+
+                updatedTeam =
+                    { team | story = Just sizedStory }
             in
-                ( { model | story = Just sizedStory }
+                ( { model | team = Just updatedTeam }
                 , archiveStory sizedStory
                 )
 
@@ -131,26 +195,44 @@ update msg model =
             ( { model | hisotryModel = HistoryState.update msg model.hisotryModel }, Cmd.none )
 
         StorySizingStarted story ->
-            ( { model
-                | story = Just story
-                , storyInput = ""
-                , isDataLoaded = True
-              }
-            , Cmd.none
-            )
+            let
+                team =
+                    getTeam model
+
+                udatedTeam =
+                    { team
+                        | story = Just story
+                    }
+            in
+                ( { model
+                    | team = Just udatedTeam
+                    , storyInput = ""
+                    , isDataLoaded = True
+                  }
+                , Cmd.none
+                )
 
         StorySizingEnded x ->
-            ( { model
-                | votes = []
-                , story = Nothing
-                , isDataLoaded = True
-                , showCancelStoryDialog = False
-              }
-            , Cmd.none
-            )
+            let
+                team =
+                    getTeam model
+
+                updatedTeam =
+                    { team
+                        | story = Nothing
+                    }
+            in
+                ( { model
+                    | votes = []
+                    , team = Just updatedTeam
+                    , isDataLoaded = True
+                    , showCancelStoryDialog = False
+                  }
+                , Cmd.none
+                )
 
         ResizeStory ->
-            case model.story of
+            case (getTeam model).story of
                 Nothing ->
                     Debug.crash "no story to resize"
 
@@ -161,7 +243,7 @@ update msg model =
             { model | votes = [] } ! []
 
         CancelStory ->
-            case model.story of
+            case (getTeam model).story of
                 Nothing ->
                     Debug.crash "no story to cancel"
 
@@ -190,7 +272,7 @@ saveVote model points =
                     ( model, Cmd.none )
 
             _ ->
-                case model.story of
+                case (getTeam model).story of
                     Just story ->
                         ( model, addVote (Vote points (getUser model)) )
 
@@ -207,6 +289,16 @@ getUser model =
 
         Just user ->
             user
+
+
+getTeam : Model -> Team
+getTeam model =
+    case model.team of
+        Nothing ->
+            Debug.crash "no team is selected"
+
+        Just team ->
+            team
 
 
 mapKeyCodeToPoints : Int -> Maybe Float

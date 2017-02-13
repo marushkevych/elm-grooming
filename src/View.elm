@@ -15,23 +15,42 @@ import ViewTitle as Title
 
 root : Model -> Html Msg
 root model =
+    if model.user == Nothing then
+        createUser model
+    else if not model.isDataLoaded then
+        loadingPage model
+    else
+        grooming model
+
+
+selectTeam : Model -> Html Msg
+selectTeam model =
+    div []
+        [ h3 [] [ text "Please select your team" ]
+        , a [ class "header-button", href "#iq" ] [ text "Insight" ]
+        , a [ class "header-button", href "#rm" ] [ text "Nexus" ]
+        ]
+
+
+grooming : Model -> Html Msg
+grooming model =
     let
         page =
-            if model.user == Nothing then
-                createUser
-            else if not model.isDataLoaded then
-                loadingPage
-            else
-                case model.story of
-                    Nothing ->
-                        ViewEnterStory.root
+            case model.team of
+                Just team ->
+                    case team.story of
+                        Nothing ->
+                            ViewEnterStory.root
 
-                    Just story ->
-                        -- if hasVoted model || isStoryOwner model then
-                        if hasVoted model then
-                            ViewResults.root story.name
-                        else
-                            ViewSizing.root story.name
+                        Just story ->
+                            -- if hasVoted model || isStoryOwner model then
+                            if hasVoted model then
+                                ViewResults.root story.name
+                            else
+                                ViewSizing.root story.name
+
+                Nothing ->
+                    selectTeam
     in
         page model
 
@@ -42,13 +61,13 @@ createUser model =
         [ Title.root "What is your name?"
         , Html.form [ onSubmit CreateUser ]
             [ input
-                [ type' "text"
+                [ type_ "text"
                 , placeholder "User Name"
                 , onInput UserInput
                 , value model.userInput
                 ]
                 []
-            , button [ type' "submit" ] [ text "Save" ]
+            , button [ type_ "submit" ] [ text "Save" ]
             ]
         ]
 

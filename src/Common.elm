@@ -17,7 +17,7 @@ type alias User =
 pointsString : Float -> String
 pointsString points =
     case points of
-        -1 ->
+        (-1) ->
             "-"
 
         1000 ->

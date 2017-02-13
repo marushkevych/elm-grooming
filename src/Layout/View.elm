@@ -9,7 +9,6 @@ import Material.Scheme
 import Material.Layout as Layout
 import Material.Color as Color
 import Material.Grid exposing (grid, cell, size, Device(..))
-import Html.App as App
 import Common exposing (..)
 
 
@@ -29,6 +28,16 @@ userName model =
     (Maybe.withDefault (User "" "") model.user) |> .name
 
 
+teamName : GroomingModel.Model -> String
+teamName model =
+    case model.team of
+        Nothing ->
+            ""
+
+        Just team ->
+            team.name
+
+
 root : Model -> Html Msg
 root model =
     Material.Scheme.topWithScheme Color.Teal Color.LightGreen <|
@@ -40,7 +49,13 @@ root model =
             , Layout.selectedTab model.selectedTab
             , Layout.onSelectTab SelectTab
             ]
-            { header = [ div [ class "mdl-layout__title", style [ ( "padding-left", "1rem" ) ] ] [ text "Dust My Groom" ] ]
+            { header =
+                [ div
+                    [ class "mdl-layout__title" ]
+                    [ text "Dust My Groom"
+                    , span [ style [ ( "float", "right" ) ] ] [ text (teamName model.groomingModel) ]
+                    ]
+                ]
             , drawer =
                 []
             , tabs =
@@ -56,10 +71,10 @@ viewNav model =
         page =
             case model.selectedTab of
                 0 ->
-                    App.map GroomingMsg (GroomingView.root model.groomingModel)
+                    Html.map GroomingMsg (GroomingView.root model.groomingModel)
 
                 1 ->
-                    App.map GroomingMsg (GroomingView.createUser model.groomingModel)
+                    Html.map GroomingMsg (GroomingView.createUser model.groomingModel)
 
                 _ ->
                     text "404"

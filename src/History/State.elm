@@ -9,6 +9,9 @@ update msg model =
         StoryArchived story ->
             { model | sizedStories = story :: model.sizedStories }
 
+        ClearHistory ->
+            { model | sizedStories = [] }
+
 
 initModel : Model
 initModel =

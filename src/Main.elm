@@ -1,16 +1,18 @@
 module Main exposing (main)
 
 import State
-import Types
+import Types exposing (..)
 import View
-import Html.App as App
+import Navigation exposing (..)
+import Router exposing (..)
 
 
-main : Program Types.Flags
+main : Program Flags
 main =
-    App.programWithFlags
+    Navigation.programWithFlags (makeParser locationParser)
         { init = State.init
         , update = State.update
+        , urlUpdate = State.urlUpdate
         , view = View.root
         , subscriptions = State.subscriptions
         }

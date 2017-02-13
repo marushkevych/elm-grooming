@@ -1,6 +1,7 @@
 port module Types exposing (..)
 
-import Keyboard
+-- import Keyboard
+
 import Common exposing (..)
 import History.Types as HistoryTypes
 
@@ -23,9 +24,6 @@ port voteAdded : (Vote -> msg) -> Sub msg
 port revealVotes : Bool -> Cmd msg
 
 
-port votesRevealed : (Bool -> msg) -> Sub msg
-
-
 port archiveStory : Story -> Cmd msg
 
 
@@ -44,6 +42,15 @@ port cancelStory : Story -> Cmd msg
 port resizeStory : Story -> Cmd msg
 
 
+port loadTeam : String -> Cmd msg
+
+
+port teamChanged : (Maybe TeamInfo -> msg) -> Sub msg
+
+
+port subscribeToTeam : String -> Cmd msg
+
+
 
 -- Model
 
@@ -58,7 +65,7 @@ type alias Flags =
 type alias Model =
     { user : Maybe User
     , uuid : String
-    , story : Maybe Story
+    , team : Maybe Team
     , storyInput : String
     , userInput : String
     , error : Maybe String
@@ -67,6 +74,19 @@ type alias Model =
     , isDataLoaded : Bool
     , hisotryModel : HistoryTypes.Model
     , showCancelStoryDialog : Bool
+    }
+
+
+type alias TeamInfo =
+    { id : String
+    , name : String
+    }
+
+
+type alias Team =
+    { id : String
+    , name : String
+    , story : Maybe Story
     }
 
 
@@ -94,15 +114,33 @@ isStoryOwner : Model -> Bool
 isStoryOwner model =
     case model.user of
         Just user ->
-            case model.story of
-                Just story ->
-                    user.id == story.owner.id
+            case model.team of
+                Just team ->
+                    case team.story of
+                        Just story ->
+                            user.id == story.owner.id
+
+                        Nothing ->
+                            False
 
                 Nothing ->
                     False
 
         Nothing ->
             False
+
+
+pageToTeamId : Msg -> Maybe String
+pageToTeamId msg =
+    case msg of
+        LocationHome ->
+            Nothing
+
+        LocationTeam teamId ->
+            Just teamId
+
+        _ ->
+            Nothing
 
 
 type Msg
@@ -112,10 +150,8 @@ type Msg
     | StoryInput String
     | Size Float
     | VoteAdded Vote
-      -- | RevealVotes
-    | VotesRevealed Bool
     | SelectVote Vote
-    | KeyMsg Keyboard.KeyCode
+      -- | KeyMsg Keyboard.KeyCode
     | StorySizingStarted Story
     | StorySizingEnded String
     | ResizeStory
@@ -124,3 +160,6 @@ type Msg
     | CancelStoryDialogClose
     | VotesCleared String
     | HistoryMsg HistoryTypes.Msg
+    | LocationHome
+    | LocationTeam String
+    | TeamChanged (Maybe TeamInfo)
