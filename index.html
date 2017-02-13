@@ -37,7 +37,7 @@
     var config = {
       apiKey: "AIzaSyBty8SUQvWPywPS4lwyZSs_9JsQMoMksHM",
       authDomain: "dust-my-groom.firebaseapp.com",
-      databaseURL: "https://dust-my-groom.firebaseio.com",
+      databaseURL: "https://dust-my-groom-test.firebaseio.com",
       storageBucket: "dust-my-groom.appspot.com",
       messagingSenderId: "105795449472"
     };
@@ -147,7 +147,7 @@
     function migrate(teamId) {
       copyFbRecord(database.ref().child('history'), database.ref().child(teamId).child('history'))
     }
-    
+
     function copyFbRecord(oldRef, newRef) {
       oldRef.once('value', function(snap)  {
         newRef.set( snap.val(), function(error) {
