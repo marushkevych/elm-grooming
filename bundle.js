@@ -17769,44 +17769,66 @@ var _user$project$View$selectTeam = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Please select your team'),
+					_0: _elm_lang$html$Html$text('Please use team specific URL'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$a,
+					_elm_lang$html$Html$h4,
+					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('header-button'),
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('header-button'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href('#iq'),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('http://dustmygroom.site/#iq'),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href('#iq'),
+							_0: _elm_lang$html$Html$text('(Insight)'),
 							_1: {ctor: '[]'}
 						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Insight'),
-						_1: {ctor: '[]'}
 					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$a,
+						_elm_lang$html$Html$h4,
+						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('header-button'),
+							_0: A2(
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('header-button'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$href('#rm'),
+										_1: {ctor: '[]'}
+									}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('http://dustmygroom.site/#rm'),
+									_1: {ctor: '[]'}
+								}),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href('#rm'),
+								_0: _elm_lang$html$Html$text('(Nexus)'),
 								_1: {ctor: '[]'}
 							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Nexus'),
-							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
 				}

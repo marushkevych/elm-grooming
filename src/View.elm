@@ -26,9 +26,15 @@ root model =
 selectTeam : Model -> Html Msg
 selectTeam model =
     div []
-        [ h3 [] [ text "Please select your team" ]
-        , a [ class "header-button", href "#iq" ] [ text "Insight" ]
-        , a [ class "header-button", href "#rm" ] [ text "Nexus" ]
+        [ h3 [] [ text "Please use team specific URL" ]
+        , h4 []
+            [ a [ class "header-button", href "#iq" ] [ text "http://dustmygroom.site/#iq" ]
+            , text "(Insight)"
+            ]
+        , h4 []
+            [ a [ class "header-button", href "#rm" ] [ text "http://dustmygroom.site/#rm" ]
+            , text "(Nexus)"
+            ]
         ]
 
 
