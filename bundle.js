@@ -16955,7 +16955,11 @@ var _user$project$ViewTitle$root = function (title) {
 		{
 			ctor: '::',
 			_0: _debois$elm_mdl$Material_Typography$display1,
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _debois$elm_mdl$Material_Typography$center,
+				_1: {ctor: '[]'}
+			}
 		},
 		{
 			ctor: '::',
@@ -17131,7 +17135,7 @@ var _user$project$ViewVotes$votesHeader = function (model) {
 					_1: {ctor: '[]'}
 				}),
 			_1: {ctor: '[]'}
-		}) : A2(
+		}) : (_user$project$Types$isStoryOwner(model) ? _elm_lang$html$Html$text('') : A2(
 		_elm_lang$html$Html$header,
 		{ctor: '[]'},
 		{
@@ -17156,7 +17160,7 @@ var _user$project$ViewVotes$votesHeader = function (model) {
 					}),
 				_1: {ctor: '[]'}
 			}
-		}));
+		})));
 };
 var _user$project$ViewVotes$root = function (model) {
 	return A2(
@@ -17625,6 +17629,20 @@ var _user$project$ViewResults$headerButtons = function (model) {
 		_1: {ctor: '[]'}
 	};
 };
+var _user$project$ViewResults$note = function (model) {
+	return _user$project$Types$isStoryOwner(model) ? A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('note'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Select a vote below to complete story sizing'),
+			_1: {ctor: '[]'}
+		}) : _elm_lang$html$Html$text('');
+};
 var _user$project$ViewResults$header = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -17655,8 +17673,12 @@ var _user$project$ViewResults$root = F2(
 						_0: _user$project$ViewTitle$root(storyName),
 						_1: {
 							ctor: '::',
-							_0: _user$project$ViewVotes$root(model),
-							_1: {ctor: '[]'}
+							_0: _user$project$ViewResults$note(model),
+							_1: {
+								ctor: '::',
+								_0: _user$project$ViewVotes$root(model),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}

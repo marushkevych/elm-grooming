@@ -44,3 +44,14 @@ ul>li>button {
 .header-button:hover {
 	color:#000;
 }
+
+/* warning */
+.note {
+  /*border: 1px solid;*/
+  /*margin: 10px 0px -10px 0px;*/
+  padding: 10px;
+  text-align: center;
+  /*color: #8c8c8c;*/
+  background-color: #c4c4c4;
+  /*font-size: 15px;*/
+}

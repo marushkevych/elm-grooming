@@ -8,4 +8,4 @@ import Types exposing (..)
 
 root : String -> Html Msg
 root title =
-    Options.styled p [ Typo.display1 ] [ text title ]
+    Options.styled p [ Typo.display1, Typo.center ] [ text title ]

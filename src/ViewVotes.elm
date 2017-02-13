@@ -23,6 +23,8 @@ votesHeader model =
         header []
             [ div [] [ text "Voted" ]
             ]
+    else if isStoryOwner model then
+        Html.text ""
     else
         header []
             [ div [] [ text "Name" ]
