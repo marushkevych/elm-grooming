@@ -13,9 +13,6 @@ locationParser location =
     let
         hash =
             String.dropLeft 1 location.hash
-
-        _ =
-            Debug.log "locationParser: " hash
     in
         case hash of
             "" ->

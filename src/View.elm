@@ -26,9 +26,9 @@ root model =
 selectTeam : Model -> Html Msg
 selectTeam model =
     div []
-        [ h3 [] [ text "Please select team..." ]
+        [ h3 [] [ text "Please select your team" ]
         , a [ class "header-button", href "#iq" ] [ text "Insight" ]
-        , a [ class "header-button", href "#nrm" ] [ text "Nexus" ]
+        , a [ class "header-button", href "#rm" ] [ text "Nexus" ]
         ]
 
 
