@@ -5,13 +5,14 @@ import Expect
 import Fuzz exposing (list, int, tuple, string)
 import String
 import StateTest
+import PartialViews.VotesTest as VotesTest
 
 
 all : Test
 all =
     describe "Dust My Groom"
         [ StateTest.all
-        , example
+        , VotesTest.all
         ]
 
 
