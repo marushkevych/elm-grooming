@@ -11,6 +11,7 @@ all =
     describe "update"
         [ locationHome
         , locationTeam
+        , teamChanged
         ]
 
 
@@ -42,8 +43,8 @@ locationHome =
 
 locationTeam : Test
 locationTeam =
-    describe "LocationHome"
-        [ test "adds loading indicator" <|
+    describe "LocationTeam"
+        [ test "adds loading indicator, and creates loadTeam task" <|
             \() ->
                 let
                     model =
@@ -53,4 +54,43 @@ locationTeam =
                         update (LocationTeam "id") model
                 in
                     Expect.equal ( False, loadTeam "id" ) ( newModel.isDataLoaded, task )
+        ]
+
+
+teamChanged : Test
+teamChanged =
+    describe "TeamChanged"
+        [ describe "to Nothing"
+            [ test "sets team to Nothing and removes loading indicator" <|
+                \() ->
+                    let
+                        model =
+                            { initModel
+                                | team = Just <| initTeam <| TeamInfo "id" "name"
+                                , isDataLoaded = False
+                            }
+
+                        expectedModel =
+                            { initModel
+                                | team = Nothing
+                                , isDataLoaded = True
+                            }
+
+                        ( newModel, task ) =
+                            update (TeamChanged Nothing) model
+                    in
+                        Expect.equal ( expectedModel, Cmd.none ) ( newModel, task )
+            ]
+        , describe "to existing team"
+            [ test "resets team to initTeam and creates subscribeToTeam command" <|
+                \() ->
+                    let
+                        teamInfo =
+                            Just (TeamInfo "id" "name")
+
+                        ( newModel, task ) =
+                            update (TeamChanged teamInfo) initModel
+                    in
+                        Expect.equal ( Just <| initTeam <| TeamInfo "id" "name", subscribeToTeam "id" ) ( newModel.team, task )
+            ]
         ]
