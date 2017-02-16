@@ -1,4 +1,4 @@
-module State exposing (init, initModel, update, subscriptions)
+module State exposing (init, initModel, initTeam, update, subscriptions)
 
 -- import Keyboard
 
