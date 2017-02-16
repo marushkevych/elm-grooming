@@ -32,15 +32,7 @@ header model =
 
 headerButtons : Model -> List (Html Msg)
 headerButtons model =
-    [ a [ class "header-button", onClick <| cancelMsg model ] [ text "cancel" ] ]
-
-
-cancelMsg : Model -> Msg
-cancelMsg model =
-    if isStoryOwner model then
-        CancelStory
-    else
-        CancelStoryDialog
+    [ a [ class "header-button", onClick CancelStoryDialog ] [ text "cancel" ] ]
 
 
 sizingButtons : Model -> Html Msg
