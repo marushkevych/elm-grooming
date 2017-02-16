@@ -16948,7 +16948,7 @@ var _user$project$Layout_State$update = F2(
 		}
 	});
 
-var _user$project$ViewTitle$root = function (title) {
+var _user$project$PartialViews_Title$root = function (title) {
 	return A3(
 		_debois$elm_mdl$Material_Options$styled,
 		_elm_lang$html$Html$p,
@@ -16968,19 +16968,19 @@ var _user$project$ViewTitle$root = function (title) {
 		});
 };
 
-var _user$project$ViewEnterStory$history = function (model) {
+var _user$project$PartialViews_EnterStory$history = function (model) {
 	return A2(
 		_elm_lang$html$Html$map,
 		_user$project$Types$HistoryMsg,
 		_user$project$History_View$history(model.hisotryModel));
 };
-var _user$project$ViewEnterStory$root = function (model) {
+var _user$project$PartialViews_EnterStory$root = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _user$project$ViewTitle$root('Size new story'),
+			_0: _user$project$PartialViews_Title$root('Size new story'),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -17031,14 +17031,14 @@ var _user$project$ViewEnterStory$root = function (model) {
 					}),
 				_1: {
 					ctor: '::',
-					_0: _user$project$ViewEnterStory$history(model),
+					_0: _user$project$PartialViews_EnterStory$history(model),
 					_1: {ctor: '[]'}
 				}
 			}
 		});
 };
 
-var _user$project$ViewVotes$votePoints = F2(
+var _user$project$PartialViews_Votes$votePoints = F2(
 	function (model, vote) {
 		return (!_user$project$Types$hasVoted(model)) ? {
 			ctor: '::',
@@ -17090,7 +17090,7 @@ var _user$project$ViewVotes$votePoints = F2(
 			_1: {ctor: '[]'}
 		});
 	});
-var _user$project$ViewVotes$voteEntry = F2(
+var _user$project$PartialViews_Votes$voteEntry = F2(
 	function (model, vote) {
 		return A2(
 			_elm_lang$html$Html$li,
@@ -17105,23 +17105,20 @@ var _user$project$ViewVotes$voteEntry = F2(
 						_0: _elm_lang$html$Html$text(vote.user.name),
 						_1: {ctor: '[]'}
 					}),
-				_1: A2(_user$project$ViewVotes$votePoints, model, vote)
+				_1: A2(_user$project$PartialViews_Votes$votePoints, model, vote)
 			});
 	});
-var _user$project$ViewVotes$votes = function (model) {
+var _user$project$PartialViews_Votes$votes = function (model) {
 	return A2(
 		_elm_lang$html$Html$ul,
 		{ctor: '[]'},
 		A2(
 			_elm_lang$core$List$map,
-			_user$project$ViewVotes$voteEntry(model),
+			_user$project$PartialViews_Votes$voteEntry(model),
 			_elm_lang$core$List$reverse(model.votes)));
 };
-var _user$project$ViewVotes$votesHeader = function (model) {
-	return _elm_lang$core$List$isEmpty(model.votes) ? A2(
-		_elm_lang$html$Html$header,
-		{ctor: '[]'},
-		{ctor: '[]'}) : ((!_user$project$Types$hasVoted(model)) ? A2(
+var _user$project$PartialViews_Votes$votesHeader = function (model) {
+	return _elm_lang$core$List$isEmpty(model.votes) ? _elm_lang$html$Html$text('') : ((!_user$project$Types$hasVoted(model)) ? A2(
 		_elm_lang$html$Html$header,
 		{ctor: '[]'},
 		{
@@ -17135,7 +17132,18 @@ var _user$project$ViewVotes$votesHeader = function (model) {
 					_1: {ctor: '[]'}
 				}),
 			_1: {ctor: '[]'}
-		}) : (_user$project$Types$isStoryOwner(model) ? _elm_lang$html$Html$text('') : A2(
+		}) : (_user$project$Types$isStoryOwner(model) ? A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('note'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Select a vote below to complete story sizing'),
+			_1: {ctor: '[]'}
+		}) : A2(
 		_elm_lang$html$Html$header,
 		{ctor: '[]'},
 		{
@@ -17162,22 +17170,22 @@ var _user$project$ViewVotes$votesHeader = function (model) {
 			}
 		})));
 };
-var _user$project$ViewVotes$root = function (model) {
+var _user$project$PartialViews_Votes$root = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _user$project$ViewVotes$votesHeader(model),
+			_0: _user$project$PartialViews_Votes$votesHeader(model),
 			_1: {
 				ctor: '::',
-				_0: _user$project$ViewVotes$votes(model),
+				_0: _user$project$PartialViews_Votes$votes(model),
 				_1: {ctor: '[]'}
 			}
 		});
 };
 
-var _user$project$ViewCancelStoryDialog$root = function (model) {
+var _user$project$PartialViews_CancelStoryDialog$root = function (model) {
 	return model.showCancelStoryDialog ? A2(
 		_elm_lang$html$Html$div,
 		{
@@ -17247,13 +17255,13 @@ var _user$project$ViewCancelStoryDialog$root = function (model) {
 		{ctor: '[]'});
 };
 
-var _user$project$ViewSizing$reference = function (model) {
+var _user$project$PartialViews_Sizing$reference = function (model) {
 	return A2(
 		_elm_lang$html$Html$map,
 		_user$project$Types$HistoryMsg,
 		_user$project$History_View$reference(model.hisotryModel));
 };
-var _user$project$ViewSizing$sizingButtons = function (model) {
+var _user$project$PartialViews_Sizing$sizingButtons = function (model) {
 	return A2(
 		_elm_lang$html$Html$ul,
 		{ctor: '[]'},
@@ -17501,114 +17509,8 @@ var _user$project$ViewSizing$sizingButtons = function (model) {
 			}
 		});
 };
-var _user$project$ViewSizing$cancelMsg = function (model) {
-	return _user$project$Types$isStoryOwner(model) ? _user$project$Types$CancelStory : _user$project$Types$CancelStoryDialog;
-};
-var _user$project$ViewSizing$headerButtons = function (model) {
+var _user$project$PartialViews_Sizing$headerButtons = function (model) {
 	return {
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$a,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('header-button'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(
-						_user$project$ViewSizing$cancelMsg(model)),
-					_1: {ctor: '[]'}
-				}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('cancel'),
-				_1: {ctor: '[]'}
-			}),
-		_1: {ctor: '[]'}
-	};
-};
-var _user$project$ViewSizing$header = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('header-buttons'),
-			_1: {ctor: '[]'}
-		},
-		_user$project$ViewSizing$headerButtons(model));
-};
-var _user$project$ViewSizing$root = F2(
-	function (storyName, model) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('sizing fieldset'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _user$project$ViewCancelStoryDialog$root(model),
-				_1: {
-					ctor: '::',
-					_0: _user$project$ViewSizing$header(model),
-					_1: {
-						ctor: '::',
-						_0: _user$project$ViewTitle$root(storyName),
-						_1: {
-							ctor: '::',
-							_0: _user$project$ViewSizing$sizingButtons(model),
-							_1: {
-								ctor: '::',
-								_0: _user$project$ViewVotes$root(model),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}
-			});
-	});
-
-var _user$project$ViewResults$headerButtons = function (model) {
-	return _user$project$Types$isStoryOwner(model) ? {
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$a,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('header-button'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(_user$project$Types$ResizeStory),
-					_1: {ctor: '[]'}
-				}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('resize'),
-				_1: {ctor: '[]'}
-			}),
-		_1: {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('header-button'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStory),
-						_1: {ctor: '[]'}
-					}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('cancel'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		}
-	} : {
 		ctor: '::',
 		_0: A2(
 			_elm_lang$html$Html$a,
@@ -17629,21 +17531,7 @@ var _user$project$ViewResults$headerButtons = function (model) {
 		_1: {ctor: '[]'}
 	};
 };
-var _user$project$ViewResults$note = function (model) {
-	return _user$project$Types$isStoryOwner(model) ? A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('note'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Select a vote below to complete story sizing'),
-			_1: {ctor: '[]'}
-		}) : _elm_lang$html$Html$text('');
-};
-var _user$project$ViewResults$header = function (model) {
+var _user$project$PartialViews_Sizing$header = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -17651,9 +17539,89 @@ var _user$project$ViewResults$header = function (model) {
 			_0: _elm_lang$html$Html_Attributes$class('header-buttons'),
 			_1: {ctor: '[]'}
 		},
-		_user$project$ViewResults$headerButtons(model));
+		_user$project$PartialViews_Sizing$headerButtons(model));
 };
-var _user$project$ViewResults$root = F2(
+var _user$project$PartialViews_Sizing$root = F2(
+	function (storyName, model) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('sizing fieldset'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _user$project$PartialViews_CancelStoryDialog$root(model),
+				_1: {
+					ctor: '::',
+					_0: _user$project$PartialViews_Sizing$header(model),
+					_1: {
+						ctor: '::',
+						_0: _user$project$PartialViews_Title$root(storyName),
+						_1: {
+							ctor: '::',
+							_0: _user$project$PartialViews_Sizing$sizingButtons(model),
+							_1: {
+								ctor: '::',
+								_0: _user$project$PartialViews_Votes$root(model),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
+
+var _user$project$PartialViews_Results$header = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('header-buttons'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('header-button'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Types$ResizeStory),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('resize'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('header-button'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Types$CancelStoryDialog),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('cancel'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$PartialViews_Results$root = F2(
 	function (storyName, model) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -17664,21 +17632,17 @@ var _user$project$ViewResults$root = F2(
 			},
 			{
 				ctor: '::',
-				_0: _user$project$ViewCancelStoryDialog$root(model),
+				_0: _user$project$PartialViews_CancelStoryDialog$root(model),
 				_1: {
 					ctor: '::',
-					_0: _user$project$ViewResults$header(model),
+					_0: _user$project$PartialViews_Results$header(model),
 					_1: {
 						ctor: '::',
-						_0: _user$project$ViewTitle$root(storyName),
+						_0: _user$project$PartialViews_Title$root(storyName),
 						_1: {
 							ctor: '::',
-							_0: _user$project$ViewResults$note(model),
-							_1: {
-								ctor: '::',
-								_0: _user$project$ViewVotes$root(model),
-								_1: {ctor: '[]'}
-							}
+							_0: _user$project$PartialViews_Votes$root(model),
+							_1: {ctor: '[]'}
 						}
 					}
 				}
@@ -17705,7 +17669,7 @@ var _user$project$View$createUser = function (model) {
 		},
 		{
 			ctor: '::',
-			_0: _user$project$ViewTitle$root('What is your name?'),
+			_0: _user$project$PartialViews_Title$root('What is your name?'),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -17772,67 +17736,7 @@ var _user$project$View$selectTeam = function (model) {
 					_0: _elm_lang$html$Html$text('Please use team specific URL'),
 					_1: {ctor: '[]'}
 				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h4,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$a,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('header-button'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$href('#iq'),
-									_1: {ctor: '[]'}
-								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('http://dustmygroom.site/#iq'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('(Insight)'),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$h4,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$a,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('header-button'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$href('#rm'),
-										_1: {ctor: '[]'}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('http://dustmygroom.site/#rm'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('(Nexus)'),
-								_1: {ctor: '[]'}
-							}
-						}),
-					_1: {ctor: '[]'}
-				}
-			}
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$View$grooming = function (model) {
@@ -17841,10 +17745,10 @@ var _user$project$View$grooming = function (model) {
 		if (_p0.ctor === 'Just') {
 			var _p1 = _p0._0.story;
 			if (_p1.ctor === 'Nothing') {
-				return _user$project$ViewEnterStory$root;
+				return _user$project$PartialViews_EnterStory$root;
 			} else {
 				var _p2 = _p1._0;
-				return _user$project$Types$hasVoted(model) ? _user$project$ViewResults$root(_p2.name) : _user$project$ViewSizing$root(_p2.name);
+				return _user$project$Types$hasVoted(model) ? _user$project$PartialViews_Results$root(_p2.name) : _user$project$PartialViews_Sizing$root(_p2.name);
 			}
 		} else {
 			return _user$project$View$selectTeam;

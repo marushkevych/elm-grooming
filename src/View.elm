@@ -4,10 +4,10 @@ import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import ViewEnterStory
-import ViewSizing
-import ViewResults
-import ViewTitle as Title
+import PartialViews.EnterStory
+import PartialViews.Sizing as ViewSizing
+import PartialViews.Results as ViewResults
+import PartialViews.Title as Title
 
 
 -- View
@@ -26,16 +26,7 @@ root model =
 selectTeam : Model -> Html Msg
 selectTeam model =
     div []
-        [ h3 [] [ text "Please use team specific URL" ]
-        , h4 []
-            [ a [ class "header-button", href "#iq" ] [ text "http://dustmygroom.site/#iq" ]
-            , text "(Insight)"
-            ]
-        , h4 []
-            [ a [ class "header-button", href "#rm" ] [ text "http://dustmygroom.site/#rm" ]
-            , text "(Nexus)"
-            ]
-        ]
+        [ h3 [] [ text "Please use team specific URL" ] ]
 
 
 grooming : Model -> Html Msg
@@ -46,7 +37,7 @@ grooming model =
                 Just team ->
                     case team.story of
                         Nothing ->
-                            ViewEnterStory.root
+                            PartialViews.EnterStory.root
 
                         Just story ->
                             -- if hasVoted model || isStoryOwner model then

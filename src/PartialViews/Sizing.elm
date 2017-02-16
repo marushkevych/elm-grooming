@@ -1,19 +1,19 @@
-module ViewSizing exposing (root)
+module PartialViews.Sizing exposing (root)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import History.View as HistoryView
 import Types exposing (..)
-import ViewTitle as Title
-import ViewVotes
-import ViewCancelStoryDialog
+import PartialViews.Title as Title
+import PartialViews.Votes as ViewVotes
+import PartialViews.CancelStoryDialog
 
 
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "sizing fieldset" ]
-        [ ViewCancelStoryDialog.root model
+        [ PartialViews.CancelStoryDialog.root model
         , header model
         , Title.root storyName
           -- , div [ class "header-buttons" ]
@@ -32,15 +32,7 @@ header model =
 
 headerButtons : Model -> List (Html Msg)
 headerButtons model =
-    [ a [ class "header-button", onClick <| cancelMsg model ] [ text "cancel" ] ]
-
-
-cancelMsg : Model -> Msg
-cancelMsg model =
-    if isStoryOwner model then
-        CancelStory
-    else
-        CancelStoryDialog
+    [ a [ class "header-button", onClick CancelStoryDialog ] [ text "cancel" ] ]
 
 
 sizingButtons : Model -> Html Msg

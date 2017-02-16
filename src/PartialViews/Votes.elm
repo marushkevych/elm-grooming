@@ -1,4 +1,4 @@
-module ViewVotes exposing (root)
+module PartialViews.Votes exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -18,13 +18,13 @@ root model =
 votesHeader : Model -> Html Msg
 votesHeader model =
     if List.isEmpty model.votes then
-        header [] []
+        Html.text ""
     else if not (hasVoted model) then
         header []
             [ div [] [ text "Voted" ]
             ]
     else if isStoryOwner model then
-        Html.text ""
+        div [ class "note" ] [ text "Select a vote below to complete story sizing" ]
     else
         header []
             [ div [] [ text "Name" ]

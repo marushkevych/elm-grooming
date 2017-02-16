@@ -1,4 +1,4 @@
-module ViewCancelStoryDialog exposing (root)
+module PartialViews.CancelStoryDialog exposing (root)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
