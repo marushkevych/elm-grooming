@@ -15,7 +15,6 @@ root storyName model =
         [ ViewCancelStoryDialog.root model
         , header model
         , Title.root storyName
-        , note model
         , ViewVotes.root model
         ]
 
@@ -23,14 +22,6 @@ root storyName model =
 header : Model -> Html Msg
 header model =
     div [ class "header-buttons" ] (headerButtons model)
-
-
-note : Model -> Html Msg
-note model =
-    if isStoryOwner model then
-        div [ class "note" ] [ text "Select a vote below to complete story sizing" ]
-    else
-        Html.text ""
 
 
 headerButtons : Model -> List (Html Msg)

@@ -24,7 +24,7 @@ votesHeader model =
             [ div [] [ text "Voted" ]
             ]
     else if isStoryOwner model then
-        Html.text ""
+        div [ class "note" ] [ text "Select a vote below to complete story sizing" ]
     else
         header []
             [ div [] [ text "Name" ]
