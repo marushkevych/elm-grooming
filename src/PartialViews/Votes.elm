@@ -1,4 +1,4 @@
-module ViewVotes exposing (root)
+module PartialViews.Votes exposing (root)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)

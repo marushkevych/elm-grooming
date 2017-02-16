@@ -1,4 +1,4 @@
-module ViewTitle exposing (root)
+module PartialViews.Title exposing (root)
 
 import Html exposing (..)
 import Material.Options as Options exposing (css)

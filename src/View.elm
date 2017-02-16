@@ -4,10 +4,10 @@ import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import ViewEnterStory
-import ViewSizing
-import ViewResults
-import ViewTitle as Title
+import PartialViews.EnterStory
+import PartialViews.Sizing as ViewSizing
+import PartialViews.Results as ViewResults
+import PartialViews.Title as Title
 
 
 -- View
@@ -46,7 +46,7 @@ grooming model =
                 Just team ->
                     case team.story of
                         Nothing ->
-                            ViewEnterStory.root
+                            PartialViews.EnterStory.root
 
                         Just story ->
                             -- if hasVoted model || isStoryOwner model then

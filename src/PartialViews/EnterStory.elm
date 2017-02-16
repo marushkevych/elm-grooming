@@ -1,11 +1,11 @@
-module ViewEnterStory exposing (root)
+module PartialViews.EnterStory exposing (root)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import History.View as HistoryView
 import Types exposing (..)
-import ViewTitle as Title
+import PartialViews.Title as Title
 
 
 root : Model -> Html Msg

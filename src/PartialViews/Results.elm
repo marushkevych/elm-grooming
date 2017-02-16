@@ -1,18 +1,18 @@
-module ViewResults exposing (root)
+module PartialViews.Results exposing (root)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-import ViewTitle as Title
-import ViewVotes
-import ViewCancelStoryDialog
+import PartialViews.Title as Title
+import PartialViews.Votes as ViewVotes
+import PartialViews.CancelStoryDialog
 
 
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "scoreboard fieldset" ]
-        [ ViewCancelStoryDialog.root model
+        [ PartialViews.CancelStoryDialog.root model
         , header model
         , Title.root storyName
         , ViewVotes.root model
