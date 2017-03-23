@@ -54,7 +54,7 @@ grooming model =
 
 createUser : Model -> Html Msg
 createUser model =
-    div [ class "scoreboard fieldset" ]
+    div []
         [ Title.root "What is your name?"
         , Html.form [ onSubmit CreateUser ]
             [ input

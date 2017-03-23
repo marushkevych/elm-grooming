@@ -1,3 +1,8 @@
+#groom {
+    max-width: 543px;
+    margin: 0 auto;
+}
+
 .title {
     text-align: center;
     opacity: .54;
@@ -35,12 +40,8 @@ ul>li>button {
     min-width: 82px;
 }
 
-.scoreboard {
-    width: 543px;
-}
-
 .sizing {
-    width: 543px;
+    /*width: 543px;*/
 }
 
 .story-reference {
