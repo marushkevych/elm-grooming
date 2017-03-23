@@ -26,9 +26,9 @@ votesHeader model =
     else if isStoryOwner model then
         p [] [ text "Select a vote below to complete story sizing" ]
     else
-        header []
-            [ h4 [ class "iq-item-title" ] [ text "Name" ]
-            , h4 [ class "iq-item-title" ] [ text "Points" ]
+        div [ class "iq-list--header" ]
+            [ h4 [ class "iq-item-title gr-estimator-name" ] [ text "Name" ]
+            , h4 [ class "iq-item-title gr-estimator-points" ] [ text "Points" ]
             ]
 
 
@@ -48,8 +48,10 @@ voteEntry model vote =
 votePoints : Model -> Vote -> List (Html Msg)
 votePoints model vote =
     if not (hasVoted model) then
-        [ div [ class "points" ] [ text "" ] ]
+        [ div [ class "gr-estimator-points" ] [ text "" ] ]
     else if isStoryOwner model then
-        [ button [ class "iq-btn", onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ] ]
+        [ div [ class "gr-estimator-points" ] [
+          button [ class "iq-btn", onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ]
+        ] ]
     else
-        [ div [ class "points" ] [ vote.points |> pointsString |> text ] ]
+        [ div [ class "gr-estimator-points" ] [ vote.points |> pointsString |> text ] ]

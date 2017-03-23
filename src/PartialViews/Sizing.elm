@@ -12,13 +12,10 @@ import PartialViews.CancelStoryDialog
 
 root : String -> Model -> Html Msg
 root storyName model =
-    div [ class "sizing fieldset" ]
+    div [ class "iq-tile iq-tile--gr fieldset" ]
         [ PartialViews.CancelStoryDialog.root model
         , header model
         , Title.root storyName
-          -- , div [ class "header-buttons" ]
-          --     [ button [ class "header-button" ] [ text "skip voting" ]
-          --     ]
         , sizingButtons model
         , ViewVotes.root model
           -- , reference model
@@ -27,7 +24,7 @@ root storyName model =
 
 header : Model -> Html Msg
 header model =
-    div [ class "header-buttons" ] (headerButtons model)
+    div [ class "iq-tile__actions" ] (headerButtons model)
 
 
 headerButtons : Model -> List (Html Msg)

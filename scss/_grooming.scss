@@ -13,11 +13,22 @@ html {
   min-width: 960px;
 }
 
+.iq-tile--gr {
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  max-width: 800px;
+}
+
+.gr-content {
+  padding-top: 40px;
+}
+
 footer {
   border-top: 1px solid $iq-grey-4;
   clear: both;
   margin: 60px auto 0 auto;
-  padding: 20px 0 0 0;
+  padding: 0;
   text-align: center;
   max-width: 1200px;
   min-width: 960px;
@@ -29,11 +40,17 @@ footer {
   color: $iq-off-white;
   line-height: 40px;
   padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .gr-team {
   color: $iq-off-white;
   float: right;
+}
+
+.gr-title {
 }
 
 .mdl-layout__container {
@@ -68,7 +85,7 @@ ul {
   width: 85%;
 }
 
-.gr-history-estimate, .gr-estimator-vote {
+.gr-history-estimate, .gr-estimator-points {
   display: inline-block;
   text-align: right;
   width: 15%;
@@ -86,7 +103,7 @@ h4.iq-list__title {
   width: 80%;
 }
 
-.gr-estimator-vote {
+.gr-estimator-points {
   display: inline-block;
   text-align: right;
   width: 20%;

@@ -7,4 +7,6 @@ import Types exposing (..)
 
 root : String -> Html Msg
 root title =
-    p [ class "title" ] [ text title ]
+    div [ class "iq-tile-header" ] [
+      h2 [ class "iq-tile-header__title" ] [ text title ]
+      ]

@@ -10,7 +10,7 @@ import PartialViews.Title as Title
 
 root : Model -> Html Msg
 root model =
-    div [ class "iq-tile gr-form gr-size-form" ]
+    div [ class "iq-tile iq-tile--gr gr-form gr-size-form" ]
         [ Title.root "Size new story"
         , Html.form [ onSubmit StartStorySizing ]
             [ input
