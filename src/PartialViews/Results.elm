@@ -28,9 +28,9 @@ headerButtons : Model -> List (Html Msg)
 headerButtons model =
     let
         buttons =
-            [ a [ class "header-button", onClick CancelStoryDialog ] [ text "cancel" ] ]
+            [ a [ class "iq-btn iq-btn--tertiary", onClick CancelStoryDialog ] [ text "cancel" ] ]
     in
         if isStoryOwner model then
-            a [ class "header-button", onClick ResizeStory ] [ text "resize" ] :: buttons
+            a [ class "iq-btn iq-btn--tertiary", onClick ResizeStory ] [ text "resize" ] :: buttons
         else
             buttons

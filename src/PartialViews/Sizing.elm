@@ -32,27 +32,31 @@ header model =
 
 headerButtons : Model -> List (Html Msg)
 headerButtons model =
-    [ a [ class "header-button", onClick CancelStoryDialog ] [ text "cancel" ] ]
+    [ a [ class "iq-btn iq-btn--tertiary", onClick CancelStoryDialog ] [ text "cancel" ] ]
 
 
 sizingButtons : Model -> Html Msg
 sizingButtons model =
-    ul []
+    ul [ class "gr-button-grid"]
         [ li []
-            [ button [ onClick (Size -1) ] [ text "-" ]
-            , button [ onClick (Size 0) ] [ text "0" ]
-            , button [ class "points", onClick (Size 0.5) ] [ text "0.5" ]
-            , button [ class "points", onClick (Size 1) ] [ text "1" ]
-            , button [ class "points", onClick (Size 2) ] [ text "2" ]
-            , button [ class "points", onClick (Size 3) ] [ text "3" ]
+            [ button [ class "iq-btn iq-btn--square points",  onClick (Size -1) ] [ text "-" ]
+            , button [ class "iq-btn iq-btn--square points",  onClick (Size 0) ] [ text "0" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 0.5) ] [ text "0.5" ]
             ]
         , li []
-            [ button [ class "points", onClick (Size 5) ] [ text "5" ]
-            , button [ class "points", onClick (Size 8) ] [ text "8" ]
-            , button [ class "points", onClick (Size 13) ] [ text "13" ]
-            , button [ class "points", onClick (Size 20) ] [ text "20" ]
-            , button [ class "points", onClick (Size 40) ] [ text "40" ]
-            , button [ onClick (Size 1000) ] [ text "∞" ]
+            [ button [ class "iq-btn iq-btn--square points", onClick (Size 1) ] [ text "1" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 2) ] [ text "2" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 3) ] [ text "3" ]
+            ]
+        , li []
+            [ button [ class "iq-btn iq-btn--square points", onClick (Size 5) ] [ text "5" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 8) ] [ text "8" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 13) ] [ text "13" ]
+            ]
+        , li []
+            [ button [ class "iq-btn iq-btn--square points", onClick (Size 20) ] [ text "20" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 40) ] [ text "40" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 1000) ] [ text "∞" ]
             ]
         ]
 

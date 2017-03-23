@@ -24,11 +24,11 @@ votesHeader model =
             [ div [] [ text "Voted" ]
             ]
     else if isStoryOwner model then
-        div [ class "note" ] [ text "Select a vote below to complete story sizing" ]
+        p [] [ text "Select a vote below to complete story sizing" ]
     else
         header []
-            [ div [] [ text "Name" ]
-            , div [] [ text "Points" ]
+            [ h4 [ class "iq-item-title" ] [ text "Name" ]
+            , h4 [ class "iq-item-title" ] [ text "Points" ]
             ]
 
 
@@ -37,12 +37,12 @@ votes model =
     model.votes
         |> List.reverse
         |> List.map (voteEntry model)
-        |> ul []
+        |> ul [ class "iq-list" ]
 
 
 voteEntry : Model -> Vote -> Html Msg
 voteEntry model vote =
-    li [] (div [] [ text vote.user.name ] :: votePoints model vote)
+    li [ class "iq-list__item" ] (div [ class "gr-estimator-name"] [ text vote.user.name ] :: votePoints model vote)
 
 
 votePoints : Model -> Vote -> List (Html Msg)
@@ -50,6 +50,6 @@ votePoints model vote =
     if not (hasVoted model) then
         [ div [ class "points" ] [ text "" ] ]
     else if isStoryOwner model then
-        [ button [ onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ] ]
+        [ button [ class "iq-btn", onClick (SelectVote vote) ] [ vote.points |> pointsString |> text ] ]
     else
         [ div [ class "points" ] [ vote.points |> pointsString |> text ] ]
