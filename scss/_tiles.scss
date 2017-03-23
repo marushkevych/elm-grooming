@@ -1,0 +1,102 @@
+$tile-scroll-container-z-index: 0;
+
+$iq-tile-header-height: 34px; // Minimum height
+$iq-tile-header-height-actions: 43px; // Height with sub-title and/or right actions
+
+/*
+  #Name-spaced Tile System
+*/
+
+// Base Tile
+
+.iq-tile {
+  background-color: $iq-main-background-color;
+  border: 1px solid $iq-grey-2;
+  margin: 8px;
+  padding: 0 8px 8px 8px;
+}
+
+// Tile headers
+
+.iq-tile-header {
+  min-height: $iq-tile-header-height;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.iq-tile-header__title {
+  display: inline-block;
+  height: $iq-tile-header-height-actions;
+
+  h1, h2 {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  h1 {
+    font-size: 26px;
+    line-height: $iq-tile-header-height-actions;
+    margin: 0;
+    margin-left: -1px; // Magic number b/c H1 has mysterious 1px to the left
+    padding: 1px 0 0 0;
+
+    .iq-tile-header__description {
+      @include regular();
+
+      font-weight: normal;
+    }
+  }
+}
+
+.iq-tile-header__icon {
+  display: block;
+  float: left;
+  font-size: 30px;
+  height: $iq-tile-header-height-actions;
+  line-height: $iq-tile-header-height-actions;
+  margin-right: 8px; 
+  vertical-align: middle;
+
+  img {
+    display: block;
+    max-height: 25px; // magic number for default globe graphic
+    margin-top: 9px; // magic number for default globe graphic
+    width: auto;
+  }
+
+  &.fa {
+    font-size: 22px;
+  }
+}
+
+.iq-tile-header__title--no-actions {
+  height: $iq-tile-header-height;
+}
+
+.iq-tile-header__subtitle {
+  line-height: 16px;
+  margin: -6px 0 6px 0;
+  max-width: 520px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.iq-tile__actions {
+  float: right;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.iq-tile-content {
+  > :last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  // for pages with tab systems inside iq-content
+  .well:last-child {
+    padding-bottom: 19px;
+  }
+}

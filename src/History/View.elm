@@ -34,22 +34,18 @@ referenceRecords model =
 
 sizedStoryRecord : Story -> Html Msg
 sizedStoryRecord story =
-    li []
-        [ div [ class "hostory-record" ] [ text story.name ]
-        , div [ class "hostory-record" ] [ text (pointsString story.points) ]
+    li [ class "iq-list__item gr-list--previous-stories" ]
+        [ span [ class "gr-history-name" ] [ text story.name ]
+        , span [ class "gr-history-estimate" ] [ text (pointsString story.points) ]
         ]
 
 
 historyHeader : Model -> Html Msg
 historyHeader model =
     if List.isEmpty model.sizedStories then
-        div [] []
+        div [ class "gr-history-list" ] []
     else
-        div []
-            [ br [] []
-            , br [] []
-            , header []
-                [ div [] [ text "Previous Stories" ]
-                , div [] [ text "Points" ]
-                ]
+        div [ class "gr-history-list" ]
+            [ h4 [ class "iq-list__title gr-history-name" ] [ text "Previous Stories" ]
+              , h4 [ class "iq-list__title gr-history-estimate" ] [ text "Points" ]
             ]
