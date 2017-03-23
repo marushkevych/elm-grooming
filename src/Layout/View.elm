@@ -59,7 +59,7 @@ root model =
             , drawer =
                 []
             , tabs =
-                ( [ text "Grooming", userTab model ], [ Color.background (Color.color Color.Teal Color.S400) ] )
+                ( [ text "Grooming", userTab model ], [] )
                 -- , tabs = ( [], [] )
             , main = [ viewNav model ]
             }

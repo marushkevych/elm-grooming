@@ -56,15 +56,16 @@ createUser : Model -> Html Msg
 createUser model =
     div []
         [ Title.root "What is your name?"
-        , Html.form [ onSubmit CreateUser ]
+        , Html.form [ class "gr-form", onSubmit CreateUser ]
             [ input
-                [ type_ "text"
+                [ class "gr-form-element"
+                , type_ "text"
                 , placeholder "User Name"
                 , onInput UserInput
                 , value model.userInput
                 ]
                 []
-            , button [ type_ "submit" ] [ text "Save" ]
+            , button [ class "iq-btn iq-btn--primary iq-btn--large", type_ "submit" ] [ text "Save" ]
             ]
         ]
 

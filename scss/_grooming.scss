@@ -93,6 +93,29 @@ h4.iq-list__title {
 }
 
 /*
+  ##Tabs
+*/
+
+.mdl-layout.is-upgraded .mdl-layout__tab {
+  background-color: $iq-grey-2;
+  color: $iq-slate;
+  
+  &.is-active {
+    background-color: $iq-grey-4;
+    color: $iq-off-white;
+    
+    &::after {
+      background-color: #fff;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid $iq-grey-4;
+      height: 0; 
+      width: 0; 
+    }
+  }
+}
+
+/*
   ##Forms
 */
 

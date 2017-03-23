@@ -393,6 +393,23 @@ h4.iq-list__title {
   width: 20%; }
 
 /*
+  ##Tabs
+*/
+.mdl-layout.is-upgraded .mdl-layout__tab {
+  background-color: #eaeaea;
+  color: #575757; }
+  .mdl-layout.is-upgraded .mdl-layout__tab.is-active {
+    background-color: #cacaca;
+    color: #fefefe; }
+    .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
+      background-color: #fff;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid #cacaca;
+      height: 0;
+      width: 0; }
+
+/*
   ##Forms
 */
 .gr-form .gr-form-element {
