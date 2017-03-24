@@ -11,9 +11,9 @@ root model =
     if model.showCancelStoryDialog then
         div [ class "modal-window" ]
             [ div []
-                [ a [ class "modal-close", onClick CancelStoryDialogClose ] [ text "close" ]
-                , h5 [] [ text "Dismiss current story and start new session?" ]
-                , button [ class "pure-button", onClick CancelStory ] [ text "Ok" ]
+                [ a [ class "modal-close iq-pull-right", onClick CancelStoryDialogClose ] [ text "X" ]
+                , p [] [ text "Dismiss current story and start new session?" ]
+                , button [ class "iq-btn iq-btn--primary", onClick CancelStory ] [ text "Ok" ]
                 ]
             ]
     else

@@ -13,22 +13,25 @@
 <body>
   <div class="iq-container--elm">
     <div class="iq-header">
-      <div class="iq-header-inner">
-        <span class="gr-team">Team: teamName model.groomingModel</span>
-        <span class="iq-title__brand">Dust My Groom</span>
-        <span class="iq-title__version">I believe, I believe my time has come</span>
+      <div class="iq-header__inner">
+        <div class="gr-team-meta">
+          <span class="gr-user">User: <strong>Elmore James</strong></span>
+        </div>
+        <div class="iq-title">
+          <img src="images/mr_johnson.png" class="iq-pull-left" alt="Ladies and gentlemen Mr Robert Johnson." />
+          <span class="iq-title__brand">Dust My Groom</span>
+          <span class="iq-title__version">I believe, I believe my time has come</span>
+        </div>
       </div>
     </div>
-                
+    
+    <div class="iq-tile iq-tile--gr iq-tile--breadcrumb">
+      <span class="gr-team">Team: <strong>Laurel</strong></span>
+    </div>
+              
     <div id="groom" class="gr-content"></div>
     
   </div>
-
-  <footer>
-    <p class="footer-tag">
-      Elm-grooming is an Andrey Marushkevych joint. All Rights Reserved. &copy; 2017
-    </p> 
-  </footer>
   
   <script src="bundle.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>

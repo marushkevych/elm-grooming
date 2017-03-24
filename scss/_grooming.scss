@@ -20,7 +20,7 @@ html {
   max-width: 800px;
 }
 
-.gr-content {
+.iq-tile--breadcrumb {
   padding-top: 40px;
 }
 
@@ -45,12 +45,28 @@ footer {
   left: 0;
 }
 
-.gr-team {
-  color: $iq-off-white;
+.gr-team-meta {
   float: right;
+  margin-top: 4px;
+  text-align: right;
 }
 
-.gr-title {
+.gr-user {
+  color: $iq-grey-4;
+  display: block;
+  margin: 0;
+  padding: 0;
+  
+  strong {
+    color: $iq-off-white;
+  }
+}
+
+.gr-team {
+  color: $iq-slate;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .mdl-layout__container {
@@ -82,11 +98,15 @@ ul {
 
 .gr-history-name, .gr-estimator-name {
   display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 85%;
 }
 
 .gr-history-estimate, .gr-estimator-points {
-  display: inline-block;
+  display: block;
+  float: right;
   text-align: right;
   width: 15%;
 }

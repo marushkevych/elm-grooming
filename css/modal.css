@@ -14,21 +14,24 @@
 	transition:all 0.3s;
 }
 
-.modal-window>div {
-	width:500px;
-	position:relative;
-	margin:100px auto;
-  padding:2rem;
+.modal-window > div {
 	background:#fff;
+	border: 1px solid #aaa;
 	color:#444;
+	position:relative;
+	margin: 100px auto;
+  padding: 12px;
+	width:500px;
 }
+
 .modal-window header {
 	font-weight:bold;
 }
+
 .modal-close {
 	color:#aaa;
 	line-height:50px;
-	font-size:80%;
+	font-size: 110%;
 	position:absolute;
 	right:0;
 	text-align:center;
@@ -37,9 +40,11 @@
 	text-decoration:none;
   cursor: pointer;
 }
+
 .modal-close:hover {
 	color:#000;
 }
+
 .modal-window h1 {
   font-size: 150%;
   margin: 0 0 15px;

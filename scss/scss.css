@@ -121,6 +121,79 @@ h4 + div > *:first-child {
   margin-top: 0; }
 
 /*
+  #Basic links
+*/
+a {
+  color: #2476c3;
+  cursor: pointer; }
+
+.iq-clickable {
+  cursor: pointer; }
+
+/*
+  #Helper Classes
+*/
+.iq-pull-left {
+  float: left; }
+
+.iq-pull-right {
+  float: right; }
+
+.iq-error {
+  background-color: #fce2e2;
+  border: 1px solid #831d1d;
+  color: #831d1d; }
+
+.iq-scrollable {
+  height: auto;
+  max-height: 400px;
+  overflow-x: hidden; }
+
+/*
+ #Placeholder classes
+*/
+.truncate-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+
+.ui-match {
+  font-family: Proxima Nova Bold, sans-serif; }
+
+.popover .arrow:before {
+  border-style: none; }
+
+.clickable {
+  cursor: pointer; }
+
+input[type="file"] {
+  line-height: normal;
+  height: auto; }
+
+.floatRight {
+  float: right; }
+
+.disabled img {
+  opacity: 0.4;
+  filter: alpha(opacity=40); }
+
+.page-title {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6); }
+  .page-title .pull-right {
+    margin-bottom: 5px; }
+
+.underline {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6); }
+
+table.clm-table-stripe > tbody > tr:nth-child(odd) {
+  background-color: #E8E8E8; }
+
+.clm-table-border-top {
+  border-top: 1px solid #ddd; }
+
+/*
   #Main Header
 */
 /*
@@ -247,6 +320,10 @@ i.sonatype-icons, i.glyphicons-sonatype {
 .iq-tile-content .well:last-child {
   padding-bottom: 19px; }
 
+.iq-tile--breadcrumb {
+  border: none;
+  padding-bottom: 0; }
+
 /*
   #Widgets
 */
@@ -337,7 +414,7 @@ html {
   width: 100%;
   max-width: 800px; }
 
-.gr-content {
+.iq-tile--breadcrumb {
   padding-top: 40px; }
 
 footer {
@@ -358,9 +435,24 @@ footer {
   top: 0;
   left: 0; }
 
+.gr-team-meta {
+  float: right;
+  margin-top: 4px;
+  text-align: right; }
+
+.gr-user {
+  color: #cacaca;
+  display: block;
+  margin: 0;
+  padding: 0; }
+  .gr-user strong {
+    color: #fefefe; }
+
 .gr-team {
-  color: #fefefe;
-  float: right; }
+  color: #575757;
+  display: block;
+  margin: 0;
+  padding: 0; }
 
 .mdl-layout__container {
   position: relative !important; }
@@ -382,10 +474,14 @@ ul {
 
 .gr-history-name, .gr-estimator-name {
   display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 85%; }
 
 .gr-history-estimate, .gr-estimator-points {
-  display: inline-block;
+  display: block;
+  float: right;
   text-align: right;
   width: 15%; }
 
