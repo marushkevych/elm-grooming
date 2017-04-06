@@ -35,8 +35,8 @@ referenceRecords model =
 sizedStoryRecord : Story -> Html Msg
 sizedStoryRecord story =
     li [ class "iq-list__item gr-list--previous-stories" ]
-        [ span [ class "gr-history-name" ] [ text story.name ]
-        , span [ class "gr-history-estimate" ] [ text (pointsString story.points) ]
+        [ span [ class "gr-history-estimate" ] [ text (pointsString story.points) ]
+        , span [ class "gr-history-name" ] [ text story.name ]
         ]
 
 
@@ -47,5 +47,5 @@ historyHeader model =
     else
         div [ class "gr-history-list" ]
             [ h4 [ class "iq-list__title gr-history-name" ] [ text "Previous Stories" ]
-              , h4 [ class "iq-list__title gr-history-estimate" ] [ text "Points" ]
+            , h4 [ class "iq-list__title gr-history-estimate" ] [ text "Points" ]
             ]
