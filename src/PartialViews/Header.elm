@@ -4,6 +4,7 @@ import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Common exposing (..)
 
 
 root : Model -> Html Msg
@@ -11,11 +12,7 @@ root model =
     div [ class "iq-header" ]
         [ div [ class "iq-header__inner" ]
             [ div [ class "gr-team-meta" ]
-                [ span [ class "gr-user" ]
-                    [ text "User: "
-                    , strong []
-                        [ text "Elmore James" ]
-                    ]
+                [ currentUser model
                 ]
             , div [ class "iq-title" ]
                 [ img [ alt "Ladies and gentlemen Mr Robert Johnson.", class "iq-pull-left", src "images/mr_johnson.png" ]
@@ -27,3 +24,22 @@ root model =
                 ]
             ]
         ]
+
+
+userName : Model -> String
+userName model =
+    (Maybe.withDefault (User "" "") model.user) |> .name
+
+
+currentUser : Model -> Html Msg
+currentUser model =
+    case model.user of
+        Nothing ->
+            span [] []
+
+        Just user ->
+            span [ class "gr-user" ]
+                [ text "User: "
+                , strong []
+                    [ text user.name ]
+                ]
