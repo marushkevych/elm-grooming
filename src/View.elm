@@ -8,6 +8,8 @@ import PartialViews.EnterStory
 import PartialViews.Sizing as ViewSizing
 import PartialViews.Results as ViewResults
 import PartialViews.Title as Title
+import PartialViews.Header as Header
+import PartialViews.Team as Team
 
 
 -- View
@@ -15,17 +17,25 @@ import PartialViews.Title as Title
 
 root : Model -> Html Msg
 root model =
-    if model.user == Nothing then
-        createUser model
-    else if not model.isDataLoaded then
-        loadingPage model
-    else
-        grooming model
+    let
+        content =
+            if model.user == Nothing then
+                createUser model
+            else if not model.isDataLoaded then
+                loadingPage
+            else
+                grooming model
+    in
+        div [ class "iq-container--elm" ]
+            [ Header.root model
+            , Team.root model
+            , content
+            ]
 
 
 selectTeam : Model -> Html Msg
 selectTeam model =
-    div []
+    div [ class "iq-tile iq-tile--gr" ]
         [ h3 [] [ text "Please use team specific URL" ] ]
 
 
@@ -54,7 +64,7 @@ grooming model =
 
 createUser : Model -> Html Msg
 createUser model =
-    div []
+    div [ class "iq-tile iq-tile--gr gr-form gr-size-form" ]
         [ Title.root "What is your name?"
         , Html.form [ class "gr-form", onSubmit CreateUser ]
             [ input
@@ -70,9 +80,10 @@ createUser model =
         ]
 
 
-loadingPage : Model -> Html msg
-loadingPage model =
-    h3 [] [ text "loading..." ]
+loadingPage : Html Msg
+loadingPage =
+    div [ class "iq-tile iq-tile--gr" ]
+        [ Title.root "loading..." ]
 
 
 
