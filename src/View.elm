@@ -1,15 +1,15 @@
-module View exposing (root, createUser)
+module View exposing (root)
 
 import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
 import PartialViews.EnterStory
 import PartialViews.Sizing as ViewSizing
 import PartialViews.Results as ViewResults
 import PartialViews.Title as Title
 import PartialViews.Header as Header
 import PartialViews.Team as Team
+import PartialViews.CreateUser as CreateUser
 
 
 -- View
@@ -31,6 +31,11 @@ root model =
             , Team.root model
             , content
             ]
+
+
+createUser : Model -> Html Msg
+createUser model =
+    div [ class "iq-tile iq-tile--gr gr-form gr-size-form" ] [ CreateUser.root model ]
 
 
 selectTeam : Model -> Html Msg
@@ -60,24 +65,6 @@ grooming model =
                     selectTeam
     in
         page model
-
-
-createUser : Model -> Html Msg
-createUser model =
-    div [ class "iq-tile iq-tile--gr gr-form gr-size-form" ]
-        [ Title.root "What is your name?"
-        , Html.form [ class "gr-form", onSubmit CreateUser ]
-            [ input
-                [ class "gr-form-element"
-                , type_ "text"
-                , placeholder "User Name"
-                , onInput UserInput
-                , value model.userInput
-                ]
-                []
-            , button [ class "iq-btn iq-btn--primary iq-btn--large", type_ "submit" ] [ text "Save" ]
-            ]
-        ]
 
 
 loadingPage : Html Msg

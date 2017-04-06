@@ -124,7 +124,7 @@ h4 + div > *:first-child {
   #Basic links
 */
 a {
-  color: #2476c3;
+  /*color: #2476c3;*/
   cursor: pointer; }
 
 .iq-clickable {
@@ -527,9 +527,16 @@ h4.iq-list__title {
   padding: 4px 6px;
   max-width: 75%;
   min-width: 75%; }
-  .gr-form .gr-form-element + .iq-btn {
-    display: inline-block;
-    margin-left: 20px; }
+
+.gr-form .gr-form-element + .iq-btn {
+  display: inline-block;
+  margin-left: 20px; }
+
+.gr-form .gr-form-element.gr-form-element--user {
+  max-width: 70%;
+  min-width: 70%;
+  margin-bottom: 16px;
+}
 
 .gr-button-grid {
   text-align: center; }

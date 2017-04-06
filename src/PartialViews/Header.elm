@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Common exposing (..)
+import PartialViews.EditUserDialog
 
 
 root : Model -> Html Msg
@@ -22,13 +23,9 @@ root model =
                 , span [ class "iq-title__version" ]
                     [ text "I believe, I believe my time has come" ]
                 ]
+            , PartialViews.EditUserDialog.root model
             ]
         ]
-
-
-userName : Model -> String
-userName model =
-    (Maybe.withDefault (User "" "") model.user) |> .name
 
 
 currentUser : Model -> Html Msg
@@ -41,5 +38,5 @@ currentUser model =
             span [ class "gr-user" ]
                 [ text "User: "
                 , strong []
-                    [ text user.name ]
+                    [ a [ onClick EditUserDialog ] [ text user.name ] ]
                 ]

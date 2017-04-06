@@ -74,6 +74,7 @@ type alias Model =
     , isDataLoaded : Bool
     , hisotryModel : HistoryTypes.Model
     , showCancelStoryDialog : Bool
+    , showEditUserDialog : Bool
     }
 
 
@@ -146,6 +147,8 @@ pageToTeamId msg =
 type Msg
     = StartStorySizing
     | CreateUser
+    | EditUserDialog
+    | EditUserDialogClose
     | UserInput String
     | StoryInput String
     | Size Float
