@@ -1,0 +1,302 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.iq-container--elm {
+  margin: 0 auto;
+  overflow: hidden;
+  max-width: 1200px;
+  min-width: 960px;
+}
+
+.iq-tile--gr {
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  max-width: 800px;
+}
+
+.iq-tile--breadcrumb {
+  padding-top: 40px;
+}
+
+footer {
+  border-top: 1px solid $iq-grey-4;
+  clear: both;
+  margin: 60px auto 0 auto;
+  padding: 0;
+  text-align: center;
+  max-width: 1200px;
+  min-width: 960px;
+}
+
+.iq-header {
+  @include semi-bold();
+
+  color: $iq-off-white;
+  line-height: 40px;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.gr-team-meta {
+  float: right;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.gr-user {
+  color: $iq-grey-4;
+  display: block;
+  margin: 0;
+  padding: 0;
+
+  strong {
+    color: $iq-off-white;
+  }
+}
+
+.gr-team {
+  color: $iq-slate;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.mdl-layout__container {
+  position: relative !important;
+}
+
+main {
+  min-height: 800px;
+}
+
+/*
+  ##Lists
+*/
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gr-history-list {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.gr-list--previous-stories {
+
+}
+
+.gr-history-name, .gr-estimator-name {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 85%;
+}
+
+.gr-history-estimate, .gr-estimator-points {
+  display: block;
+  float: right;
+  text-align: right;
+  width: 15%;
+}
+
+h4.iq-list__title {
+  font-family: Proxima Nova Semibold, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.gr-estimator-name {
+  display: inline-block;
+  width: 80%;
+}
+
+.gr-estimator-points {
+  display: inline-block;
+  text-align: right;
+  width: 20%;
+}
+
+/*
+  ##Tabs
+*/
+
+.mdl-layout.is-upgraded .mdl-layout__tab {
+  background-color: $iq-grey-2;
+  color: $iq-slate;
+
+  &.is-active {
+    background-color: $iq-grey-4;
+    color: $iq-off-white;
+
+    &::after {
+      background-color: #fff;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid $iq-grey-4;
+      height: 0;
+      width: 0;
+    }
+  }
+}
+
+/*
+  ##Forms
+*/
+
+.gr-form {
+  .gr-form-element {
+    display: inline-block;
+    font-size: 21px;
+    line-height: 24px;
+    padding: 4px 6px;
+    max-width: 75%;
+    min-width: 75%;
+
+    + .iq-btn {
+      display: inline-block;
+      margin-left: 20px;
+    }
+
+    &.gr-form-element--user {
+      max-width: 70%;
+      min-width: 70%;
+      margin-bottom: 16px;
+    }
+  }
+}
+
+
+.gr-button-grid {
+  text-align: center;
+
+  li {
+    margin-bottom: 20px;
+  }
+
+  .iq-btn--square {
+    margin-right: 20px;
+  }
+}
+
+/*
+  ##Buttons
+*/
+
+.iq-btn {
+  @include semi-bold();
+
+  background-color: $iq-grey-1;
+  border: 1px solid $iq-grey-4;
+  border-radius: 4px;
+  color: $iq-slate;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0 8px 0 0;
+  padding: 5px 12px;
+  text-align: center;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:not(.iq-btn--icon-only) {
+    min-width: 100px;
+
+    > .fa {
+      margin-right: 8px;
+    }
+  }
+
+  .test &:not(.iq-btn--icon-only) {
+    min-width: 0px;
+  }
+
+  &.disabled,
+  &[disabled] {
+    background-color: $iq-grey-1;
+    border-color: $iq-grey-2;
+    color: $iq-grey-4;
+  }
+
+  &:hover:not(.disabled):not([disabled]),
+  &:focus:not(.disabled):not([disabled]) {
+    border-color: $iq-slate;
+  }
+
+  &:active:not(.disabled):not([disabled]) {
+    background-color: $iq-grey-2;
+    border-color: $iq-slate;
+  }
+
+  .input-append & {
+    padding: 4px 12px;
+  }
+}
+
+.iq-btn--primary {
+  background-color: $iq-link-color;
+  border-color: transparent;
+  color: $iq-off-white;
+
+  &.disabled,
+  &[disabled] {
+    background-color: $iq-light-blue;
+    color: $iq-off-white;
+  }
+
+  &:hover:not(.disabled):not([disabled]),
+  &:focus:not(.disabled):not([disabled]) {
+    border-color: $iq-dark-blue;
+  }
+
+  &:active:not(.disabled):not([disabled]) {
+    background-color: $iq-dark-blue;
+  }
+}
+
+.iq-btn--tertiary {
+  background-color: transparent;
+  border-color: transparent;
+
+  &:hover:not(.disabled):not([disabled]),
+  &:focus:not(.disabled):not([disabled]) {
+    border-color: $iq-grey-4;
+  }
+
+  &:active:not(.disabled):not([disabled]) {
+    background-color: transparent;
+  }
+
+  .test & {
+    border-color: #f3f;
+  }
+}
+
+.iq-btn--large {
+  font-size: 16px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.iq-btn--square {
+  font-size: 24px;
+  min-height: 80px;
+  line-height: 80px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  min-width: 80px;
+}

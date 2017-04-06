@@ -1,0 +1,122 @@
+/*
+  #Basic links
+*/
+a {
+  // color: $iq-link-color;
+  cursor: pointer;
+}
+
+.iq-clickable {
+  cursor: pointer;
+}
+
+/*
+  #Helper Classes
+*/
+.iq-pull-left {
+  float: left;
+}
+
+.iq-pull-right {
+  float: right;
+}
+
+.iq-error {
+  background-color: $iq-fail-color-bg;
+  border: 1px solid $iq-fail-color;
+  color: $iq-fail-color;
+}
+
+.iq-scrollable {
+  height: auto;
+  max-height: 400px; // default value - magic number
+  overflow-x: hidden;
+}
+
+/*
+ #Placeholder classes
+*/
+%link {
+  &.disabled {
+    color: $iq-light-blue;
+    cursor: default;
+
+    &:hover {
+      color: $iq-light-blue;
+    }
+  }
+
+  &:not(.disabled) {
+    color: $iq-link-color;
+
+    &:hover:not(:active) {
+      color: $iq-link-color;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $iq-link-color-active;
+      text-decoration: none;
+    }
+  }
+}
+
+
+// Begin styles from management.css
+.truncate-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-match {
+  font-family: Proxima Nova Bold, sans-serif;
+}
+
+// See https://issues.sonatype.org/browse/CLM-3087
+.popover .arrow:before {
+  border-style: none;
+}
+// End styles from management.css
+
+// Begin CSS from insight.css
+.clickable {
+  cursor: pointer;
+}
+
+input[type="file"] {
+  line-height: normal;
+  height: auto;
+}
+
+.floatRight {
+  float: right;
+}
+
+.disabled img {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+.page-title {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, .6);
+
+  .pull-right {
+    margin-bottom : 5px;
+  }
+}
+
+.underline {
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, .6);
+}
+
+table.clm-table-stripe > tbody > tr:nth-child(odd) {
+  background-color: #E8E8E8;
+}
+
+.clm-table-border-top {
+  border-top: 1px solid #ddd;
+}
+// End CSS from insight.css

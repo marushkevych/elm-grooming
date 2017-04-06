@@ -3,15 +3,16 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dust My Groom</title>
-  <link rel="stylesheet" href="app.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="modal.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="/scss/scss.css">
 </head>
 
 <body>
-  <div id="groom"></div>
+  <div id="groom" class="gr-content"></div>
+
   <script src="bundle.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
   <script>
@@ -44,7 +45,7 @@
     firebase.initializeApp(config);
     var database = firebase.database();
 
-    var app = Elm.MainWithLayout.embed(document.getElementById("groom"), {
+    var app = Elm.Main.embed(document.getElementById("groom"), {
       uuid: guid(),
       userName: userName,
       userId: userId

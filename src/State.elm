@@ -41,6 +41,7 @@ initModel =
     , hisotryModel = HistoryState.initModel
     , showCancelStoryDialog = False
     , team = Nothing
+    , showEditUserDialog = False
     }
 
 
@@ -139,6 +140,7 @@ update msg model =
                 in
                     ( { model
                         | user = Just user
+                        , showEditUserDialog = False
                       }
                     , saveUser user
                     )
@@ -255,6 +257,12 @@ update msg model =
 
         CancelStoryDialogClose ->
             { model | showCancelStoryDialog = False, storyInput = "" } ! []
+
+        EditUserDialog ->
+            { model | showEditUserDialog = True } ! []
+
+        EditUserDialogClose ->
+            { model | showEditUserDialog = False } ! []
 
 
 saveVote : Model -> Float -> ( Model, Cmd Msg )

@@ -50,16 +50,16 @@ root model =
             , Layout.onSelectTab SelectTab
             ]
             { header =
-                [ div
-                    [ class "mdl-layout__title" ]
-                    [ text "Dust My Groom"
-                    , span [ style [ ( "float", "right" ) ] ] [ text (teamName model.groomingModel) ]
+                [ div [ class "iq-header" ] 
+                    [ span [ class "gr-team" ] [ text ("Team: " ++ teamName model.groomingModel) ]
+                    , span [class "iq-title__brand" ] [ text "Dust My Groom" ]
+                    , span [class "iq-title__version" ] [ text "I believe, I believe my time has come" ]
                     ]
                 ]
             , drawer =
                 []
             , tabs =
-                ( [ text "Grooming", userTab model ], [ Color.background (Color.color Color.Teal Color.S400) ] )
+                ( [ text "Grooming", userTab model ], [] )
                 -- , tabs = ( [], [] )
             , main = [ viewNav model ]
             }

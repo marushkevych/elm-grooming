@@ -11,7 +11,7 @@ import PartialViews.CancelStoryDialog
 
 root : String -> Model -> Html Msg
 root storyName model =
-    div [ class "scoreboard fieldset" ]
+    div [ class "iq-tile iq-tile--gr scoreboard fieldset" ]
         [ PartialViews.CancelStoryDialog.root model
         , header model
         , Title.root storyName
@@ -21,16 +21,16 @@ root storyName model =
 
 header : Model -> Html Msg
 header model =
-    div [ class "header-buttons" ] (headerButtons model)
+    div [ class "iq-tile__actions" ] (headerButtons model)
 
 
 headerButtons : Model -> List (Html Msg)
 headerButtons model =
     let
         buttons =
-            [ a [ class "header-button", onClick CancelStoryDialog ] [ text "cancel" ] ]
+            [ a [ class "iq-btn iq-btn--tertiary", onClick CancelStoryDialog ] [ text "cancel" ] ]
     in
         if isStoryOwner model then
-            a [ class "header-button", onClick ResizeStory ] [ text "resize" ] :: buttons
+            a [ class "iq-btn iq-btn--tertiary", onClick ResizeStory ] [ text "resize" ] :: buttons
         else
             buttons

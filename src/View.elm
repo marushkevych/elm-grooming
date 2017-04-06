@@ -1,13 +1,15 @@
-module View exposing (root, createUser)
+module View exposing (root)
 
 import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
 import PartialViews.EnterStory
 import PartialViews.Sizing as ViewSizing
 import PartialViews.Results as ViewResults
 import PartialViews.Title as Title
+import PartialViews.Header as Header
+import PartialViews.Team as Team
+import PartialViews.CreateUser as CreateUser
 
 
 -- View
@@ -15,17 +17,30 @@ import PartialViews.Title as Title
 
 root : Model -> Html Msg
 root model =
-    if model.user == Nothing then
-        createUser model
-    else if not model.isDataLoaded then
-        loadingPage model
-    else
-        grooming model
+    let
+        content =
+            if model.user == Nothing then
+                createUser model
+            else if not model.isDataLoaded then
+                loadingPage
+            else
+                grooming model
+    in
+        div [ class "iq-container--elm" ]
+            [ Header.root model
+            , Team.root model
+            , content
+            ]
+
+
+createUser : Model -> Html Msg
+createUser model =
+    div [ class "iq-tile iq-tile--gr gr-form gr-size-form" ] [ CreateUser.root model ]
 
 
 selectTeam : Model -> Html Msg
 selectTeam model =
-    div []
+    div [ class "iq-tile iq-tile--gr" ]
         [ h3 [] [ text "Please use team specific URL" ] ]
 
 
@@ -52,26 +67,10 @@ grooming model =
         page model
 
 
-createUser : Model -> Html Msg
-createUser model =
-    div [ class "scoreboard fieldset" ]
-        [ Title.root "What is your name?"
-        , Html.form [ onSubmit CreateUser ]
-            [ input
-                [ type_ "text"
-                , placeholder "User Name"
-                , onInput UserInput
-                , value model.userInput
-                ]
-                []
-            , button [ type_ "submit" ] [ text "Save" ]
-            ]
-        ]
-
-
-loadingPage : Model -> Html msg
-loadingPage model =
-    h3 [] [ text "loading..." ]
+loadingPage : Html Msg
+loadingPage =
+    div [ class "iq-tile iq-tile--gr" ]
+        [ Title.root "loading..." ]
 
 
 

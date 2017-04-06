@@ -1,0 +1,51 @@
+
+.modal-window {
+	position:fixed;
+  background-color: rgba(192,192,192,0.5);
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	z-index:999;
+	opacity:1;
+	pointer-events:auto;
+	-webkit-transition:all 0.3s;
+	-moz-transition:all 0.3s;
+	transition:all 0.3s;
+}
+
+.modal-window > div {
+	background:#fff;
+	border: 1px solid #aaa;
+	color:#444;
+	position:relative;
+	margin: 100px auto;
+  padding: 12px;
+	width:500px;
+}
+
+.modal-window header {
+	font-weight:bold;
+}
+
+.modal-close {
+	color:#aaa;
+	line-height:50px;
+	font-size: 110%;
+	position:absolute;
+	right:0;
+	text-align:center;
+	top:0;
+	width:70px;
+	text-decoration:none;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+	color:#000;
+}
+
+.modal-window h1 {
+  font-size: 150%;
+  margin: 0 0 15px;
+}
