@@ -21,7 +21,7 @@ votesHeader model =
         Html.text ""
     else if not (hasVoted model) then
         header []
-            [ div [] [ text "Voted" ]
+            [ div [ class "iq-col-title" ] [ text "Voted" ]
             ]
     else if isStoryOwner model then
         p [ style [ ( "text-align", "right" ), ( "color", "crimson" ) ] ]

@@ -9,18 +9,21 @@ import PartialViews.Title as Title
 import PartialViews.Votes as ViewVotes
 import PartialViews.CancelStoryDialog
 
-
 root : String -> Model -> Html Msg
 root storyName model =
-    div [ class "iq-tile iq-tile--gr fieldset" ]
-        [ PartialViews.CancelStoryDialog.root model
-        , header model
-        , Title.root storyName
-        , sizingButtons model
-        , ViewVotes.root model
-          -- , reference model
+    div [ class "iq-tile iq-tile--gr iq-tile--flexbox fieldset" ]
+        [ div [ class "iq-col" ]
+            [ PartialViews.CancelStoryDialog.root model
+            , header model
+            , Title.root storyName
+            , sizingButtons model
+            ]
+        , div [ class "iq-col" ]
+            [ PartialViews.CancelStoryDialog.root model
+            , ViewVotes.root model
+              -- , reference model
+            ]
         ]
-
 
 header : Model -> Html Msg
 header model =
