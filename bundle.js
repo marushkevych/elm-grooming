@@ -10468,7 +10468,11 @@ var _user$project$PartialViews_Votes$votesHeader = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('iq-col-title'),
+					_1: {ctor: '[]'}
+				},
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text('Voted'),
@@ -10941,28 +10945,54 @@ var _user$project$PartialViews_Sizing$root = F2(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('iq-tile iq-tile--gr fieldset'),
+				_0: _elm_lang$html$Html_Attributes$class('iq-tile iq-tile--gr iq-tile--flexbox fieldset'),
 				_1: {ctor: '[]'}
 			},
 			{
 				ctor: '::',
-				_0: _user$project$PartialViews_CancelStoryDialog$root(model),
-				_1: {
-					ctor: '::',
-					_0: _user$project$PartialViews_Sizing$header(model),
-					_1: {
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
 						ctor: '::',
-						_0: _user$project$PartialViews_Title$root(storyName),
+						_0: _elm_lang$html$Html_Attributes$class('iq-col'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$PartialViews_CancelStoryDialog$root(model),
 						_1: {
 							ctor: '::',
-							_0: _user$project$PartialViews_Sizing$sizingButtons(model),
+							_0: _user$project$PartialViews_Sizing$header(model),
+							_1: {
+								ctor: '::',
+								_0: _user$project$PartialViews_Title$root(storyName),
+								_1: {
+									ctor: '::',
+									_0: _user$project$PartialViews_Sizing$sizingButtons(model),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('iq-col'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _user$project$PartialViews_CancelStoryDialog$root(model),
 							_1: {
 								ctor: '::',
 								_0: _user$project$PartialViews_Votes$root(model),
 								_1: {ctor: '[]'}
 							}
-						}
-					}
+						}),
+					_1: {ctor: '[]'}
 				}
 			});
 	});

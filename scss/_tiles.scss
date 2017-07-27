@@ -106,3 +106,28 @@ $iq-tile-header-height-actions: 43px; // Height with sub-title and/or right acti
   padding-bottom: 0;
 }
 
+.iq-tile--flexbox {
+  display: flex;
+}
+
+.iq-col {
+  flex: 1 1 auto;
+  padding-right: 10px;
+  width: 70%;
+  
+  + .iq-col {
+    border-left: 1px solid #eee;
+    margin: 10px 0;
+    padding-left: 10px;
+    padding-right: 0;
+    width: 30%;
+  }
+}
+
+.iq-col-title {
+  font-family: Proxima Nova Bold, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
