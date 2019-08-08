@@ -1,4 +1,4 @@
-module History.View exposing (history, reference)
+module History.View exposing (history)
 
 import History.Types exposing (..)
 import Html exposing (..)
@@ -14,22 +14,6 @@ history model =
             |> List.map sizedStoryRecord
             |> ul []
         ]
-
-
-reference : Model -> Html Msg
-reference model =
-    div []
-        [ h5 [] [ text "Previous Estimates" ]
-        , div [ class "story-reference" ] [ referenceRecords model ]
-        ]
-
-
-referenceRecords : Model -> Html Msg
-referenceRecords model =
-    model.sizedStories
-        |> List.sortBy .points
-        |> List.map sizedStoryRecord
-        |> ul []
 
 
 sizedStoryRecord : Story -> Html Msg

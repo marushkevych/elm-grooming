@@ -9,6 +9,7 @@ import PartialViews.Title as Title
 import PartialViews.Votes as ViewVotes
 import PartialViews.CancelStoryDialog
 
+
 root : String -> Model -> Html Msg
 root storyName model =
     div [ class "iq-tile iq-tile--gr iq-tile--flexbox fieldset" ]
@@ -21,9 +22,9 @@ root storyName model =
         , div [ class "iq-col" ]
             [ PartialViews.CancelStoryDialog.root model
             , ViewVotes.root model
-              -- , reference model
             ]
         ]
+
 
 header : Model -> Html Msg
 header model =
@@ -37,10 +38,10 @@ headerButtons model =
 
 sizingButtons : Model -> Html Msg
 sizingButtons model =
-    ul [ class "gr-button-grid"]
+    ul [ class "gr-button-grid" ]
         [ li []
-            [ button [ class "iq-btn iq-btn--square points",  onClick (Size -1) ] [ text "-" ]
-            , button [ class "iq-btn iq-btn--square points",  onClick (Size 0) ] [ text "0" ]
+            [ button [ class "iq-btn iq-btn--square points", onClick (Size -1) ] [ text "-" ]
+            , button [ class "iq-btn iq-btn--square points", onClick (Size 0) ] [ text "0" ]
             , button [ class "iq-btn iq-btn--square points", onClick (Size 0.5) ] [ text "0.5" ]
             ]
         , li []
@@ -59,8 +60,3 @@ sizingButtons model =
             , button [ class "iq-btn iq-btn--square points", onClick (Size 1000) ] [ text "∞" ]
             ]
         ]
-
-
-reference : Model -> Html Msg
-reference model =
-    Html.map HistoryMsg (HistoryView.reference model.hisotryModel)
