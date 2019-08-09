@@ -24,7 +24,7 @@ port voteAdded : (Vote -> msg) -> Sub msg
 port revealVotes : Bool -> Cmd msg
 
 
-port saveRecent : List RecentStory -> Cmd msg
+port saveRecent : ( List RecentStory, String ) -> Cmd msg
 
 
 port storySizingStarted : (Story -> msg) -> Sub msg

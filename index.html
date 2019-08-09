@@ -103,10 +103,10 @@
     //   currentStoryRef.set(null);
     // })
 
-    app.ports.saveRecent.subscribe(function(recentStories) {
-      // TODO stringify array and save under teamId
+    app.ports.saveRecent.subscribe(function([recentStories, teamId]) {
+      localStorage.setItem(teamId, JSON.stringify(recentStories))
       votesRef.set(null)
-      currentStoryRef.set(null);
+      currentStoryRef.set(null)
     })
 
     function unsibscribeFromCurrentTeam() {

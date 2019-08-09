@@ -200,7 +200,7 @@ update msg model =
                     | team = Just updatedTeam
                     , recentStories = updatedRecentStories
                   }
-                , saveRecent updatedRecentStories
+                , saveRecent ( updatedRecentStories, updatedTeam.id )
                 )
 
         HistoryMsg msg ->
