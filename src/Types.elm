@@ -82,6 +82,7 @@ type alias Model =
 type alias TeamInfo =
     { id : String
     , name : String
+    , recentStories : List RecentStory
     }
 
 

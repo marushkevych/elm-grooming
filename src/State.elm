@@ -120,6 +120,7 @@ update msg model =
                         | team = Just (initTeam teamInfo)
                         , votes = []
                         , showCancelStoryDialog = False
+                        , recentStories = teamInfo.recentStories
                         , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
                       }
                     , subscribeToTeam teamInfo.id

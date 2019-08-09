@@ -70,7 +70,9 @@
       var teamNameRef = database.ref().child(teamId).child('name')
       teamNameRef.once('value', function(name) {
         // TODO send team object with teamName
-        var teamInfo = name.val() ? {id: teamId, name: name.val()} : null
+        var recentStoriesJson =  localStorage.getItem(teamId);
+        var recentStories = recentStoriesJson ? JSON.parse(recentStoriesJson) : []
+        var teamInfo = name.val() ? {id: teamId, name: name.val(), recentStories } : null
         app.ports.teamChanged.send(teamInfo)
       })
     })
