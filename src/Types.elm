@@ -30,6 +30,9 @@ port saveRecent : ( List RecentStory, String ) -> Cmd msg
 port storySizingStarted : (Story -> msg) -> Sub msg
 
 
+port storyPoinstUpdated : (Story -> msg) -> Sub msg
+
+
 port storySizingEnded : (String -> msg) -> Sub msg
 
 
@@ -49,6 +52,9 @@ port teamChanged : (Maybe TeamInfo -> msg) -> Sub msg
 
 
 port subscribeToTeam : String -> Cmd msg
+
+
+port saveSizedStory : Story -> Cmd msg
 
 
 
@@ -164,6 +170,7 @@ type Msg
     | SelectVote Vote
       -- | KeyMsg Keyboard.KeyCode
     | StorySizingStarted Story
+    | StoryPoinstUpdated Story
     | StorySizingEnded String
     | ResizeStory
     | CancelStory

@@ -20,6 +20,7 @@ subscriptions model =
         [ voteAdded VoteAdded
           -- , Keyboard.presses KeyMsg
         , storySizingStarted StorySizingStarted
+        , storyPoinstUpdated StoryPoinstUpdated
         , storySizingEnded StorySizingEnded
         , votesCleared VotesCleared
         , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
@@ -155,7 +156,7 @@ update msg model =
                 ( { model
                     | storyInput = ""
                   }
-                , startStorySizing (Story model.storyInput 0 (getUser model))
+                , startStorySizing (Story model.storyInput -2 (getUser model))
                 )
 
         Size points ->
@@ -191,17 +192,18 @@ update msg model =
                 updatedTeam =
                     { team | story = Just sizedStory }
 
-                points =
-                    pointsString sizedStory.points
-
-                updatedRecentStories =
-                    { name = sizedStory.name, points = points } :: model.recentStories
+                -- points =
+                -- pointsString sizedStory.points
+                -- updatedRecentStories =
+                -- { name = sizedStory.name, points = points } :: model.recentStories
             in
                 ( { model
-                    | team = Just updatedTeam
-                    , recentStories = updatedRecentStories
+                    | team =
+                        Just updatedTeam
+                        -- , recentStories = updatedRecentStories
                   }
-                , saveRecent ( updatedRecentStories, updatedTeam.id )
+                  -- , saveRecent ( updatedRecentStories, updatedTeam.id )
+                , saveSizedStory sizedStory
                 )
 
         HistoryMsg msg ->
@@ -230,6 +232,11 @@ update msg model =
                 team =
                     getTeam model
 
+                -- points =
+                --     pointsString story.points
+                --
+                -- updatedRecentStories =
+                --     { name = story.name, points = points } :: model.recentStories
                 updatedTeam =
                     { team
                         | story = Nothing
@@ -239,9 +246,27 @@ update msg model =
                     | votes = []
                     , team = Just updatedTeam
                     , isDataLoaded = True
-                    , showCancelStoryDialog = False
+                    , showCancelStoryDialog =
+                        False
+                        -- , recentStories = updatedRecentStories
                   }
+                  -- , saveRecent ( updatedRecentStories, team.id )
                 , Cmd.none
+                )
+
+        StoryPoinstUpdated story ->
+            let
+                team =
+                    getTeam model
+
+                points =
+                    pointsString story.points
+
+                updatedRecentStories =
+                    { name = story.name, points = points } :: model.recentStories
+            in
+                ( { model | recentStories = updatedRecentStories }
+                , saveRecent ( updatedRecentStories, team.id )
                 )
 
         ResizeStory ->
