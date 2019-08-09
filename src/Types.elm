@@ -24,7 +24,7 @@ port voteAdded : (Vote -> msg) -> Sub msg
 port revealVotes : Bool -> Cmd msg
 
 
-port archiveStory : Story -> Cmd msg
+port saveRecent : List RecentStory -> Cmd msg
 
 
 port storySizingStarted : (Story -> msg) -> Sub msg
@@ -73,6 +73,7 @@ type alias Model =
     , revealVotes : Bool
     , isDataLoaded : Bool
     , hisotryModel : HistoryTypes.Model
+    , recentStories : List RecentStory
     , showCancelStoryDialog : Bool
     , showEditUserDialog : Bool
     }
@@ -94,6 +95,12 @@ type alias Team =
 type alias Vote =
     { points : Float
     , user : User
+    }
+
+
+type alias RecentStory =
+    { name : String
+    , points : String
     }
 
 

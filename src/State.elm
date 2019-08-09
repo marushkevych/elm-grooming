@@ -39,6 +39,7 @@ initModel =
     , revealVotes = True
     , isDataLoaded = False
     , hisotryModel = HistoryState.initModel
+    , recentStories = []
     , showCancelStoryDialog = False
     , team = Nothing
     , showEditUserDialog = False
@@ -188,9 +189,18 @@ update msg model =
 
                 updatedTeam =
                     { team | story = Just sizedStory }
+
+                points =
+                    pointsString sizedStory.points
+
+                updatedRecentStories =
+                    { name = sizedStory.name, points = points } :: model.recentStories
             in
-                ( { model | team = Just updatedTeam }
-                , archiveStory sizedStory
+                ( { model
+                    | team = Just updatedTeam
+                    , recentStories = updatedRecentStories
+                  }
+                , saveRecent updatedRecentStories
                 )
 
         HistoryMsg msg ->

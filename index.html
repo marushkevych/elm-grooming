@@ -97,8 +97,14 @@
       votesRef.set(null)
     })
 
-    app.ports.archiveStory.subscribe(function(story) {
-      historyRef.push(story)
+    // app.ports.archiveStory.subscribe(function(story) {
+    //   historyRef.push(story)
+    //   votesRef.set(null)
+    //   currentStoryRef.set(null);
+    // })
+
+    app.ports.saveRecent.subscribe(function(recentStories) {
+      // TODO stringify array and save under teamId
       votesRef.set(null)
       currentStoryRef.set(null);
     })
