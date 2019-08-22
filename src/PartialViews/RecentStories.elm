@@ -30,6 +30,6 @@ historyHeader model =
         div [ class "gr-history-list" ] []
     else
         div [ class "gr-history-list" ]
-            [ h4 [ class "iq-list__title gr-history-name" ] [ text "Previous Stories" ]
+            [ h4 [ class "iq-list__title gr-history-name" ] [ text "Recent Stories" ]
             , h4 [ class "iq-list__title gr-history-estimate" ] [ text "Points" ]
             ]

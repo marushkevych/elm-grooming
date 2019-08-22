@@ -237,7 +237,7 @@ update msg model =
                     pointsString story.points
 
                 updatedRecentStories =
-                    { name = story.name, points = points } :: model.recentStories
+                    List.take 10 ({ name = story.name, points = points } :: model.recentStories)
             in
                 ( { model | recentStories = updatedRecentStories }
                 , saveRecent ( updatedRecentStories, team.id )
