@@ -1,8 +1,5 @@
 elm-stuff/
 node_modules/
-
-bundle\.js
-
 \.DS_Store
 
 scss/config\.codekit3
