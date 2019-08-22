@@ -99,21 +99,16 @@
       votesRef.set(null)
     })
 
-    // app.ports.archiveStory.subscribe(function(story) {
-    //   historyRef.push(story)
-    //   votesRef.set(null)
-    //   currentStoryRef.set(null);
-    // })
-
     app.ports.saveSizedStory.subscribe(function(story) {
+      // update story points so all clinets can save it to local storage
       currentStoryRef.set(story)
+      // now end sizing session
+      currentStoryRef.set(null)
+      votesRef.set(null)
     })
 
     app.ports.saveRecent.subscribe(function([recentStories, teamId]) {
       localStorage.setItem(teamId, JSON.stringify(recentStories))
-      currentStoryRef.set(null)
-      votesRef.set(null)
-      console.log('cleanup')
     })
 
     function unsibscribeFromCurrentTeam() {
@@ -130,7 +125,6 @@
       // current story
       currentStoryRef.on('value', function(currentStory) {
         var story = currentStory.val();
-        console.log(story)
         if(story) {
           if(story.points === -2) {
             app.ports.storySizingStarted.send(story)
