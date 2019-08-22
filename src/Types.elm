@@ -3,7 +3,6 @@ port module Types exposing (..)
 -- import Keyboard
 
 import Common exposing (..)
-import History.Types as HistoryTypes
 
 
 -- Ports
@@ -78,7 +77,6 @@ type alias Model =
     , votes : List Vote
     , revealVotes : Bool
     , isDataLoaded : Bool
-    , hisotryModel : HistoryTypes.Model
     , recentStories : List RecentStory
     , showCancelStoryDialog : Bool
     , showEditUserDialog : Bool
@@ -177,7 +175,6 @@ type Msg
     | CancelStoryDialog
     | CancelStoryDialogClose
     | VotesCleared String
-    | HistoryMsg HistoryTypes.Msg
     | LocationHome
     | LocationTeam String
     | TeamChanged (Maybe TeamInfo)

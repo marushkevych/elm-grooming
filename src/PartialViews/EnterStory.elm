@@ -3,7 +3,6 @@ module PartialViews.EnterStory exposing (root)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import History.View as HistoryView
 import Types exposing (..)
 import PartialViews.Title as Title
 import PartialViews.RecentStories as RecentStories

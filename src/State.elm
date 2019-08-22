@@ -5,8 +5,6 @@ module State exposing (init, initModel, initTeam, update, subscriptions)
 import Types exposing (..)
 import String
 import Common exposing (..)
-import History.State as HistoryState
-import History.Types as HistoryTypes
 import Navigation exposing (..)
 import Router exposing (locationParser)
 
@@ -23,7 +21,6 @@ subscriptions model =
         , storyPoinstUpdated StoryPoinstUpdated
         , storySizingEnded StorySizingEnded
         , votesCleared VotesCleared
-        , HistoryState.subscriptions model.hisotryModel |> Sub.map HistoryMsg
         , teamChanged TeamChanged
         ]
 
@@ -39,7 +36,6 @@ initModel =
     , votes = []
     , revealVotes = True
     , isDataLoaded = False
-    , hisotryModel = HistoryState.initModel
     , recentStories = []
     , showCancelStoryDialog = False
     , team = Nothing
@@ -122,7 +118,6 @@ update msg model =
                         , votes = []
                         , showCancelStoryDialog = False
                         , recentStories = teamInfo.recentStories
-                        , hisotryModel = HistoryState.update HistoryTypes.ClearHistory model.hisotryModel
                       }
                     , subscribeToTeam teamInfo.id
                     )
@@ -191,23 +186,10 @@ update msg model =
 
                 updatedTeam =
                     { team | story = Just sizedStory }
-
-                -- points =
-                -- pointsString sizedStory.points
-                -- updatedRecentStories =
-                -- { name = sizedStory.name, points = points } :: model.recentStories
             in
-                ( { model
-                    | team =
-                        Just updatedTeam
-                        -- , recentStories = updatedRecentStories
-                  }
-                  -- , saveRecent ( updatedRecentStories, updatedTeam.id )
+                ( { model | team = Just updatedTeam }
                 , saveSizedStory sizedStory
                 )
-
-        HistoryMsg msg ->
-            ( { model | hisotryModel = HistoryState.update msg model.hisotryModel }, Cmd.none )
 
         StorySizingStarted story ->
             let
@@ -232,11 +214,6 @@ update msg model =
                 team =
                     getTeam model
 
-                -- points =
-                --     pointsString story.points
-                --
-                -- updatedRecentStories =
-                --     { name = story.name, points = points } :: model.recentStories
                 updatedTeam =
                     { team
                         | story = Nothing
@@ -246,11 +223,8 @@ update msg model =
                     | votes = []
                     , team = Just updatedTeam
                     , isDataLoaded = True
-                    , showCancelStoryDialog =
-                        False
-                        -- , recentStories = updatedRecentStories
+                    , showCancelStoryDialog = False
                   }
-                  -- , saveRecent ( updatedRecentStories, team.id )
                 , Cmd.none
                 )
 

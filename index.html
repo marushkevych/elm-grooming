@@ -54,7 +54,6 @@
 
     var currentStoryRef = null
     var votesRef = null
-    var historyRef = null
 
     app.ports.saveUser.subscribe(function(user) {
       if(localStorage) {
@@ -114,13 +113,11 @@
     function unsibscribeFromCurrentTeam() {
       currentStoryRef && currentStoryRef.off()
       votesRef && votesRef.off()
-      historyRef && historyRef.off()
     }
 
     function subscribeToTeam(teamID) {
       currentStoryRef = database.ref().child(teamID).child('currentStory')
       votesRef = database.ref().child(teamID).child('votes')
-      historyRef = database.ref().child(teamID).child('history')
 
       // current story
       currentStoryRef.on('value', function(currentStory) {
@@ -147,13 +144,6 @@
           app.ports.votesCleared.send("")
         }
       })
-
-
-      // history
-      historyRef.on('child_added', function(story) {
-        app.ports.storyArchived.send(story.val())
-      })
-
     }
 
     // migration
