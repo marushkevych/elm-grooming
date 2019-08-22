@@ -54,7 +54,6 @@
 
     var currentStoryRef = null
     var votesRef = null
-    var historyRef = null
 
     app.ports.saveUser.subscribe(function(user) {
       if(localStorage) {
@@ -70,7 +69,9 @@
       var teamNameRef = database.ref().child(teamId).child('name')
       teamNameRef.once('value', function(name) {
         // TODO send team object with teamName
-        var teamInfo = name.val() ? {id: teamId, name: name.val()} : null
+        var recentStoriesJson =  localStorage.getItem(teamId);
+        var recentStories = recentStoriesJson ? JSON.parse(recentStoriesJson) : []
+        var teamInfo = name.val() ? {id: teamId, name: name.val(), recentStories } : null
         app.ports.teamChanged.send(teamInfo)
       })
     })
@@ -97,28 +98,36 @@
       votesRef.set(null)
     })
 
-    app.ports.archiveStory.subscribe(function(story) {
-      historyRef.push(story)
+    app.ports.saveSizedStory.subscribe(function(story) {
+      // update story points so all clinets can save it to local storage
+      currentStoryRef.set(story)
+      // now end sizing session
+      currentStoryRef.set(null)
       votesRef.set(null)
-      currentStoryRef.set(null);
+    })
+
+    app.ports.saveRecent.subscribe(function([recentStories, teamId]) {
+      localStorage.setItem(teamId, JSON.stringify(recentStories))
     })
 
     function unsibscribeFromCurrentTeam() {
       currentStoryRef && currentStoryRef.off()
       votesRef && votesRef.off()
-      historyRef && historyRef.off()
     }
 
     function subscribeToTeam(teamID) {
       currentStoryRef = database.ref().child(teamID).child('currentStory')
       votesRef = database.ref().child(teamID).child('votes')
-      historyRef = database.ref().child(teamID).child('history')
 
       // current story
       currentStoryRef.on('value', function(currentStory) {
         var story = currentStory.val();
         if(story) {
-          app.ports.storySizingStarted.send(story)
+          if(story.points === -2) {
+            app.ports.storySizingStarted.send(story)
+          } else {
+            app.ports.storyPoinstUpdated.send(story)
+          }
         } else {
           app.ports.storySizingEnded.send("")
         }
@@ -135,13 +144,6 @@
           app.ports.votesCleared.send("")
         }
       })
-
-
-      // history
-      historyRef.on('child_added', function(story) {
-        app.ports.storyArchived.send(story.val())
-      })
-
     }
 
     // migration

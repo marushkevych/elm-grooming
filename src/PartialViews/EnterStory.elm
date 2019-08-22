@@ -3,9 +3,9 @@ module PartialViews.EnterStory exposing (root)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import History.View as HistoryView
 import Types exposing (..)
 import PartialViews.Title as Title
+import PartialViews.RecentStories as RecentStories
 
 
 root : Model -> Html Msg
@@ -23,10 +23,5 @@ root model =
                 []
             , button [ class "iq-btn iq-btn--primary iq-btn--large", type_ "submit" ] [ text "Size" ]
             ]
-        , history model
+        , RecentStories.root model
         ]
-
-
-history : Model -> Html Msg
-history model =
-    Html.map HistoryMsg (HistoryView.history model.hisotryModel)

@@ -9284,223 +9284,6 @@ var _user$project$Common$User = F2(
 		return {name: a, id: b};
 	});
 
-var _user$project$History_Types$storyArchived = _elm_lang$core$Native_Platform.incomingPort(
-	'storyArchived',
-	A2(
-		_elm_lang$core$Json_Decode$andThen,
-		function (name) {
-			return A2(
-				_elm_lang$core$Json_Decode$andThen,
-				function (points) {
-					return A2(
-						_elm_lang$core$Json_Decode$andThen,
-						function (owner) {
-							return _elm_lang$core$Json_Decode$succeed(
-								{name: name, points: points, owner: owner});
-						},
-						A2(
-							_elm_lang$core$Json_Decode$field,
-							'owner',
-							A2(
-								_elm_lang$core$Json_Decode$andThen,
-								function (name) {
-									return A2(
-										_elm_lang$core$Json_Decode$andThen,
-										function (id) {
-											return _elm_lang$core$Json_Decode$succeed(
-												{name: name, id: id});
-										},
-										A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$string));
-								},
-								A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string))));
-				},
-				A2(_elm_lang$core$Json_Decode$field, 'points', _elm_lang$core$Json_Decode$float));
-		},
-		A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string)));
-var _user$project$History_Types$Model = function (a) {
-	return {sizedStories: a};
-};
-var _user$project$History_Types$ClearHistory = {ctor: 'ClearHistory'};
-var _user$project$History_Types$StoryArchived = function (a) {
-	return {ctor: 'StoryArchived', _0: a};
-};
-
-var _user$project$History_State$subscriptions = function (model) {
-	return _user$project$History_Types$storyArchived(_user$project$History_Types$StoryArchived);
-};
-var _user$project$History_State$initModel = {
-	sizedStories: {ctor: '[]'}
-};
-var _user$project$History_State$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'StoryArchived') {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					sizedStories: {ctor: '::', _0: _p0._0, _1: model.sizedStories}
-				});
-		} else {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					sizedStories: {ctor: '[]'}
-				});
-		}
-	});
-
-var _user$project$History_View$historyHeader = function (model) {
-	return _elm_lang$core$List$isEmpty(model.sizedStories) ? A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('gr-history-list'),
-			_1: {ctor: '[]'}
-		},
-		{ctor: '[]'}) : A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('gr-history-list'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h4,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('iq-list__title gr-history-name'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Previous Stories'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h4,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('iq-list__title gr-history-estimate'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Points'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$History_View$sizedStoryRecord = function (story) {
-	return A2(
-		_elm_lang$html$Html$li,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('iq-list__item gr-list--previous-stories'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$span,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('gr-history-estimate'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_user$project$Common$pointsString(story.points)),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$span,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('gr-history-name'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(story.name),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$History_View$referenceRecords = function (model) {
-	return A2(
-		_elm_lang$html$Html$ul,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$List$map,
-			_user$project$History_View$sizedStoryRecord,
-			A2(
-				_elm_lang$core$List$sortBy,
-				function (_) {
-					return _.points;
-				},
-				model.sizedStories)));
-};
-var _user$project$History_View$reference = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h5,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Previous Estimates'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('story-reference'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _user$project$History_View$referenceRecords(model),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$History_View$history = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _user$project$History_View$historyHeader(model),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$ul,
-					{ctor: '[]'},
-					A2(_elm_lang$core$List$map, _user$project$History_View$sizedStoryRecord, model.sizedStories)),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-
 var _user$project$Types$pageToTeamId = function (msg) {
 	var _p0 = msg;
 	switch (_p0.ctor) {
@@ -9536,8 +9319,8 @@ var _user$project$Types$hasVoted = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'Types',
 			{
-				start: {line: 102, column: 5},
-				end: {line: 111, column: 49}
+				start: {line: 114, column: 5},
+				end: {line: 123, column: 49}
 			},
 			_p4)('User should be initialized');
 	} else {
@@ -9618,17 +9401,52 @@ var _user$project$Types$revealVotes = _elm_lang$core$Native_Platform.outgoingPor
 	function (v) {
 		return v;
 	});
-var _user$project$Types$archiveStory = _elm_lang$core$Native_Platform.outgoingPort(
-	'archiveStory',
+var _user$project$Types$saveRecent = _elm_lang$core$Native_Platform.outgoingPort(
+	'saveRecent',
 	function (v) {
-		return {
-			name: v.name,
-			points: v.points,
-			owner: {name: v.owner.name, id: v.owner.id}
-		};
+		return [
+			_elm_lang$core$Native_List.toArray(v._0).map(
+			function (v) {
+				return {name: v.name, points: v.points};
+			}),
+			v._1
+		];
 	});
 var _user$project$Types$storySizingStarted = _elm_lang$core$Native_Platform.incomingPort(
 	'storySizingStarted',
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		function (name) {
+			return A2(
+				_elm_lang$core$Json_Decode$andThen,
+				function (points) {
+					return A2(
+						_elm_lang$core$Json_Decode$andThen,
+						function (owner) {
+							return _elm_lang$core$Json_Decode$succeed(
+								{name: name, points: points, owner: owner});
+						},
+						A2(
+							_elm_lang$core$Json_Decode$field,
+							'owner',
+							A2(
+								_elm_lang$core$Json_Decode$andThen,
+								function (name) {
+									return A2(
+										_elm_lang$core$Json_Decode$andThen,
+										function (id) {
+											return _elm_lang$core$Json_Decode$succeed(
+												{name: name, id: id});
+										},
+										A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$string));
+								},
+								A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string))));
+				},
+				A2(_elm_lang$core$Json_Decode$field, 'points', _elm_lang$core$Json_Decode$float));
+		},
+		A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string)));
+var _user$project$Types$storyPoinstUpdated = _elm_lang$core$Native_Platform.incomingPort(
+	'storyPoinstUpdated',
 	A2(
 		_elm_lang$core$Json_Decode$andThen,
 		function (name) {
@@ -9702,8 +9520,28 @@ var _user$project$Types$teamChanged = _elm_lang$core$Native_Platform.incomingPor
 							return A2(
 								_elm_lang$core$Json_Decode$andThen,
 								function (name) {
-									return _elm_lang$core$Json_Decode$succeed(
-										{id: id, name: name});
+									return A2(
+										_elm_lang$core$Json_Decode$andThen,
+										function (recentStories) {
+											return _elm_lang$core$Json_Decode$succeed(
+												{id: id, name: name, recentStories: recentStories});
+										},
+										A2(
+											_elm_lang$core$Json_Decode$field,
+											'recentStories',
+											_elm_lang$core$Json_Decode$list(
+												A2(
+													_elm_lang$core$Json_Decode$andThen,
+													function (name) {
+														return A2(
+															_elm_lang$core$Json_Decode$andThen,
+															function (points) {
+																return _elm_lang$core$Json_Decode$succeed(
+																	{name: name, points: points});
+															},
+															A2(_elm_lang$core$Json_Decode$field, 'points', _elm_lang$core$Json_Decode$string));
+													},
+													A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string)))));
 								},
 								A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string));
 						},
@@ -9715,6 +9553,15 @@ var _user$project$Types$subscribeToTeam = _elm_lang$core$Native_Platform.outgoin
 	'subscribeToTeam',
 	function (v) {
 		return v;
+	});
+var _user$project$Types$saveSizedStory = _elm_lang$core$Native_Platform.outgoingPort(
+	'saveSizedStory',
+	function (v) {
+		return {
+			name: v.name,
+			points: v.points,
+			owner: {name: v.owner.name, id: v.owner.id}
+		};
 	});
 var _user$project$Types$Flags = F3(
 	function (a, b, c) {
@@ -9732,7 +9579,7 @@ var _user$project$Types$Model = function (a) {
 									return function (j) {
 										return function (k) {
 											return function (l) {
-												return {user: a, uuid: b, team: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, isDataLoaded: i, hisotryModel: j, showCancelStoryDialog: k, showEditUserDialog: l};
+												return {user: a, uuid: b, team: c, storyInput: d, userInput: e, error: f, votes: g, revealVotes: h, isDataLoaded: i, recentStories: j, showCancelStoryDialog: k, showEditUserDialog: l};
 											};
 										};
 									};
@@ -9745,9 +9592,9 @@ var _user$project$Types$Model = function (a) {
 		};
 	};
 };
-var _user$project$Types$TeamInfo = F2(
-	function (a, b) {
-		return {id: a, name: b};
+var _user$project$Types$TeamInfo = F3(
+	function (a, b, c) {
+		return {id: a, name: b, recentStories: c};
 	});
 var _user$project$Types$Team = F3(
 	function (a, b, c) {
@@ -9757,6 +9604,10 @@ var _user$project$Types$Vote = F2(
 	function (a, b) {
 		return {points: a, user: b};
 	});
+var _user$project$Types$RecentStory = F2(
+	function (a, b) {
+		return {name: a, points: b};
+	});
 var _user$project$Types$TeamChanged = function (a) {
 	return {ctor: 'TeamChanged', _0: a};
 };
@@ -9764,9 +9615,6 @@ var _user$project$Types$LocationTeam = function (a) {
 	return {ctor: 'LocationTeam', _0: a};
 };
 var _user$project$Types$LocationHome = {ctor: 'LocationHome'};
-var _user$project$Types$HistoryMsg = function (a) {
-	return {ctor: 'HistoryMsg', _0: a};
-};
 var _user$project$Types$VotesCleared = function (a) {
 	return {ctor: 'VotesCleared', _0: a};
 };
@@ -9776,6 +9624,9 @@ var _user$project$Types$CancelStory = {ctor: 'CancelStory'};
 var _user$project$Types$ResizeStory = {ctor: 'ResizeStory'};
 var _user$project$Types$StorySizingEnded = function (a) {
 	return {ctor: 'StorySizingEnded', _0: a};
+};
+var _user$project$Types$StoryPoinstUpdated = function (a) {
+	return {ctor: 'StoryPoinstUpdated', _0: a};
 };
 var _user$project$Types$StorySizingStarted = function (a) {
 	return {ctor: 'StorySizingStarted', _0: a};
@@ -9847,8 +9698,8 @@ var _user$project$State$getTeam = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'State',
 			{
-				start: {line: 304, column: 5},
-				end: {line: 309, column: 17}
+				start: {line: 314, column: 5},
+				end: {line: 319, column: 17}
 			},
 			_p1)('no team is selected');
 	} else {
@@ -9861,8 +9712,8 @@ var _user$project$State$getUser = function (model) {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'State',
 			{
-				start: {line: 294, column: 5},
-				end: {line: 299, column: 17}
+				start: {line: 304, column: 5},
+				end: {line: 309, column: 17}
 			},
 			_p3)('User should be initialized');
 	} else {
@@ -9955,7 +9806,7 @@ var _user$project$State$update = F2(
 									_user$project$State$initTeam(_p10)),
 								votes: {ctor: '[]'},
 								showCancelStoryDialog: false,
-								hisotryModel: A2(_user$project$History_State$update, _user$project$History_Types$ClearHistory, model.hisotryModel)
+								recentStories: _p10.recentStories
 							}),
 						_1: _user$project$Types$subscribeToTeam(_p10.id)
 					};
@@ -10004,7 +9855,7 @@ var _user$project$State$update = F2(
 						A3(
 							_user$project$Common$Story,
 							model.storyInput,
-							0,
+							-2,
 							_user$project$State$getUser(model)))
 				};
 			case 'Size':
@@ -10027,8 +9878,8 @@ var _user$project$State$update = F2(
 						return _elm_lang$core$Native_Utils.crashCase(
 							'State',
 							{
-								start: {line: 182, column: 21},
-								end: {line: 187, column: 61}
+								start: {line: 180, column: 21},
+								end: {line: 185, column: 61}
 							},
 							_p11)('no story to size');
 					} else {
@@ -10049,17 +9900,7 @@ var _user$project$State$update = F2(
 						{
 							team: _elm_lang$core$Maybe$Just(updatedTeam)
 						}),
-					_1: _user$project$Types$archiveStory(sizedStory)
-				};
-			case 'HistoryMsg':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							hisotryModel: A2(_user$project$History_State$update, _p8._0, model.hisotryModel)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
+					_1: _user$project$Types$saveSizedStory(sizedStory)
 				};
 			case 'StorySizingStarted':
 				var team = _user$project$State$getTeam(model);
@@ -10096,21 +9937,41 @@ var _user$project$State$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'StoryPoinstUpdated':
+				var _p13 = _p8._0;
+				var points = _user$project$Common$pointsString(_p13.points);
+				var updatedRecentStories = A2(
+					_elm_lang$core$List$take,
+					10,
+					{
+						ctor: '::',
+						_0: {name: _p13.name, points: points},
+						_1: model.recentStories
+					});
+				var team = _user$project$State$getTeam(model);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{recentStories: updatedRecentStories}),
+					_1: _user$project$Types$saveRecent(
+						{ctor: '_Tuple2', _0: updatedRecentStories, _1: team.id})
+				};
 			case 'ResizeStory':
-				var _p13 = _user$project$State$getTeam(model).story;
-				if (_p13.ctor === 'Nothing') {
+				var _p14 = _user$project$State$getTeam(model).story;
+				if (_p14.ctor === 'Nothing') {
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 237, column: 13},
-							end: {line: 242, column: 49}
+							start: {line: 247, column: 13},
+							end: {line: 252, column: 49}
 						},
-						_p13)('no story to resize');
+						_p14)('no story to resize');
 				} else {
 					return {
 						ctor: '_Tuple2',
 						_0: model,
-						_1: _user$project$Types$resizeStory(_p13._0)
+						_1: _user$project$Types$resizeStory(_p14._0)
 					};
 				}
 			case 'VotesCleared':
@@ -10123,22 +9984,22 @@ var _user$project$State$update = F2(
 						}),
 					{ctor: '[]'});
 			case 'CancelStory':
-				var _p15 = _user$project$State$getTeam(model).story;
-				if (_p15.ctor === 'Nothing') {
+				var _p16 = _user$project$State$getTeam(model).story;
+				if (_p16.ctor === 'Nothing') {
 					return _elm_lang$core$Native_Utils.crashCase(
 						'State',
 						{
-							start: {line: 248, column: 13},
-							end: {line: 253, column: 85}
+							start: {line: 258, column: 13},
+							end: {line: 263, column: 85}
 						},
-						_p15)('no story to cancel');
+						_p16)('no story to cancel');
 				} else {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{showCancelStoryDialog: false}),
-						_1: _user$project$Types$cancelStory(_p15._0)
+						_1: _user$project$Types$cancelStory(_p16._0)
 					};
 				}
 			case 'CancelStoryDialog':
@@ -10180,7 +10041,7 @@ var _user$project$State$initModel = {
 	votes: {ctor: '[]'},
 	revealVotes: true,
 	isDataLoaded: false,
-	hisotryModel: _user$project$History_State$initModel,
+	recentStories: {ctor: '[]'},
 	showCancelStoryDialog: false,
 	team: _elm_lang$core$Maybe$Nothing,
 	showEditUserDialog: false
@@ -10188,20 +10049,20 @@ var _user$project$State$initModel = {
 var _user$project$State$init = F2(
 	function (flags, location) {
 		var locationMsg = _user$project$Router$locationParser(location);
-		var _p17 = function () {
-			var _p18 = locationMsg;
-			if (_p18.ctor === 'LocationTeam') {
+		var _p18 = function () {
+			var _p19 = locationMsg;
+			if (_p19.ctor === 'LocationTeam') {
 				return {
 					ctor: '_Tuple2',
 					_0: false,
-					_1: _user$project$Types$loadTeam(_p18._0)
+					_1: _user$project$Types$loadTeam(_p19._0)
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: true, _1: _elm_lang$core$Platform_Cmd$none};
 			}
 		}();
-		var isDataLoaded = _p17._0;
-		var cmd = _p17._1;
+		var isDataLoaded = _p18._0;
+		var cmd = _p18._1;
 		return (!(_elm_lang$core$Native_Utils.eq(flags.userName, '') || _elm_lang$core$Native_Utils.eq(flags.userId, ''))) ? {
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
@@ -10232,16 +10093,13 @@ var _user$project$State$subscriptions = function (model) {
 				_0: _user$project$Types$storySizingStarted(_user$project$Types$StorySizingStarted),
 				_1: {
 					ctor: '::',
-					_0: _user$project$Types$storySizingEnded(_user$project$Types$StorySizingEnded),
+					_0: _user$project$Types$storyPoinstUpdated(_user$project$Types$StoryPoinstUpdated),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Types$votesCleared(_user$project$Types$VotesCleared),
+						_0: _user$project$Types$storySizingEnded(_user$project$Types$StorySizingEnded),
 						_1: {
 							ctor: '::',
-							_0: A2(
-								_elm_lang$core$Platform_Sub$map,
-								_user$project$Types$HistoryMsg,
-								_user$project$History_State$subscriptions(model.hisotryModel)),
+							_0: _user$project$Types$votesCleared(_user$project$Types$VotesCleared),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Types$teamChanged(_user$project$Types$TeamChanged),
@@ -10280,12 +10138,111 @@ var _user$project$PartialViews_Title$root = function (title) {
 		});
 };
 
-var _user$project$PartialViews_EnterStory$history = function (model) {
-	return A2(
-		_elm_lang$html$Html$map,
-		_user$project$Types$HistoryMsg,
-		_user$project$History_View$history(model.hisotryModel));
+var _user$project$PartialViews_RecentStories$historyHeader = function (model) {
+	return _elm_lang$core$List$isEmpty(model.recentStories) ? A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('gr-history-list'),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'}) : A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('gr-history-list'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h4,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('iq-list__title gr-history-name'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Recent Stories'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h4,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('iq-list__title gr-history-estimate'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Points'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
 };
+var _user$project$PartialViews_RecentStories$recentStoryRecord = function (story) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('iq-list__item gr-list--previous-stories'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('gr-history-estimate'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(story.points),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$span,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('gr-history-name'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(story.name),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$PartialViews_RecentStories$root = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$PartialViews_RecentStories$historyHeader(model),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$ul,
+					{ctor: '[]'},
+					A2(_elm_lang$core$List$map, _user$project$PartialViews_RecentStories$recentStoryRecord, model.recentStories)),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+
 var _user$project$PartialViews_EnterStory$root = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -10355,7 +10312,7 @@ var _user$project$PartialViews_EnterStory$root = function (model) {
 					}),
 				_1: {
 					ctor: '::',
-					_0: _user$project$PartialViews_EnterStory$history(model),
+					_0: _user$project$PartialViews_RecentStories$root(model),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -10623,12 +10580,6 @@ var _user$project$PartialViews_CancelStoryDialog$root = function (model) {
 		{ctor: '[]'});
 };
 
-var _user$project$PartialViews_Sizing$reference = function (model) {
-	return A2(
-		_elm_lang$html$Html$map,
-		_user$project$Types$HistoryMsg,
-		_user$project$History_View$reference(model.hisotryModel));
-};
 var _user$project$PartialViews_Sizing$sizingButtons = function (model) {
 	return A2(
 		_elm_lang$html$Html$ul,

@@ -3,7 +3,6 @@ port module Types exposing (..)
 -- import Keyboard
 
 import Common exposing (..)
-import History.Types as HistoryTypes
 
 
 -- Ports
@@ -24,10 +23,13 @@ port voteAdded : (Vote -> msg) -> Sub msg
 port revealVotes : Bool -> Cmd msg
 
 
-port archiveStory : Story -> Cmd msg
+port saveRecent : ( List RecentStory, String ) -> Cmd msg
 
 
 port storySizingStarted : (Story -> msg) -> Sub msg
+
+
+port storyPoinstUpdated : (Story -> msg) -> Sub msg
 
 
 port storySizingEnded : (String -> msg) -> Sub msg
@@ -51,6 +53,9 @@ port teamChanged : (Maybe TeamInfo -> msg) -> Sub msg
 port subscribeToTeam : String -> Cmd msg
 
 
+port saveSizedStory : Story -> Cmd msg
+
+
 
 -- Model
 
@@ -72,7 +77,7 @@ type alias Model =
     , votes : List Vote
     , revealVotes : Bool
     , isDataLoaded : Bool
-    , hisotryModel : HistoryTypes.Model
+    , recentStories : List RecentStory
     , showCancelStoryDialog : Bool
     , showEditUserDialog : Bool
     }
@@ -81,6 +86,7 @@ type alias Model =
 type alias TeamInfo =
     { id : String
     , name : String
+    , recentStories : List RecentStory
     }
 
 
@@ -94,6 +100,12 @@ type alias Team =
 type alias Vote =
     { points : Float
     , user : User
+    }
+
+
+type alias RecentStory =
+    { name : String
+    , points : String
     }
 
 
@@ -156,13 +168,13 @@ type Msg
     | SelectVote Vote
       -- | KeyMsg Keyboard.KeyCode
     | StorySizingStarted Story
+    | StoryPoinstUpdated Story
     | StorySizingEnded String
     | ResizeStory
     | CancelStory
     | CancelStoryDialog
     | CancelStoryDialogClose
     | VotesCleared String
-    | HistoryMsg HistoryTypes.Msg
     | LocationHome
     | LocationTeam String
     | TeamChanged (Maybe TeamInfo)
