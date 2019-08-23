@@ -126,6 +126,8 @@
           if(story.points === -2) {
             app.ports.storySizingStarted.send(story)
           } else {
+            // see if we can better manage the stalled state:
+            // when story.points != -2 in DB (for some reason, should never happen) then the ap will show "Loading"
             app.ports.storyPoinstUpdated.send(story)
           }
         } else {
